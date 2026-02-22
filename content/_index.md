@@ -28,14 +28,15 @@ sections:
         shape: circle
 
 # 2. RESEARCH OVERVIEW
-  - block: markdown
-    content:
-      title: '📚 Research Overview'
-      subtitle: 'Bridging Computational Economics and Scientific Machine Learning'
-      text: |
-        My research agenda operates at the frontier of **Computational Economics** and **Scientific Machine Learning (SciML)**. I address the critical *validation gap* in modeling complex adaptive systems.
-        
-        By integrating **stochastic behavioral dynamics** with rigorous data-driven inference, I aim to ground theoretical models in empirical reality. My work moves beyond static equilibrium to map the evolution of heterogeneous agents interacting within non-ergodic financial networks.
+ - block: markdown
+      content:
+        title: '📚 Research Overview'
+        subtitle: 'Agent-Based Computational Economics meets Artificial Intelligence'
+        text: |
+          My research lies at the intersection of **Agent-Based Computational Economics** and **Artificial Intelligence**, within the National PhD Program in AI for Society (SSSA & UniPi).
+
+          I develop **adaptive cognitive architectures** for economic agents that co-evolve their decision strategies and social connections within complex networks — moving beyond static equilibrium toward realistic, heterogeneous, and adaptive behavior.
+
 
         ### Core Research Pillars:
 
