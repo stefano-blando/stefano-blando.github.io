@@ -28,12 +28,12 @@ sections:
         shape: circle
 
 # 2. RESEARCH OVERVIEW
- - block: markdown
-      content:
-        title: '📚 Research Overview'
-        subtitle: 'Agent-Based Computational Economics meets Artificial Intelligence'
-        text: |
-          My research lies at the intersection of **Agent-Based Computational Economics** and **Artificial Intelligence**, within the National PhD Program in AI for Society (SSSA & UniPi).
+  - block: markdown
+    content:
+      title: '📚 Research Overview'
+      subtitle: 'Agent-Based Computational Economics meets Artificial Intelligence'
+      text: |
+        My research lies at the intersection of **Agent-Based Computational Economics** and **Artificial Intelligence**, within the National PhD Program in AI for Society (SSSA & UniPi).
 
           I develop **adaptive cognitive architectures** for economic agents that co-evolve their decision strategies and social connections within complex networks — moving beyond static equilibrium toward realistic, heterogeneous, and adaptive behavior.
 
