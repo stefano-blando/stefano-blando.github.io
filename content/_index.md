@@ -40,12 +40,9 @@ sections:
 
         ### Core Research Pillars:
 
-       * **Adaptive Agents & Network Formation:** Designing multi-tier cognitive architectures (MARL + GNN) where agents learn *how* to learn, forming and rewiring economic networks endogenously. Exploring **Agentic AI** (LLM-based
-  deliberative agents) as a novel layer for economic simulation.
-          * **Formal Validation & Statistical Model Checking:** Employing **Statistical Model Checking** (MultiVeStA) and HPC-driven analysis to rigorously validate agent-based models under structural uncertainty, bridging the gap between
-   theoretical simulations and empirical reality.
-          * **Robust Statistics & Functional Data Analysis:** Applying **robust high-dimensional methods** and Functional Data Analysis to ground complex models in real-world data — from macro-financial panel data to network topology
-  signals for systemic risk detection.
+        **Adaptive Agents & Network Formation:** Designing multi-tier cognitive architectures (MARL + GNN) where agents learn *how* to learn, forming and rewiring economic networks endogenously. Exploring **Agentic AI** (LLM-based deliberative agents) as a novel layer for economic simulation.
+          **Formal Validation & Statistical Model Checking:** Employing **Statistical Model Checking** (MultiVeStA) and HPC-driven analysis to rigorously validate agent-based models under structural uncertainty, bridging the gap between  theoretical simulations and empirical reality.
+          * **Robust Statistics & Functional Data Analysis:** Applying **robust high-dimensional methods** and Functional Data Analysis to ground complex models in real-world data — from macro-financial panel data to network topology signals for systemic risk detection.
 
     design:
       columns: '1'
