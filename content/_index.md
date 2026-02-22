@@ -40,9 +40,13 @@ sections:
 
         ### Core Research Pillars:
 
-        * **Scientific Machine Learning & Inference:** Overcoming the curse of dimensionality in calibrating behavioral models. I apply **Amortized Bayesian Inference (SBI)** and Neural Density Estimators to infer latent decision-making parameters directly from aggregate macro-data.
-        * **Network Topology & Systemic Risk:** Leveraging **Graph Neural Networks (GNNs)** and Geometric Deep Learning to decode the evolving topology of financial markets, identifying early warning signals of contagion and distress in interconnected systems.
-        * **Behavioral Complexity & Robustness:** Modeling **bounded rationality** and heterogeneous decision-making rules in stochastic environments. I employ HPC-driven Statistical Model Checking to ensure model resilience under structural uncertainty and extreme market shocks.
+       * **Adaptive Agents & Network Formation:** Designing multi-tier cognitive architectures (MARL + GNN) where agents learn *how* to learn, forming and rewiring economic networks endogenously. Exploring **Agentic AI** (LLM-based
+  deliberative agents) as a novel layer for economic simulation.
+          * **Formal Validation & Statistical Model Checking:** Employing **Statistical Model Checking** (MultiVeStA) and HPC-driven analysis to rigorously validate agent-based models under structural uncertainty, bridging the gap between
+   theoretical simulations and empirical reality.
+          * **Robust Statistics & Functional Data Analysis:** Applying **robust high-dimensional methods** and Functional Data Analysis to ground complex models in real-world data — from macro-financial panel data to network topology
+  signals for systemic risk detection.
+
     design:
       columns: '1'
     
