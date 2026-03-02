@@ -13,7 +13,7 @@ links:
   - icon: github
     icon_pack: fab
     name: Code
-    url: https://github.com/StefanoBlando/risk-sentinel
+    url: https://github.com/stefano-blando/risk-sentinel
 ---
 
 RiskSentinel is an **agentic systemic risk simulator** designed to answer stress-test questions such as: *"What happens if JPMorgan crashes 40%?"* The platform combines network science, contagion modeling, and AI-assisted interpretation to simulate how shocks propagate across a large equity network.

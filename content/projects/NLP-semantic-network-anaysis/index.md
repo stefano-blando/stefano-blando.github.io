@@ -12,7 +12,7 @@ links:
   - icon: github
     icon_pack: fab
     name: Code
-    url: https://github.com/stefanoblando/sentiment-semantic-lexicometric-network-analysis # Aggiorna se necessario
+    url: https://github.com/stefano-blando/sentiment-semantic-lexicometric-network-analysis # Aggiorna se necessario
 ---
 
 Development of a comprehensive methodology for **extracting knowledge from unstructured text** by bridging statistical analysis with network science. Applied to a case study of *The Adventures of Sherlock Holmes*, this project transforms raw textual data into navigable semantic maps.

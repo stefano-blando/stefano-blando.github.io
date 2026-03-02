@@ -12,7 +12,7 @@ links:
   - icon: github
     icon_pack: fab
     name: Code
-    url: https://github.com/stefanoblando/real-estate-ai-agent
+    url: https://github.com/stefano-blando/real-estate-ai-agent
 ---
 
 This project builds an **Autonomous AI Agent** capable of navigating the real estate market. It combines predictive modeling for price estimation with an LLM-based interface for natural language interaction and automated reasoning.

@@ -38,7 +38,7 @@ links:
 # - name: Follow
 #   url: https://twitter.com/
 - name: Code
-  url: https://github.com/StefanoBlando/network-stock-prediction
+  url: https://github.com/stefano-blando/network-stock-prediction
 
 url_pdf: ''
 url_code: ''

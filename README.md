@@ -1,6 +1,6 @@
 # 🎓 Stefano Blando | Research Portfolio
 
-[![Website](https://img.shields.io/website?url=https%3A%2F%2Fstefanoblando.github.io&label=Live%20Site&style=for-the-badge&color=2ea44f)](https://stefanoblando.github.io)
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fstefano-blando.github.io&label=Live%20Site&style=for-the-badge&color=2ea44f)](https://stefano-blando.github.io)
 [![Hugo](https://img.shields.io/badge/Built%20with-Hugo-blueviolet?style=for-the-badge&logo=hugo)](https://gohugo.io/)
 
 Source code for my personal academic website and research portfolio.
@@ -35,8 +35,8 @@ Currently, I am focused on the **rigorous validation of Complex Dynamical Stocha
 
 ## 🔗 Links
 
-* **Website:** [stefanoblando.github.io](https://stefanoblando.github.io)
-* **GitHub:** [@stefanoblando](https://github.com/stefanoblando)
+* **Website:** [stefano-blando.github.io](https://stefano-blando.github.io)
+* **GitHub:** [@stefano-blando](https://github.com/stefano-blando)
 * **Institution:** [Scuola Superiore Sant'Anna](https://www.santannapisa.it/)
 
 ---

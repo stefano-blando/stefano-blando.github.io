@@ -12,7 +12,7 @@ links:
   - icon: github
     icon_pack: fab
     name: Code
-    url: https://github.com/StefanoBlando/custom-chatbot
+    url: https://github.com/stefano-blando/custom-chatbot
 ---
 
 This project demonstrates advanced natural language processing techniques by creating a specialized chatbot capable of answering questions about a curated dataset of fictional characters. It leverages **Retrieval Augmented Generation (RAG)** to combine the fluency of Large Language Models with the accuracy of a custom knowledge base.

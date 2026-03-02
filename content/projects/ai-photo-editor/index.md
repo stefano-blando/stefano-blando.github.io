@@ -12,7 +12,7 @@ links:
   - icon: github
     icon_pack: fab
     name: Code
-    url: https://github.com/StefanoBlando/ai-photo-editor
+    url: https://github.com/stefano-blando/ai-photo-editor
 ---
 
 This project implements a state-of-the-art **AI Photo Editing Pipeline** that allows users to seamlessly transform images by selecting objects and generating new backgrounds or subjects. It bridges the gap between precise computer vision and generative AI by integrating **Meta's Segment Anything Model (SAM)** with **Stable Diffusion XL (SDXL)**.

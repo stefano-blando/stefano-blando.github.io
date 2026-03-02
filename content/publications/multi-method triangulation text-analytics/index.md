@@ -37,7 +37,7 @@ links:
 - name: Co-Author (Prof. Iezzi)
   url: https://phd.uniroma2.it/web/DOMENICA-FIOREDISTELLA-IEZZI_nC4200_EN.aspx
 - name: Code
-  url: https://github.com/stefanoblando/nlp-semantic-network
+  url: https://github.com/stefano-blando/nlp-semantic-network
 
 url_pdf: ''
 url_code: ''

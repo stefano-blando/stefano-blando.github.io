@@ -12,7 +12,7 @@ links:
   - icon: github
     icon_pack: fab
     name: Code
-    url: https://github.com/StefanoBlando/peft-model-finetuning
+    url: https://github.com/stefano-blando/peft-model-finetuning
 ---
 
 This project implements a complete **Parameter-Efficient Fine-Tuning (PEFT)** pipeline for sequence classification. It addresses the computational bottleneck of adapting Large Language Models (LLMs) by utilizing **LoRA (Low-Rank Adaptation)** to fine-tune `distilbert-base-uncased` on the SST-2 sentiment analysis dataset.

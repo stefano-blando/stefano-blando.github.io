@@ -12,7 +12,7 @@ links:
   - icon: github
     icon_pack: fab
     name: Code
-    url: https://github.com/StefanoBlando/robust-portfolio-optimization 
+    url: https://github.com/stefano-blando/robust-portfolio-optimization 
 ---
 
 This project implements the research for **"High-Dimensional Robust Portfolio Optimization Under Sparse Contamination: A Factor-Analytic Approach."** It addresses the failure of traditional covariance estimation during market stress by introducing specialized robust techniques designed for high-dimensional portfolios.

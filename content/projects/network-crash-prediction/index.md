@@ -12,7 +12,7 @@ links:
   - icon: github
     icon_pack: fab
     name: Code
-    url: https://github.com/stefanoblando/systemic-risk-prediction
+    url: https://github.com/stefano-blando/systemic-risk-prediction
 ---
 
 This project implements the research for the Master Thesis **"Network Topology and Machine Learning for Systemic Risk: From Early Warning to Trading Strategies."** It investigates the application of complex network theory and deep learning to forecast systemic events using daily price data from **210 S&P 500 constituents spanning 2013–2025**.
