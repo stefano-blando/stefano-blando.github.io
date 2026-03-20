@@ -1,7 +1,7 @@
 ---
 title: TIM Recommender System (Next Best Action)
 date: 2025-06-20
-summary: A predictive recommender engine utilizing Learning-to-Rank, Bayesian Optimization, and Advanced Ensembles to maximize marketing campaign effectiveness (NDCG@5 +36%).
+summary: Learning-to-rank recommender system for next-best-action prediction, combining Bayesian optimization and ensemble ranking to improve NDCG@5 by 36%.
 tags:
   - Recommender Systems
   - Machine Learning

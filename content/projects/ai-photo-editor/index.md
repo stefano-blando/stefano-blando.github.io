@@ -1,7 +1,7 @@
 ---
 title: AI Photo Editor with SAM & SDXL
 date: 2024-03-10
-summary: An advanced image editing pipeline combining Meta's Segment Anything Model (SAM) for precise segmentation with Stable Diffusion XL for photorealistic inpainting.
+summary: Computer vision and generative AI pipeline combining SAM and SDXL for interactive object segmentation and photorealistic image editing.
 tags:
   - Computer Vision
   - Generative AI

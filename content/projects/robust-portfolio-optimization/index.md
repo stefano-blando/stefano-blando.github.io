@@ -1,7 +1,7 @@
 ---
 title: High-Dimensional Robust Portfolio Optimization
 date: 2023-06-15
-summary: Development of novel robust covariance estimators (PFSE, SSRE) to maintain portfolio performance under market stress. Implemented in R with a focus on computational efficiency.
+summary: Robust statistics project developing high-dimensional covariance estimators that preserve portfolio stability under contamination and market stress.
 tags:
   - Quantitative Finance
   - Robust Statistics
@@ -13,9 +13,15 @@ links:
     icon_pack: fab
     name: Code
     url: https://github.com/stefano-blando/robust-portfolio-optimization 
+  - icon: file-alt
+    icon_pack: fas
+    name: Paper
+    url: /publications/robust-port-opt/
 ---
 
 This project implements the research for **"High-Dimensional Robust Portfolio Optimization Under Sparse Contamination: A Factor-Analytic Approach."** It addresses the failure of traditional covariance estimation during market stress by introducing specialized robust techniques designed for high-dimensional portfolios.
+
+The project is associated with the submitted paper currently listed under publications.
 
 **Novel Methodological Contributions:**
 * **PFSE (Parallel Factor Space Estimator):** A novel approach combining robust factor dimension selection with targeted robustification in the factor space.

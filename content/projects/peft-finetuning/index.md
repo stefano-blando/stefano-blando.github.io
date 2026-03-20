@@ -1,7 +1,7 @@
 ---
 title: Lightweight Fine-Tuning with PEFT & LoRA
 date: 2024-11-20
-summary: A high-efficiency NLP pipeline adapting DistilBERT for Sentiment Analysis. By utilizing LoRA, it achieves 84% accuracy on the SST-2 dataset while training less than 1% of the model parameters.
+summary: Parameter-efficient fine-tuning pipeline using LoRA to adapt DistilBERT for sentiment analysis while training less than 1% of the model parameters.
 tags:
   - Generative AI
   - NLP

@@ -1,7 +1,7 @@
 ---
 title: Custom Chatbot with RAG
 date: 2024-02-15
-summary: An intelligent chatbot system combining Large Language Models (LLMs) with Retrieval Augmented Generation (RAG) for domain-specific conversations about fictional characters.
+summary: Retrieval-augmented chatbot that combines semantic search, custom embeddings, and LLM prompting for grounded domain-specific conversations.
 tags:
   - Generative AI
   - NLP

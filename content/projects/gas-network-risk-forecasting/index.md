@@ -1,7 +1,7 @@
 ---
 title: Gas Network Risk Forecasting
 date: 2024-11-01
-summary: Second-place hackathon project for gas leak risk prediction, combining geospatial-temporal features, synthetic data augmentation, and SHAP-based interpretability.
+summary: Second-place hackathon project for gas leak risk prediction using geospatial-temporal features, synthetic data augmentation, and SHAP-based interpretability.
 tags:
   - Hackathon
   - Forecasting

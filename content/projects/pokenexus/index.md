@@ -1,7 +1,7 @@
 ---
 title: PokéNexus
 date: 2026-02-04
-summary: A personal side project that brings together my long-standing love for Pokémon with my interest in graph visualization, interactive systems, and Python prototyping.
+summary: Personal side project that merges my long-standing love for Pokémon with graph visualization, interactive systems, and Python prototyping.
 tags:
   - Streamlit
   - NetworkX

@@ -1,7 +1,7 @@
 ---
 title: RiskSentinel - Agentic Systemic Risk Simulator
 date: 2026-03-15
-summary: Multi-agent AI system for systemic risk simulation and financial contagion analysis on 210 S&P 500 stocks, built for Microsoft AI Dev Days Hackathon 2026 and delivered with live demo, video, and public project site.
+summary: Multi-agent systemic risk simulator for financial contagion analysis on 210 S&P 500 stocks, built for Microsoft AI Dev Days Hackathon 2026 and deployed as an interactive Streamlit app.
 tags:
   - Multi-Agent Systems
   - Financial AI
@@ -37,7 +37,7 @@ Built for the **Microsoft AI Dev Days Hackathon 2026**, the project focuses on r
 * **Model comparison dashboard:** Side-by-side outputs across all contagion models with severity and impact comparison.
 * **Crisis presets:** Reproducible scenarios inspired by recent events (COVID-19, SVB, Japan carry trade unwind, Volmageddon, Russia-Ukraine shock).
 * **Actionable reporting:** Risk scoring, vulnerable-node ranking, sector impact tables, and downloadable reports.
-* **Judge-ready delivery:** Public Streamlit app, video demo, and standalone project landing page for hackathon submission.
+* **Judge-ready delivery:** Public Streamlit app and submission-ready project assets for hackathon evaluation.
 
 **Technical Implementation:**
 RiskSentinel is implemented in **Python** with a modular architecture:
@@ -54,7 +54,6 @@ The system is built on pre-computed research-grade market data:
 
 The result is a practical prototype for **systemic risk monitoring**, bridging quantitative finance, complex systems, and agentic AI.
 
-You can explore the full submission assets here:
+You can explore the project here:
 * **[Repository](https://github.com/stefano-blando/risk-sentinel)**
-* **[Live demo](https://risk-sentinel-hxq8pzyujwbmbokegefcaq.streamlit.app/)**
-* **[Video demo](https://youtu.be/jZ9hkAiap1I)**
+* **[App](https://risk-sentinel-hxq8pzyujwbmbokegefcaq.streamlit.app/)**

@@ -1,7 +1,7 @@
 ---
 title: Network Topology Analysis for Systemic Risk Prediction
 date: 2026-01-10
-summary: Development of a hybrid framework combining Dynamic Correlation Networks and Graph Neural Networks (GraphSAGE, GAT) to predict market crashes. Validated on S&P 500 data (2013–2025) with profitable trading strategies.
+summary: Financial machine learning project combining dynamic correlation networks, graph neural networks, and trading backtests to detect systemic risk in U.S. equity markets.
 tags:
   - Systemic Risk
   - Graph Neural Networks
@@ -13,9 +13,15 @@ links:
     icon_pack: fab
     name: Code
     url: https://github.com/stefano-blando/systemic-risk-prediction
+  - icon: file-alt
+    icon_pack: fas
+    name: Paper
+    url: /publications/network%20crash%20prediction/
 ---
 
 This project implements the research for the Master Thesis **"Network Topology Analysis and Machine Learning Techniques for Systemic Risk Prediction in U.S. Equity Markets."** It investigates the application of complex network theory and deep learning to forecast systemic events using daily price data from **210 S&P 500 constituents spanning 2013-2025**.
+
+The project is paired with the related thesis page, where the research contribution is presented as a publication entry.
 
 **Novel Methodological Contributions:**
 * **Hybrid Predictive Framework:** Integration of network-derived features (Eigenvalue entropy, Absorption Ratio, Modularity) with traditional market indicators to predict crash targets.

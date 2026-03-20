@@ -1,7 +1,7 @@
 ---
 title: NLP & Semantic Network Analysis
 date: 2026-01-10
-summary: A hybrid text mining framework combining Correspondence Analysis and Network Science to decode latent semantic structures in unstructured corpora.
+summary: Text analytics project combining correspondence analysis, clustering, and network science to extract stable semantic structure from large unstructured corpora.
 tags:
   - Text Mining
   - Network Science
@@ -13,9 +13,15 @@ links:
     icon_pack: fab
     name: Code
     url: https://github.com/stefano-blando/sentiment-semantic-lexicometric-network-analysis # Aggiorna se necessario
+  - icon: file-alt
+    icon_pack: fas
+    name: Paper
+    url: /publications/multi-method%20triangulation%20text-analytics/
 ---
 
 Development of a comprehensive methodology for **extracting knowledge from unstructured text** by bridging statistical analysis with network science. Applied to a case study of *The Adventures of Sherlock Holmes*, this project transforms raw textual data into navigable semantic maps.
+
+This line of work later evolved into the related paper on multi-method validation for large-scale multilingual text analytics.
 
 **Technical Stack:**
 * **Text Representation:** Vector Space Model utilizing **TF-IDF** weighting to capture term importance and filter stop-words.
