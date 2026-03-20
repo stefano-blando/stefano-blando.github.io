@@ -14,6 +14,10 @@ links:
     icon_pack: fab
     name: Code
     url: https://github.com/StefanoBlando/pokenexus
+  - icon: play-circle
+    icon_pack: fas
+    name: App
+    url: https://pokenexus.streamlit.app/
 ---
 
 **PokéNexus** is a playful side project built around the idea of turning the Pokémon universe into an interactive graph-based application. It combines **network visualization**, **game-like progression systems**, and **API-driven data enrichment** inside a single Streamlit interface.
