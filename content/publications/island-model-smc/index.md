@@ -11,7 +11,7 @@ doi: ""
 
 publishDate: "2026-03-20T00:00:00Z"
 
-publication_types: ["1"]
+publication_types: ["Conference paper"]
 
 publication: "MARS @ ETAPS 2026, Turin, Italy"
 publication_short: "MARS 2026"

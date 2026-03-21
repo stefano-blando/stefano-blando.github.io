@@ -12,7 +12,7 @@ publishDate: "2025-02-01T00:00:00Z"
 
 # Publication type.
 # 3 = Preprint / Working Paper
-publication_types: ["3"]
+publication_types: ["Preprint / Working Paper"]
 
 # Publication name.
 publication: "JADT 2026, Palermo, Italy (in review)"
