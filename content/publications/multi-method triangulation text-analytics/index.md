@@ -1,5 +1,6 @@
 ---
 title: "A Multi-Method Validation Framework for Large-Scale Multilingual Text Analytics"
+url: "/publications/multi-method-validation-framework/"
 authors:
 - me
 - "Domenica Fioredistella Iezzi"

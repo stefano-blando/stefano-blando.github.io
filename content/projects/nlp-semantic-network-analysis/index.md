@@ -15,7 +15,7 @@ links:
     url: https://github.com/stefano-blando/nlp-semantic-network
   - icon: hero/document-text
     name: Paper
-    url: /publications/multi-method%20triangulation%20text-analytics/
+    url: /publications/multi-method-validation-framework/
 ---
 
 This project started as an attempt to make unstructured text more readable through structure rather than through isolated metrics. The idea was to combine statistical text analysis with network methods so that documents, terms, and semantic clusters could be interpreted as part of the same system.
