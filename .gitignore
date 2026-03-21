@@ -67,3 +67,7 @@ Desktop.ini
 
 *.log
 npm-debug.log*
+
+# Local tracking notes
+STATUS.md
+TODO.md

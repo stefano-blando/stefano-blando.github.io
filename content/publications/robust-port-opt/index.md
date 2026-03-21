@@ -37,15 +37,15 @@ featured: true
 # Custom links (optional).
 links:
 - name: Supervisor
-  url: https://economia.uniroma2.it/faculty/563/farcomeni-alessio # Prof. Alessio Farcomeni
+  url: https://economia.uniroma2.it/faculty/563/farcomeni-alessio
 - name: Code
-  url: https://github.com/stefano-blando/robust-portfolio-optimization # Assicurati che il link sia giusto
+  url: https://github.com/stefano-blando/robust-portfolio-optimization
 
 url_pdf: ''
 url_code: ''
 url_dataset: ''
 url_poster: ''
-url_project: 'https://stefano-blando.github.io/projects/robust-portfolio-optimization/'
+url_project: '/projects/robust-portfolio-optimization/'
 url_slides: ''
 url_source: ''
 url_video: ''
@@ -57,8 +57,6 @@ image:
   focal_point: ""
   preview_only: false
 
-# Associated Projects (optional).
-# Associate this publication with one of your projects.
 projects:
-- robust-portfolio-optimization # DEVE corrispondere al nome della cartella in content/project/
+- robust-portfolio-optimization
 ---

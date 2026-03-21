@@ -43,7 +43,7 @@ url_pdf: ''
 url_code: ''
 url_dataset: ''
 url_poster: ''
-url_project: 'project/nlp-semantic-network/' # <-- ORA QUESTO ATTIVA IL BOTTONE "PROJECT"
+url_project: '/projects/nlp-semantic-network-analysis/'
 url_slides: ''
 url_source: ''
 url_video: ''
@@ -54,8 +54,6 @@ image:
   focal_point: ""
   preview_only: false
 
-# Associated Projects.
-# Questo serve per mostrare la scheda del progetto in fondo alla pagina
 projects:
-- nlp-semantic-network
+- nlp-semantic-network-analysis
 ---
