@@ -13,7 +13,7 @@ tags:
 links:
   - icon: brands/github
     name: Code
-    url: https://github.com/StefanoBlando/pokenexus
+    url: https://github.com/stefano-blando/pokenexus
   - icon: hero/play-circle
     name: App
     url: https://pokenexus.streamlit.app/

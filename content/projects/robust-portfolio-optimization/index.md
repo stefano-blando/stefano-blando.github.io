@@ -12,7 +12,7 @@ tags:
 links:
   - icon: brands/github
     name: Code
-    url: https://github.com/stefano-blando/robust-portfolio-optimization 
+    url: https://github.com/stefano-blando/robust-portfolio-optimization
   - icon: hero/document-text
     name: Paper
     url: /publications/robust-port-opt/

@@ -1,5 +1,6 @@
 ---
 title: "Network Topology Analysis and Machine Learning Techniques for Systemic Risk Prediction in U.S. Equity Markets"
+url: "/publications/network-crash-prediction/"
 authors:
 - me  
 date: "2026-01-15"
