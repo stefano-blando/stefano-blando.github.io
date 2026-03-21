@@ -10,8 +10,7 @@ tags:
   - OpenAI
   - Python
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/stefano-blando/custom-chatbot
 ---

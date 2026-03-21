@@ -10,8 +10,7 @@ tags:
   - Hugging Face
   - Model Optimization
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/stefano-blando/peft-model-finetuning
 ---

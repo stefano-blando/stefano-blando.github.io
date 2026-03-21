@@ -10,12 +10,10 @@ tags:
   - High-Dimensional Data
   - Factor Analysis
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/stefano-blando/robust-portfolio-optimization 
-  - icon: file-alt
-    icon_pack: fas
+  - icon: hero/document-text
     name: Paper
     url: /publications/robust-port-opt/
 ---

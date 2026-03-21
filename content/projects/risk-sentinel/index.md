@@ -12,12 +12,10 @@ tags:
   - Streamlit
   - Microsoft Agent Framework
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/stefano-blando/risk-sentinel
-  - icon: play-circle
-    icon_pack: fas
+  - icon: hero/play-circle
     name: App
     url: https://risk-sentinel-hxq8pzyujwbmbokegefcaq.streamlit.app/
 ---

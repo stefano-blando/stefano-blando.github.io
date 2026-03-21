@@ -11,8 +11,7 @@ tags:
   - Ensemble Learning
   - Python
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/stefano-blando/advanced-recommender-system
 image:

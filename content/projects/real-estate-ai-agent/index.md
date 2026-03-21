@@ -10,8 +10,7 @@ tags:
   - Predictive Modeling
   - Real Estate Economics
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/stefano-blando/real-estate-ai-agent
 ---

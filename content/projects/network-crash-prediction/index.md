@@ -10,12 +10,10 @@ tags:
   - Network Science
   - Financial Markets
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/stefano-blando/systemic-risk-prediction
-  - icon: file-alt
-    icon_pack: fas
+  - icon: hero/document-text
     name: Paper
     url: /publications/network%20crash%20prediction/
 ---

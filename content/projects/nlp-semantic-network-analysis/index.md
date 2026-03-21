@@ -10,12 +10,10 @@ tags:
   - Clustering
   - R
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/stefano-blando/nlp-semantic-network
-  - icon: file-alt
-    icon_pack: fas
+  - icon: hero/document-text
     name: Paper
     url: /publications/multi-method%20triangulation%20text-analytics/
 ---

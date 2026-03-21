@@ -11,12 +11,10 @@ tags:
   - Game Design
   - PokeAPI
 links:
-  - icon: github
-    icon_pack: fab
+  - icon: brands/github
     name: Code
     url: https://github.com/StefanoBlando/pokenexus
-  - icon: play-circle
-    icon_pack: fas
+  - icon: hero/play-circle
     name: App
     url: https://pokenexus.streamlit.app/
 ---
