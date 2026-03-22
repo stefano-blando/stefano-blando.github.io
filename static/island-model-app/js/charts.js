@@ -1,0 +1,108 @@
+/**
+ * charts.js — Plotly chart builders
+ */
+
+const COLORS = ['#4f8ef7','#22c55e','#f59e0b','#a78bfa','#f472b6','#38bdf8','#fb923c','#34d399','#e879f9','#facc15'];
+
+// ── Sweep chart with CI ribbons ───────────────────────────────────────────────
+function renderSweepChart(paramData, selected) {
+  const card = document.getElementById('chart-card');
+  const el   = document.getElementById('sweep-chart');
+  if (!card || !el) return;
+
+  card.style.display = 'block';
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  document.getElementById('chart-title').textContent = `E[log GDP] over time — ${paramData.label}`;
+  document.getElementById('chart-desc').textContent  = paramData.description;
+
+  const badgesEl = document.getElementById('chart-badges');
+  if (badgesEl) {
+    badgesEl.innerHTML = selected.map(s =>
+      s.in_paper
+        ? `<span class="badge-paper">${paramData.symbol}=${s.value}</span>`
+        : `<span class="badge-extended">${paramData.symbol}=${s.value}</span>`
+    ).join('');
+  }
+
+  const traces = [];
+  selected.forEach((s, idx) => {
+    const col  = COLORS[idx % COLORS.length];
+    const xs   = s.series.map(p => p.x);
+    const ys   = s.series.map(p => p.mean);
+    const up   = ys.map((y, i) => y + s.series[i].ci);
+    const down = ys.map((y, i) => y - s.series[i].ci);
+
+    // CI ribbon
+    traces.push({
+      x: [...xs, ...xs.slice().reverse()],
+      y: [...up,  ...down.slice().reverse()],
+      fill: 'toself', fillcolor: col + '22',
+      line: { color: 'transparent' }, hoverinfo: 'skip', showlegend: false,
+    });
+
+    // Line
+    traces.push({
+      x: xs, y: ys,
+      mode: 'lines+markers',
+      name: `${paramData.symbol}=${s.value}${s.note==='baseline'?' ★':''}`,
+      line: { color: col, width: s.in_paper ? 2.5 : 1.8, dash: s.in_paper ? 'solid' : 'dot' },
+      marker: { size: 5, color: col },
+      hovertemplate: `<b>${paramData.symbol}=${s.value}</b><br>t=%{x}<br>E[logGDP]=%{y:.3f}<br>n=%{customdata}<extra></extra>`,
+      customdata: s.series.map(p => p.n),
+    });
+  });
+
+  Plotly.newPlot(el, traces, {
+    paper_bgcolor: 'transparent', plot_bgcolor: '#050810',
+    font: { family:'Inter', color:'#94a3b8', size:11 },
+    margin: { t:20, r:20, b:50, l:58 },
+    xaxis: { title:{text:'Time step'}, gridcolor:'#1f2937', color:'#6b7280', zeroline:false },
+    yaxis: { title:{text:'E[log GDP]'}, gridcolor:'#1f2937', color:'#6b7280', zeroline:false },
+    legend: { bgcolor:'rgba(17,24,39,.9)', bordercolor:'#1f2937', borderwidth:1, font:{family:'JetBrains Mono',size:10} },
+    hovermode: 'x unified',
+  }, { responsive:true, displayModeBar:false });
+
+  const noteEl = document.getElementById('chart-note');
+  if (noteEl) {
+    const nConv = selected.filter(s=>s.converged).length;
+    noteEl.innerHTML = `Ribbons = 95% CI &nbsp;·&nbsp; Solid = in-paper &nbsp;·&nbsp; Dotted = extended &nbsp;·&nbsp; ${nConv}/${selected.length} converged with δ=1`;
+  }
+}
+
+// ── AGR chart ─────────────────────────────────────────────────────────────────
+function buildAGRChart(agrData) {
+  const el = document.getElementById('agr-chart');
+  if (!el || !agrData?.points?.length) return;
+
+  const xs  = agrData.points.map(p => p.eps);
+  const ys  = agrData.points.map(p => p.mean);
+  const cis = agrData.points.map(p => p.ci);
+
+  Plotly.newPlot(el, [
+    {
+      x: [...xs, ...xs.slice().reverse()],
+      y: [...ys.map((y,i)=>y+cis[i]), ...ys.map((y,i)=>y-cis[i]).reverse()],
+      fill:'toself', fillcolor:'rgba(79,142,247,.15)',
+      line:{color:'transparent'}, hoverinfo:'skip', showlegend:false,
+    },
+    {
+      x: xs, y: ys, mode:'lines+markers', name:'AGR at t=201',
+      line:{color:'#4f8ef7',width:2.5}, marker:{size:7,color:'#4f8ef7'},
+      hovertemplate:'ε=%{x}<br>AGR=%{y:.5f}<extra></extra>',
+    },
+    {
+      x:[0.1,0.1], y:[0, Math.max(...ys)*1.2],
+      mode:'lines', name:'ε=0.1 (optimal)',
+      line:{color:'#22c55e',width:1.5,dash:'dash'},
+    },
+  ], {
+    paper_bgcolor:'transparent', plot_bgcolor:'#050810',
+    font:{family:'Inter',color:'#94a3b8',size:11},
+    margin:{t:10,r:20,b:50,l:70},
+    xaxis:{title:{text:'ε (exploration probability)'},gridcolor:'#1f2937',color:'#6b7280',zeroline:false},
+    yaxis:{title:{text:'Average Growth Rate'},gridcolor:'#1f2937',color:'#6b7280',zeroline:false},
+    hovermode:'x unified',
+    legend:{bgcolor:'rgba(17,24,39,.9)',bordercolor:'#1f2937',borderwidth:1,font:{family:'JetBrains Mono',size:10}},
+  }, { responsive:true, displayModeBar:false });
+}

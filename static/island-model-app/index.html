@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Island Model + MultiVeStA — Interactive Explorer</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+
+  <!-- Embedded data bundle — works with file:// and Netlify -->
+  <script src="data/data.js"></script>
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bg: '#0a0e1a', surface: '#111827', border: '#1f2937',
+            accent: '#4f8ef7', green: '#22c55e', amber: '#f59e0b',
+          },
+          fontFamily: { sans: ['Inter','sans-serif'], mono: ['JetBrains Mono','monospace'] },
+        },
+      },
+    }
+  </script>
+
+  <style>
+    * { scroll-behavior: smooth; }
+    body { background: #0a0e1a; color: #e2e8f0; font-family: 'Inter', sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #0a0e1a; }
+    ::-webkit-scrollbar-thumb { background: #1f2937; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #4f8ef7; }
+
+    .card { background: #111827; border: 1px solid #1f2937; border-radius: 14px; }
+    .card-glow { transition: border-color .2s, box-shadow .2s; }
+    .card-glow:hover { border-color: #4f8ef7; box-shadow: 0 0 24px rgba(79,142,247,.12); }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
+      color: #4f8ef7; margin-bottom: 8px;
+    }
+
+    .badge-paper    { background:rgba(34,197,94,.15);  color:#22c55e; border:1px solid rgba(34,197,94,.3);  border-radius:999px; padding:2px 8px; font-size:11px; font-family:monospace; }
+    .badge-extended { background:rgba(245,158,11,.15); color:#f59e0b; border:1px solid rgba(245,158,11,.3); border-radius:999px; padding:2px 8px; font-size:11px; font-family:monospace; }
+    .badge-venue    { background:rgba(79,142,247,.15); color:#4f8ef7; border:1px solid rgba(79,142,247,.3);  border-radius:999px; padding:2px 8px; font-size:11px; font-family:monospace; }
+
+    /* Animated gradient title */
+    .gradient-title {
+      background: linear-gradient(135deg, #4f8ef7, #a78bfa, #22c55e);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Nav links */
+    .nav-link { color: #6b7280; font-size: 13px; transition: color .2s; }
+    .nav-link:hover, .nav-link.active { color: #e2e8f0; }
+    .nav-link.active { color: #4f8ef7; }
+
+    /* Terminal */
+    .terminal {
+      background: #050810; border: 1px solid #1f2937; border-radius: 10px;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #22c55e;
+      padding: 16px; min-height: 200px; max-height: 300px; overflow-y: auto;
+      line-height: 1.7;
+    }
+    .log-dim  { color: #1f2937; }
+    .log-info { color: #4f8ef7; }
+    .log-warn { color: #f59e0b; }
+    .log-ok   { color: #22c55e; }
+
+    /* Run button */
+    .run-btn {
+      background: linear-gradient(135deg, #4f8ef7, #6366f1);
+      color: #fff; font-family: 'JetBrains Mono', monospace;
+      font-weight: 700; letter-spacing: .06em; border-radius: 8px;
+      padding: 10px 28px; transition: all .2s;
+      box-shadow: 0 0 24px rgba(79,142,247,.3);
+    }
+    .run-btn:hover  { box-shadow: 0 0 40px rgba(79,142,247,.5); transform: translateY(-1px); }
+    .run-btn:active { transform: translateY(0); }
+    .run-btn:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    /* Value checkboxes */
+    .val-label {
+      display: flex; align-items: center; gap: 6px;
+      padding: 6px 14px; border-radius: 8px; cursor: pointer;
+      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      border: 1px solid #1f2937; background: #080c14; color: #6b7280;
+      transition: all .15s; user-select: none;
+    }
+    .val-label:hover { border-color: #4f8ef7; color: #e2e8f0; }
+    .val-label.selected { background: rgba(79,142,247,.1); border-color: #4f8ef7; color: #e2e8f0; }
+    .val-label.selected-paper { background: rgba(34,197,94,.08); border-color: #22c55e; color: #e2e8f0; }
+
+    /* Param pills */
+    .param-pill {
+      padding: 8px 16px; border-radius: 10px; cursor: pointer; font-size: 13px;
+      border: 1px solid #1f2937; background: #111827; color: #6b7280;
+      transition: all .2s; white-space: nowrap;
+    }
+    .param-pill:hover { border-color: #4f8ef7; color: #e2e8f0; }
+    .param-pill.active { background: rgba(79,142,247,.15); border-color: #4f8ef7; color: #e2e8f0; }
+
+    /* Scroll fade-in */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    /* Agent type chips */
+    .chip-miner    { background:rgba(79,142,247,.15); color:#4f8ef7; border:1px solid rgba(79,142,247,.3); border-radius:6px; padding:3px 10px; font-size:12px; font-weight:600; }
+    .chip-imitator { background:rgba(34,197,94,.15);  color:#22c55e; border:1px solid rgba(34,197,94,.3);  border-radius:6px; padding:3px 10px; font-size:12px; font-weight:600; }
+    .chip-explorer { background:rgba(245,158,11,.15); color:#f59e0b; border:1px solid rgba(245,158,11,.3); border-radius:6px; padding:3px 10px; font-size:12px; font-weight:600; }
+
+    /* Divider */
+    .section-divider { border: none; border-top: 1px solid #1f2937; margin: 80px 0; }
+
+    /* Metric card */
+    .metric-card { border-radius: 12px; padding: 20px; }
+  </style>
+</head>
+
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────────────────────────── -->
+<header id="header" style="position:sticky;top:0;z-index:50;background:rgba(10,14,26,.88);backdrop-filter:blur(14px);border-bottom:1px solid #1f2937;">
+  <div style="max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;">
+    <div style="display:flex;align-items:center;gap:12px;">
+      <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#4f8ef7,#6366f1);display:flex;align-items:center;justify-content:center;font-family:monospace;font-weight:700;font-size:13px;color:#fff;">IM</div>
+      <span style="font-size:14px;font-weight:600;color:#e2e8f0;">Island Model + MultiVeStA</span>
+    </div>
+    <nav style="display:flex;gap:24px;align-items:center;">
+      <a href="#model"    class="nav-link">Model</a>
+      <a href="#explorer" class="nav-link">Explorer</a>
+      <a href="#findings" class="nav-link">Findings</a>
+      <a href="#code"     class="nav-link">Code</a>
+      <span class="badge-venue">MARS @ ETAPS 2026</span>
+    </nav>
+  </div>
+</header>
+
+
+<!-- ── HERO ────────────────────────────────────────────────────────────────── -->
+<section style="max-width:1100px;margin:0 auto;padding:72px 24px 48px;">
+  <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
+    <span class="badge-venue">MARS @ ETAPS 2026</span>
+    <span class="badge-paper">Accepted</span>
+    <span style="background:rgba(139,92,246,.15);color:#a78bfa;border:1px solid rgba(139,92,246,.3);border-radius:999px;padding:2px 8px;font-size:11px;font-family:monospace;">MultiVeStA</span>
+    <span style="background:rgba(236,72,153,.12);color:#f472b6;border:1px solid rgba(236,72,153,.25);border-radius:999px;padding:2px 8px;font-size:11px;font-family:monospace;">ABM</span>
+  </div>
+
+  <h1 style="font-size:clamp(26px,4vw,44px);font-weight:700;line-height:1.15;margin-bottom:12px;" class="gradient-title">
+    Statistical Model Checking<br>of an Island Model for Economic Growth
+  </h1>
+  <p style="color:#94a3b8;font-size:15px;margin-bottom:20px;font-family:'JetBrains Mono',monospace;">
+    Stefano Blando &nbsp;·&nbsp; Andrea Vandin &nbsp;·&nbsp; Giorgio Fagiolo
+  </p>
+  <p id="abstract-text" style="color:#cbd5e1;line-height:1.75;max-width:760px;font-size:15px;"></p>
+
+  <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;">
+    <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;border:1px solid #1f2937;color:#e2e8f0;font-size:13px;transition:all .2s;" onmouseover="this.style.borderColor='#4f8ef7'" onmouseout="this.style.borderColor='#1f2937'">📄 Paper PDF</a>
+    <a href="https://github.com/andrea-vandin/MultiVeStA" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;border:1px solid #1f2937;color:#e2e8f0;font-size:13px;transition:all .2s;" onmouseover="this.style.borderColor='#4f8ef7'" onmouseout="this.style.borderColor='#1f2937'">🔬 MultiVeStA on GitHub</a>
+    <a href="#code" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;border:1px solid #1f2937;color:#e2e8f0;font-size:13px;transition:all .2s;" onmouseover="this.style.borderColor='#4f8ef7'" onmouseout="this.style.borderColor='#1f2937'">💻 Replicability Package</a>
+  </div>
+</section>
+
+
+<!-- ── MODEL ───────────────────────────────────────────────────────────────── -->
+<section id="model" style="max-width:1100px;margin:0 auto;padding:0 24px 80px;">
+  <hr class="section-divider" style="margin-top:0;" />
+  <div class="section-label reveal">The Model</div>
+  <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;" class="reveal">Technology Space &amp; Agent Dynamics</h2>
+  <p style="color:#94a3b8;margin-bottom:32px;max-width:760px;" class="reveal">
+    The economy is a <strong style="color:#e2e8f0;">T×T grid of islands</strong> — each a productive niche with fitness increasing with distance from the centre.
+    20 agents choose each period whether to <span class="chip-miner" style="font-size:11px;">mine</span>, <span class="chip-imitator" style="font-size:11px;">imitate</span>, or <span class="chip-explorer" style="font-size:11px;">explore</span>.
+    The tension between safe exploitation and risky exploration generates endogenous growth.
+  </p>
+
+  <!-- Full-width canvas -->
+  <div class="card reveal" style="padding:20px;margin-bottom:28px;position:relative;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="section-label" style="margin:0;">Live Simulation — Island Model</div>
+      <div style="display:flex;gap:10px;align-items:center;font-size:11px;font-family:monospace;color:#6b7280;">
+        <span id="sim-step"></span>
+        <span style="color:#22c55e;font-weight:700;" id="gdp-counter">0.000</span>
+      </div>
+    </div>
+    <canvas id="island-canvas" style="display:block;width:100%;border-radius:8px;"></canvas>
+    <p style="font-size:11px;color:#374151;font-family:monospace;margin-top:10px;">
+      Island brightness encodes fitness (distance from centre). Agents shown in blue (Miners), green (Imitators), amber (Explorers). Green arcs = skill transfer during imitation. GDP mini-chart tracks aggregate output in real time.
+    </p>
+  </div>
+
+  <!-- Agent types + parameters side by side -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="reveal">
+    <div class="card" style="padding:20px;">
+      <div class="section-label">Agent Behaviour</div>
+      <div style="display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span class="chip-miner">Miner</span>
+          <p style="font-size:13px;color:#94a3b8;line-height:1.5;margin:0;">Stays on current island. Output ∝ island fitness × own skill. Skills accumulate with each step.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span class="chip-imitator">Imitator</span>
+          <p style="font-size:13px;color:#94a3b8;line-height:1.5;margin:0;">Moves to the best visible agent's island and attempts skill transfer with probability <span style="color:#4f8ef7;font-family:monospace;">φ</span>.</p>
+        </div>
+        <div style="display:flex;gap:12px;align-items:flex-start;">
+          <span class="chip-explorer">Explorer</span>
+          <p style="font-size:13px;color:#94a3b8;line-height:1.5;margin:0;">Searches for new islands. Switches to a random island with probability <span style="color:#4f8ef7;font-family:monospace;">ε</span> each period.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="padding:20px;">
+      <div class="section-label">Parameters</div>
+      <table style="width:100%;font-size:12px;border-collapse:collapse;">
+        <thead>
+          <tr style="border-bottom:1px solid #1f2937;">
+            <th style="text-align:left;padding:4px 8px 8px 0;color:#6b7280;font-weight:500;">Symbol</th>
+            <th style="text-align:left;padding:4px 8px 8px;color:#6b7280;font-weight:500;">Meaning</th>
+            <th style="text-align:right;padding:4px 0 8px;color:#6b7280;font-weight:500;">Baseline</th>
+          </tr>
+        </thead>
+        <tbody id="param-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- MultiVeStA explanation -->
+  <div class="card reveal" style="padding:20px;margin-top:20px;background:rgba(79,142,247,0.04);border-color:rgba(79,142,247,0.2);">
+    <div class="section-label" style="color:#4f8ef7;">Why MultiVeStA?</div>
+    <p style="font-size:13px;color:#94a3b8;line-height:1.7;margin:0;max-width:900px;">
+      Standard Monte Carlo uses a fixed number of runs with no guarantee on estimation quality.
+      <strong style="color:#e2e8f0;">MultiVeStA</strong> applies sequential statistical model checking: it runs simulations adaptively, stopping only when the 95% confidence interval on E[logGDP] is narrower than <span style="font-family:monospace;color:#4f8ef7;">δ = 0.05</span> at every time step.
+      This provides a <em>formal precision guarantee</em> — the sample size is determined by the data, not by the experimenter.
+    </p>
+  </div>
+</section>
+
+
+<!-- ── PARAMETER EXPLORER ──────────────────────────────────────────────────── -->
+<section id="explorer" style="max-width:1100px;margin:0 auto;padding:0 24px 80px;">
+  <hr class="section-divider" />
+  <div class="section-label reveal">Parameter Explorer</div>
+  <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;" class="reveal">Interactive Sensitivity Analysis</h2>
+  <p style="color:#94a3b8;margin-bottom:36px;max-width:680px;" class="reveal">
+    Run MultiVeStA analysis interactively. Select a parameter, choose values to compare, and watch the sequential sampling converge.
+    Select a parameter, choose values, and watch MultiVeStA's sequential sampling converge in real time.
+  </p>
+
+  <!-- Param selector -->
+  <div class="reveal" style="margin-bottom:24px;">
+    <div class="section-label">Select Parameter</div>
+    <div id="param-pills" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
+  </div>
+
+  <!-- Param description + paper note -->
+  <div id="param-info" class="card reveal" style="padding:18px 20px;margin-bottom:24px;display:none;">
+    <div id="param-description" style="color:#94a3b8;font-size:14px;line-height:1.6;"></div>
+    <div id="param-paper-note" style="margin-top:8px;font-size:12px;font-family:monospace;color:#6b7280;"></div>
+  </div>
+
+  <!-- Value selector -->
+  <div class="card reveal" style="padding:20px;margin-bottom:24px;">
+    <div class="section-label">Select Values to Compare</div>
+    <div id="value-checkboxes" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;"></div>
+    <div style="display:flex;gap:10px;">
+      <button onclick="selectAll()" style="font-size:11px;font-family:monospace;color:#4f8ef7;border:1px solid rgba(79,142,247,.3);background:transparent;padding:5px 12px;border-radius:6px;cursor:pointer;" onmouseover="this.style.background='rgba(79,142,247,.1)'" onmouseout="this.style.background='transparent'">Select All</button>
+      <button onclick="selectPaper()" style="font-size:11px;font-family:monospace;color:#22c55e;border:1px solid rgba(34,197,94,.3);background:transparent;padding:5px 12px;border-radius:6px;cursor:pointer;" onmouseover="this.style.background='rgba(34,197,94,.1)'" onmouseout="this.style.background='transparent'">Paper Values</button>
+      <button onclick="clearAll()" style="font-size:11px;font-family:monospace;color:#6b7280;border:1px solid #1f2937;background:transparent;padding:5px 12px;border-radius:6px;cursor:pointer;" onmouseover="this.style.background='rgba(255,255,255,.04)'" onmouseout="this.style.background='transparent'">Clear</button>
+    </div>
+  </div>
+
+  <!-- Terminal + Run -->
+  <div class="card reveal" style="padding:20px;margin-bottom:24px;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+      <div class="section-label" style="margin:0;">MultiVeStA Simulation Log</div>
+      <button id="run-btn" onclick="runSim()" class="run-btn">▶ Run MultiVeStA Analysis</button>
+    </div>
+    <div class="terminal" id="sim-terminal">
+      <span class="log-dim">// Select a parameter and values, then click Run</span>
+    </div>
+  </div>
+
+  <!-- Chart (hidden until run) -->
+  <div class="card reveal" id="chart-card" style="padding:24px;display:none;">
+    <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:4px;">
+      <div>
+        <div class="section-label" style="margin:0 0 4px;" id="chart-title"></div>
+        <p id="chart-desc" style="font-size:13px;color:#6b7280;margin:0;max-width:680px;"></p>
+      </div>
+      <div id="chart-badges" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
+    </div>
+    <div id="sweep-chart" style="height:420px;margin-top:16px;"></div>
+    <p id="chart-note" style="font-size:11px;font-family:monospace;color:#4b5563;margin-top:10px;"></p>
+  </div>
+
+  <!-- AGR chart (always shown) -->
+  <div class="card reveal" style="padding:24px;margin-top:24px;">
+    <div class="section-label">ε — Average Growth Rate at t=201 <span class="badge-paper" style="margin-left:8px;">In paper</span></div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">AGR peaks at ε ≈ 0.1: moderate exploration maximises long-run growth. Zero exploration → stagnation. Full exploration → wasted effort.</p>
+    <div id="agr-chart" style="height:300px;"></div>
+  </div>
+</section>
+
+
+<!-- ── KEY FINDINGS ────────────────────────────────────────────────────────── -->
+<section id="findings" style="max-width:1100px;margin:0 auto;padding:0 24px 80px;">
+  <hr class="section-divider" />
+  <div class="section-label reveal">Key Findings</div>
+  <h2 style="font-size:28px;font-weight:700;margin-bottom:36px;" class="reveal">Results &amp; Statistical Validation</h2>
+
+  <!-- 3 metrics -->
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px;" class="reveal">
+    <div class="metric-card" style="background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.2);">
+      <div style="font-size:32px;font-weight:800;font-family:monospace;color:#4f8ef7;margin-bottom:6px;">6/7</div>
+      <div style="font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">Counterfactuals significant</div>
+      <div style="font-size:12px;color:#6b7280;">Welch t-test at every timestep. Only ρ=3.0 vs ρ=5.0 reveals saturation.</div>
+    </div>
+    <div class="metric-card" style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);">
+      <div style="font-size:32px;font-weight:800;font-family:monospace;color:#22c55e;margin-bottom:6px;">ε≈0.1</div>
+      <div style="font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">Optimal exploration rate</div>
+      <div style="font-size:12px;color:#6b7280;">Confirmed via AGR sweep — robust finding from Fagiolo &amp; Dosi (2003).</div>
+    </div>
+    <div class="metric-card" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);">
+      <div style="font-size:32px;font-weight:800;font-family:monospace;color:#f59e0b;margin-bottom:6px;">δ=0.05</div>
+      <div style="font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">Formal CI guarantee</div>
+      <div style="font-size:12px;color:#6b7280;">MultiVeStA auto-selects sample size — no arbitrary fixed run count.</div>
+    </div>
+  </div>
+
+  <!-- Convergence cards -->
+  <div class="card reveal" style="padding:24px;margin-bottom:24px;">
+    <div class="section-label">Convergence by Parameter</div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">Convergence (δ=1) is governed by output variance. Only low-variance regimes converge within δ=0.05.</p>
+    <div id="convergence-cards" style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;"></div>
+  </div>
+
+  <!-- Counterfactuals -->
+  <div class="card reveal" style="padding:24px;margin-bottom:24px;">
+    <div class="section-label">Counterfactual Analysis (Welch t-test, α<sub>conf</sub>=0.05)</div>
+    <div id="counterfactual-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;margin-top:12px;"></div>
+  </div>
+
+  <!-- Stylized facts -->
+  <div class="card reveal" style="padding:24px;">
+    <div class="section-label">Stylized Facts Reproduced</div>
+    <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">The refactored MATLAB model reproduces all stylized facts of Fagiolo &amp; Dosi (2003).</p>
+    <img src="fig_stylized_facts.png" alt="Stylized Facts" style="max-width:100%;border-radius:8px;border:1px solid #1f2937;display:block;margin:0 auto;" />
+  </div>
+</section>
+
+
+<!-- ── CODE / REPLICABILITY ────────────────────────────────────────────────── -->
+<section id="code" style="max-width:1100px;margin:0 auto;padding:0 24px 80px;">
+  <hr class="section-divider" />
+  <div class="section-label reveal">Replicability</div>
+  <h2 style="font-size:28px;font-weight:700;margin-bottom:36px;" class="reveal">Code &amp; Replicability Package</h2>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="reveal">
+    <div class="card" style="padding:24px;">
+      <div class="section-label">Package Contents</div>
+      <ul style="list-style:none;padding:0;margin:0;font-family:monospace;font-size:12px;color:#94a3b8;line-height:2;">
+        <li>📁 Model2.m — Main MATLAB model (218 lines)</li>
+        <li>📁 Agent.m — Agent class</li>
+        <li>📁 AGR.m — Average Growth Rate</li>
+        <li>📁 *.multiquatex — MultiVeStA queries</li>
+        <li>📁 mvMatlab.jar — MultiVeStA engine (Java)</li>
+        <li>📁 run.sh — One-click sweep launcher</li>
+        <li>📁 plot_*.py — Result visualisation scripts</li>
+      </ul>
+    </div>
+    <div class="card" style="padding:24px;">
+      <div class="section-label">MultiQuaTEx Queries</div>
+      <div style="margin-bottom:12px;">
+        <div style="font-size:10px;font-family:monospace;color:#4f8ef7;margin-bottom:6px;">logGDPaftersteps.multiquatex</div>
+        <pre style="background:#050810;border:1px solid #1f2937;border-radius:6px;padding:10px;font-size:11px;color:#22c55e;overflow-x:auto;margin:0;"><span style="color:#4f8ef7;">eval</span> obsAtStep(<span style="color:#f59e0b;">x</span>; logGDP) <span style="color:#4f8ef7;">in</span> [1..201 <span style="color:#4f8ef7;">step</span> 10]
+<span style="color:#4f8ef7;">with</span> confidence 0.95 <span style="color:#4f8ef7;">and</span> delta 0.05;</pre>
+      </div>
+      <div>
+        <div style="font-size:10px;font-family:monospace;color:#4f8ef7;margin-bottom:6px;">AGRfinal.multiquatex</div>
+        <pre style="background:#050810;border:1px solid #1f2937;border-radius:6px;padding:10px;font-size:11px;color:#22c55e;overflow-x:auto;margin:0;"><span style="color:#4f8ef7;">eval</span> obsAtStep(201.0; AGR_total)
+<span style="color:#4f8ef7;">with</span> confidence 0.95 <span style="color:#4f8ef7;">and</span> delta 0.05;</pre>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-top:24px;flex-wrap:wrap;" class="reveal">
+    <a href="https://github.com/andrea-vandin/MultiVeStA" target="_blank" class="run-btn" style="font-size:13px;">🔬 MultiVeStA on GitHub</a>
+  </div>
+</section>
+
+<!-- ── FOOTER ──────────────────────────────────────────────────────────────── -->
+<footer style="border-top:1px solid #1f2937;padding:24px;text-align:center;font-family:monospace;font-size:11px;color:#374151;">
+  Island Model + MultiVeStA · MARS @ ETAPS 2026 · Blando · Vandin · Fagiolo · Scuola Superiore Sant'Anna · Univ. Pisa
+</footer>
+
+<!-- Scripts — load after data.js -->
+<script src="js/simulation.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/main.js"></script>
+
+</body>
+</html>
