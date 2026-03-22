@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
   buildCounterfactuals();
   buildConvergenceCards(D);
   buildAGRChart(D.agr_eps);
+  buildStylizedFactsChart(D);
   startIslandAnimation();
   initScrollReveal();
   initNavHighlight();

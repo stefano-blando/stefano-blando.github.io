@@ -70,6 +70,55 @@ function renderSweepChart(paramData, selected) {
   }
 }
 
+// ── Stylized facts chart — baseline vs stagnation ─────────────────────────────
+function buildStylizedFactsChart(D) {
+  const el = document.getElementById('stylized-facts-chart');
+  if (!el) return;
+
+  const baseline = D.rho?.series?.find(s => s.note === 'baseline');
+  const stag = D.stagnation;
+  if (!baseline || !stag) return;
+
+  const mkRibbon = (series, color) => ({
+    x: [...series.map(p => p.x), ...series.map(p => p.x).reverse()],
+    y: [...series.map(p => p.mean + p.ci), ...series.map(p => p.mean - p.ci).reverse()],
+    fill: 'toself', fillcolor: color + '22',
+    line: { color: 'transparent' }, hoverinfo: 'skip', showlegend: false,
+  });
+
+  const mkLine = (series, color, name, dash) => ({
+    x: series.map(p => p.x),
+    y: series.map(p => p.mean),
+    mode: 'lines+markers', name,
+    line: { color, width: 2.5, dash: dash || 'solid' },
+    marker: { size: 5, color },
+    hovertemplate: `<b>${name}</b><br>t=%{x}<br>E[logGDP]=%{y:.3f}<extra></extra>`,
+  });
+
+  Plotly.newPlot(el, [
+    mkRibbon(baseline.series, '#22c55e'),
+    mkLine(baseline.series, '#22c55e', 'Baseline (ε=0.1, ρ=0.1)'),
+    mkRibbon(stag.series, '#f59e0b'),
+    mkLine(stag.series, '#f59e0b', 'Stagnation (ε=0)', 'dash'),
+  ], {
+    paper_bgcolor: 'transparent', plot_bgcolor: '#050810',
+    font: { family: 'Inter', color: '#94a3b8', size: 11 },
+    margin: { t: 16, r: 20, b: 50, l: 60 },
+    xaxis: { title: { text: 'Time step' }, gridcolor: '#1f2937', color: '#6b7280', zeroline: false },
+    yaxis: { title: { text: 'E[log GDP]' }, gridcolor: '#1f2937', color: '#6b7280', zeroline: false },
+    legend: { bgcolor: 'rgba(17,24,39,.9)', bordercolor: '#1f2937', borderwidth: 1, font: { family: 'JetBrains Mono', size: 10 } },
+    hovermode: 'x unified',
+    annotations: [{
+      x: 101, y: stag.series.find(p => p.x === 101)?.mean ?? 10.25,
+      xref: 'x', yref: 'y',
+      text: 'Plateau — stagnation',
+      showarrow: true, arrowhead: 2, arrowcolor: '#f59e0b',
+      font: { color: '#f59e0b', size: 10, family: 'JetBrains Mono' },
+      ax: 40, ay: -30,
+    }],
+  }, { responsive: true, displayModeBar: false });
+}
+
 // ── AGR chart ─────────────────────────────────────────────────────────────────
 function buildAGRChart(agrData) {
   const el = document.getElementById('agr-chart');
