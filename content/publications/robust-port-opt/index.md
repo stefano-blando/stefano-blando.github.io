@@ -36,6 +36,8 @@ featured: true
 
 # Custom links (optional).
 links:
+- name: Interactive Explorer
+  url: /pfse-app/
 - name: Supervisor
   url: https://economia.uniroma2.it/faculty/563/farcomeni-alessio
 - name: Code

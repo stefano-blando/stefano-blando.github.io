@@ -41,13 +41,13 @@
 
     .section-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 10px; letter-spacing: .15em; text-transform: uppercase;
-      color: #4f8ef7; margin-bottom: 8px;
+      font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+      color: #4f8ef7; margin-bottom: 10px;
     }
 
-    .badge-paper    { background:rgba(34,197,94,.15);  color:#22c55e; border:1px solid rgba(34,197,94,.3);  border-radius:999px; padding:2px 8px; font-size:11px; font-family:monospace; }
-    .badge-extended { background:rgba(245,158,11,.15); color:#f59e0b; border:1px solid rgba(245,158,11,.3); border-radius:999px; padding:2px 8px; font-size:11px; font-family:monospace; }
-    .badge-venue    { background:rgba(79,142,247,.15); color:#4f8ef7; border:1px solid rgba(79,142,247,.3);  border-radius:999px; padding:2px 8px; font-size:11px; font-family:monospace; }
+    .badge-paper    { background:rgba(34,197,94,.15);  color:#22c55e; border:1px solid rgba(34,197,94,.3);  border-radius:999px; padding:3px 10px; font-size:12px; font-family:monospace; }
+    .badge-extended { background:rgba(245,158,11,.15); color:#f59e0b; border:1px solid rgba(245,158,11,.3); border-radius:999px; padding:3px 10px; font-size:12px; font-family:monospace; }
+    .badge-venue    { background:rgba(79,142,247,.15); color:#4f8ef7; border:1px solid rgba(79,142,247,.3);  border-radius:999px; padding:3px 10px; font-size:12px; font-family:monospace; }
 
     /* Animated gradient title */
     .gradient-title {
@@ -57,16 +57,16 @@
     }
 
     /* Nav links */
-    .nav-link { color: #6b7280; font-size: 13px; transition: color .2s; }
+    .nav-link { color: #6b7280; font-size: 14px; transition: color .2s; }
     .nav-link:hover, .nav-link.active { color: #e2e8f0; }
     .nav-link.active { color: #4f8ef7; }
 
     /* Terminal */
     .terminal {
       background: #050810; border: 1px solid #1f2937; border-radius: 10px;
-      font-family: 'JetBrains Mono', monospace; font-size: 12px; color: #22c55e;
-      padding: 16px; min-height: 200px; max-height: 300px; overflow-y: auto;
-      line-height: 1.7;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #22c55e;
+      padding: 18px; min-height: 260px; max-height: 380px; overflow-y: auto;
+      line-height: 1.8;
     }
     .log-dim  { color: #1f2937; }
     .log-info { color: #4f8ef7; }
@@ -89,7 +89,7 @@
     .val-label {
       display: flex; align-items: center; gap: 6px;
       padding: 6px 14px; border-radius: 8px; cursor: pointer;
-      font-family: 'JetBrains Mono', monospace; font-size: 12px;
+      font-family: 'JetBrains Mono', monospace; font-size: 13px;
       border: 1px solid #1f2937; background: #080c14; color: #6b7280;
       transition: all .15s; user-select: none;
     }
@@ -99,7 +99,7 @@
 
     /* Param pills */
     .param-pill {
-      padding: 8px 16px; border-radius: 10px; cursor: pointer; font-size: 13px;
+      padding: 9px 18px; border-radius: 10px; cursor: pointer; font-size: 14px;
       border: 1px solid #1f2937; background: #111827; color: #6b7280;
       transition: all .2s; white-space: nowrap;
     }
@@ -127,7 +127,7 @@
 
 <!-- ── HEADER ──────────────────────────────────────────────────────────────── -->
 <header id="header" style="position:sticky;top:0;z-index:50;background:rgba(10,14,26,.88);backdrop-filter:blur(14px);border-bottom:1px solid #1f2937;">
-  <div style="max-width:1100px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;">
+  <div style="max-width:1480px;margin:0 auto;padding:12px 32px;display:flex;align-items:center;justify-content:space-between;">
     <div style="display:flex;align-items:center;gap:12px;">
       <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,#4f8ef7,#6366f1);display:flex;align-items:center;justify-content:center;font-family:monospace;font-weight:700;font-size:13px;color:#fff;">IM</div>
       <span style="font-size:14px;font-weight:600;color:#e2e8f0;">Island Model + MultiVeStA</span>
@@ -144,7 +144,7 @@
 
 
 <!-- ── HERO ────────────────────────────────────────────────────────────────── -->
-<section style="max-width:1100px;margin:0 auto;padding:72px 24px 48px;">
+<section style="max-width:1480px;margin:0 auto;padding:72px 32px 48px;">
   <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
     <span class="badge-venue">MARS @ ETAPS 2026</span>
     <span class="badge-paper">Accepted</span>
@@ -152,13 +152,13 @@
     <span style="background:rgba(236,72,153,.12);color:#f472b6;border:1px solid rgba(236,72,153,.25);border-radius:999px;padding:2px 8px;font-size:11px;font-family:monospace;">ABM</span>
   </div>
 
-  <h1 style="font-size:clamp(26px,4vw,44px);font-weight:700;line-height:1.15;margin-bottom:12px;" class="gradient-title">
+  <h1 style="font-size:clamp(30px,3.8vw,52px);font-weight:700;line-height:1.15;margin-bottom:14px;" class="gradient-title">
     Statistical Model Checking<br>of an Island Model for Economic Growth
   </h1>
-  <p style="color:#94a3b8;font-size:15px;margin-bottom:20px;font-family:'JetBrains Mono',monospace;">
+  <p style="color:#94a3b8;font-size:16px;margin-bottom:22px;font-family:'JetBrains Mono',monospace;">
     Stefano Blando &nbsp;·&nbsp; Andrea Vandin &nbsp;·&nbsp; Giorgio Fagiolo
   </p>
-  <p id="abstract-text" style="color:#cbd5e1;line-height:1.75;max-width:760px;font-size:15px;"></p>
+  <p id="abstract-text" style="color:#cbd5e1;line-height:1.8;max-width:860px;font-size:16px;"></p>
 
   <div style="display:flex;gap:12px;margin-top:28px;flex-wrap:wrap;">
     <a href="#" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;border:1px solid #1f2937;color:#e2e8f0;font-size:13px;transition:all .2s;" onmouseover="this.style.borderColor='#4f8ef7'" onmouseout="this.style.borderColor='#1f2937'">📄 Paper PDF</a>
@@ -169,10 +169,10 @@
 
 
 <!-- ── MODEL ───────────────────────────────────────────────────────────────── -->
-<section id="model" style="max-width:1100px;margin:0 auto;padding:0 24px 80px;">
+<section id="model" style="max-width:1480px;margin:0 auto;padding:0 32px 80px;">
   <hr class="section-divider" style="margin-top:0;" />
   <div class="section-label reveal">The Model</div>
-  <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;" class="reveal">Technology Space &amp; Agent Dynamics</h2>
+  <h2 style="font-size:32px;font-weight:700;margin-bottom:8px;" class="reveal">Technology Space &amp; Agent Dynamics</h2>
   <p style="color:#94a3b8;margin-bottom:32px;max-width:760px;" class="reveal">
     The economy is a <strong style="color:#e2e8f0;">T×T grid of islands</strong> — each a productive niche with fitness increasing with distance from the centre.
     20 agents choose each period whether to <span class="chip-miner" style="font-size:11px;">mine</span>, <span class="chip-imitator" style="font-size:11px;">imitate</span>, or <span class="chip-explorer" style="font-size:11px;">explore</span>.
@@ -242,10 +242,10 @@
 
 
 <!-- ── PARAMETER EXPLORER ──────────────────────────────────────────────────── -->
-<section id="explorer" style="max-width:1100px;margin:0 auto;padding:0 24px 80px;">
+<section id="explorer" style="max-width:1480px;margin:0 auto;padding:0 32px 80px;">
   <hr class="section-divider" />
   <div class="section-label reveal">Parameter Explorer</div>
-  <h2 style="font-size:28px;font-weight:700;margin-bottom:8px;" class="reveal">Interactive Sensitivity Analysis</h2>
+  <h2 style="font-size:32px;font-weight:700;margin-bottom:8px;" class="reveal">Interactive Sensitivity Analysis</h2>
   <p style="color:#94a3b8;margin-bottom:36px;max-width:680px;" class="reveal">
     Run MultiVeStA analysis interactively. Select a parameter, choose values to compare, and watch the sequential sampling converge.
     Select a parameter, choose values, and watch MultiVeStA's sequential sampling converge in real time.
@@ -259,7 +259,7 @@
 
   <!-- Param description + paper note -->
   <div id="param-info" class="card reveal" style="padding:18px 20px;margin-bottom:24px;display:none;">
-    <div id="param-description" style="color:#94a3b8;font-size:14px;line-height:1.6;"></div>
+    <div id="param-description" style="color:#94a3b8;font-size:15px;line-height:1.65;"></div>
     <div id="param-paper-note" style="margin-top:8px;font-size:12px;font-family:monospace;color:#6b7280;"></div>
   </div>
 
@@ -294,7 +294,7 @@
       </div>
       <div id="chart-badges" style="display:flex;gap:6px;flex-wrap:wrap;"></div>
     </div>
-    <div id="sweep-chart" style="height:420px;margin-top:16px;"></div>
+    <div id="sweep-chart" style="height:480px;margin-top:16px;"></div>
     <p id="chart-note" style="font-size:11px;font-family:monospace;color:#4b5563;margin-top:10px;"></p>
   </div>
 
@@ -302,32 +302,32 @@
   <div class="card reveal" style="padding:24px;margin-top:24px;">
     <div class="section-label">ε — Average Growth Rate at t=201 <span class="badge-paper" style="margin-left:8px;">In paper</span></div>
     <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">AGR peaks at ε ≈ 0.1: moderate exploration maximises long-run growth. Zero exploration → stagnation. Full exploration → wasted effort.</p>
-    <div id="agr-chart" style="height:300px;"></div>
+    <div id="agr-chart" style="height:360px;"></div>
   </div>
 </section>
 
 
 <!-- ── KEY FINDINGS ────────────────────────────────────────────────────────── -->
-<section id="findings" style="max-width:1100px;margin:0 auto;padding:0 24px 80px;">
+<section id="findings" style="max-width:1480px;margin:0 auto;padding:0 32px 80px;">
   <hr class="section-divider" />
   <div class="section-label reveal">Key Findings</div>
-  <h2 style="font-size:28px;font-weight:700;margin-bottom:36px;" class="reveal">Results &amp; Statistical Validation</h2>
+  <h2 style="font-size:32px;font-weight:700;margin-bottom:36px;" class="reveal">Results &amp; Statistical Validation</h2>
 
   <!-- 3 metrics -->
   <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px;" class="reveal">
     <div class="metric-card" style="background:rgba(79,142,247,.06);border:1px solid rgba(79,142,247,.2);">
       <div style="font-size:32px;font-weight:800;font-family:monospace;color:#4f8ef7;margin-bottom:6px;">6/7</div>
-      <div style="font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">Counterfactuals significant</div>
+      <div style="font-size:15px;font-weight:600;color:#e2e8f0;margin-bottom:5px;">Counterfactuals significant</div>
       <div style="font-size:12px;color:#6b7280;">Welch t-test at every timestep. Only ρ=3.0 vs ρ=5.0 reveals saturation.</div>
     </div>
     <div class="metric-card" style="background:rgba(34,197,94,.06);border:1px solid rgba(34,197,94,.2);">
       <div style="font-size:32px;font-weight:800;font-family:monospace;color:#22c55e;margin-bottom:6px;">ε≈0.1</div>
-      <div style="font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">Optimal exploration rate</div>
+      <div style="font-size:15px;font-weight:600;color:#e2e8f0;margin-bottom:5px;">Optimal exploration rate</div>
       <div style="font-size:12px;color:#6b7280;">Confirmed via AGR sweep — robust finding from Fagiolo &amp; Dosi (2003).</div>
     </div>
     <div class="metric-card" style="background:rgba(245,158,11,.06);border:1px solid rgba(245,158,11,.2);">
       <div style="font-size:32px;font-weight:800;font-family:monospace;color:#f59e0b;margin-bottom:6px;">δ=0.05</div>
-      <div style="font-size:14px;font-weight:600;color:#e2e8f0;margin-bottom:4px;">Formal CI guarantee</div>
+      <div style="font-size:15px;font-weight:600;color:#e2e8f0;margin-bottom:5px;">Formal CI guarantee</div>
       <div style="font-size:12px;color:#6b7280;">MultiVeStA auto-selects sample size — no arbitrary fixed run count.</div>
     </div>
   </div>
@@ -349,17 +349,17 @@
   <div class="card reveal" style="padding:24px;">
     <div class="section-label">Stylized Facts Reproduced</div>
     <p style="font-size:13px;color:#6b7280;margin-bottom:16px;">The refactored MATLAB model reproduces all stylized facts of Fagiolo &amp; Dosi (2003).</p>
-    <div id="stylized-facts-chart" style="height:360px;"></div>
+    <div id="stylized-facts-chart" style="height:420px;"></div>
     <p style="font-size:11px;font-family:monospace;color:#4b5563;margin-top:10px;">Ribbons = 95% CI &nbsp;·&nbsp; Baseline: ε=0.1 shows sustained growth &nbsp;·&nbsp; Stagnation: ε=0 plateau confirms exploration is necessary for long-run growth.</p>
   </div>
 </section>
 
 
 <!-- ── CODE / REPLICABILITY ────────────────────────────────────────────────── -->
-<section id="code" style="max-width:1100px;margin:0 auto;padding:0 24px 80px;">
+<section id="code" style="max-width:1480px;margin:0 auto;padding:0 32px 80px;">
   <hr class="section-divider" />
   <div class="section-label reveal">Replicability</div>
-  <h2 style="font-size:28px;font-weight:700;margin-bottom:36px;" class="reveal">Code &amp; Replicability Package</h2>
+  <h2 style="font-size:32px;font-weight:700;margin-bottom:36px;" class="reveal">Code &amp; Replicability Package</h2>
 
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;" class="reveal">
     <div class="card" style="padding:24px;">
@@ -395,7 +395,7 @@
 </section>
 
 <!-- ── FOOTER ──────────────────────────────────────────────────────────────── -->
-<footer style="border-top:1px solid #1f2937;padding:24px;text-align:center;font-family:monospace;font-size:11px;color:#374151;">
+<footer style="border-top:1px solid #1f2937;padding:24px 32px;text-align:center;font-family:monospace;font-size:11px;color:#374151;">
   Island Model + MultiVeStA · MARS @ ETAPS 2026 · Blando · Vandin · Fagiolo · Scuola Superiore Sant'Anna · Univ. Pisa
 </footer>
 

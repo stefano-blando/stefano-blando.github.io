@@ -55,7 +55,7 @@ function renderSweepChart(paramData, selected) {
 
   Plotly.newPlot(el, traces, {
     paper_bgcolor: 'transparent', plot_bgcolor: '#050810',
-    font: { family:'Inter', color:'#94a3b8', size:11 },
+    font: { family:'Inter', color:'#94a3b8', size:12 },
     margin: { t:20, r:20, b:50, l:58 },
     xaxis: { title:{text:'Time step'}, gridcolor:'#1f2937', color:'#6b7280', zeroline:false },
     yaxis: { title:{text:'E[log GDP]'}, gridcolor:'#1f2937', color:'#6b7280', zeroline:false },
@@ -102,18 +102,18 @@ function buildStylizedFactsChart(D) {
     mkLine(stag.series, '#f59e0b', 'Stagnation (ε=0)', 'dash'),
   ], {
     paper_bgcolor: 'transparent', plot_bgcolor: '#050810',
-    font: { family: 'Inter', color: '#94a3b8', size: 11 },
+    font: { family: 'Inter', color: '#94a3b8', size: 12 },
     margin: { t: 16, r: 20, b: 50, l: 60 },
     xaxis: { title: { text: 'Time step' }, gridcolor: '#1f2937', color: '#6b7280', zeroline: false },
     yaxis: { title: { text: 'E[log GDP]' }, gridcolor: '#1f2937', color: '#6b7280', zeroline: false },
-    legend: { bgcolor: 'rgba(17,24,39,.9)', bordercolor: '#1f2937', borderwidth: 1, font: { family: 'JetBrains Mono', size: 10 } },
+    legend: { bgcolor: 'rgba(17,24,39,.9)', bordercolor: '#1f2937', borderwidth: 1, font: { family: 'JetBrains Mono', size: 11 } },
     hovermode: 'x unified',
     annotations: [{
       x: 101, y: stag.series.find(p => p.x === 101)?.mean ?? 10.25,
       xref: 'x', yref: 'y',
       text: 'Plateau — stagnation',
       showarrow: true, arrowhead: 2, arrowcolor: '#f59e0b',
-      font: { color: '#f59e0b', size: 10, family: 'JetBrains Mono' },
+      font: { color: '#f59e0b', size: 11, family: 'JetBrains Mono' },
       ax: 40, ay: -30,
     }],
   }, { responsive: true, displayModeBar: false });
@@ -147,7 +147,7 @@ function buildAGRChart(agrData) {
     },
   ], {
     paper_bgcolor:'transparent', plot_bgcolor:'#050810',
-    font:{family:'Inter',color:'#94a3b8',size:11},
+    font:{family:'Inter',color:'#94a3b8',size:12},
     margin:{t:10,r:20,b:50,l:70},
     xaxis:{title:{text:'ε (exploration probability)'},gridcolor:'#1f2937',color:'#6b7280',zeroline:false},
     yaxis:{title:{text:'Average Growth Rate'},gridcolor:'#1f2937',color:'#6b7280',zeroline:false},
