@@ -32,7 +32,7 @@ it:
       locale:
         date_format: "2 Jan 2006"
         time_format: "15:04"
-        address_format: it
+        address_format: en-gb
   menu:
     main:
       - name: Profilo
