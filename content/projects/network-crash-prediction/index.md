@@ -15,7 +15,7 @@ links:
     url: https://github.com/stefano-blando/systemic-risk-prediction
   - icon: hero/document-text
     name: Paper
-    url: /publications/network-crash-prediction/
+    url: /en/publications/network-crash-prediction/
 ---
 
 This project corresponds to my CESMA thesis on **systemic risk prediction in U.S. equity markets**. The underlying question is simple but important: can network topology say something useful about market stress before standard indicators do?

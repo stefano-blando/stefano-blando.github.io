@@ -24,6 +24,6 @@ The project combines **network science**, **contagion modeling**, and **agentic 
 
 What I like most about this project is that it sits exactly at the boundary between my research interests and practical prototyping: financial networks, complex systems, decision support, and AI agents all in the same tool.
 
-👉 **[View the project page](/projects/risk-sentinel/)**  
+👉 **[View the project page]({{< relref "/projects/risk-sentinel/index.md" >}})**  
 GitHub: **[risk-sentinel](https://github.com/stefano-blando/risk-sentinel)**  
 App: **[Streamlit demo](https://risk-sentinel-hxq8pzyujwbmbokegefcaq.streamlit.app/)**

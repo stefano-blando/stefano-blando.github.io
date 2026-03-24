@@ -15,7 +15,7 @@ links:
     url: https://github.com/stefano-blando/nlp-semantic-network
   - icon: hero/document-text
     name: Paper
-    url: /publications/multi-method-validation-framework/
+    url: /en/publications/multi-method-validation-framework/
 ---
 
 This project is the technical implementation behind the publication **“A Multi-Method Validation Framework for Large-Scale Multilingual Text Analytics”** (JADT 2026, in review). It operationalizes the full analytical workflow used in the paper, from data preparation to cross-method validation and result comparison.

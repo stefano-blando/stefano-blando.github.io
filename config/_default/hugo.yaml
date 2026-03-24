@@ -15,7 +15,7 @@ baseURL: 'https://stefano-blando.github.io/'
 
 defaultContentLanguage: en
 hasCJKLanguage: false
-defaultContentLanguageInSubdir: false
+defaultContentLanguageInSubdir: true
 removePathAccents: true
 
 ############################

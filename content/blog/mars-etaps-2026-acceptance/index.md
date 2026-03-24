@@ -22,6 +22,6 @@ The work is co-authored with **Giorgio Fagiolo**, **Daniele Giachini**, **Andrea
 
 I will present it in **Turin, Italy, on Sunday, April 12, 2026**.
 
-📄 **[Read the paper](/publications/island-model-smc/)**
+📄 **[Read the paper]({{< relref "/publications/island-model-smc/index.md" >}})**
 
 For me, this is one of the clearest examples of the direction I want to push in my PhD work: giving complex simulation models stronger statistical foundations without losing their interpretability.

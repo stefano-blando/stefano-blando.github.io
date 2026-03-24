@@ -22,7 +22,7 @@ My thesis, titled **"Network Topology Analysis and Machine Learning Techniques f
 
 This work is directly connected to my ongoing research. You can explore the technical details and code in the dedicated sections of this portfolio:
 
-- 👉 **[View the Research Project](/projects/network-crash-prediction/)**
-- 📄 **[Read the Related Paper](/publications/network-crash-prediction/)**
+- 👉 **[View the Research Project]({{< relref "/projects/network-crash-prediction/index.md" >}})**
+- 📄 **[Read the Related Paper]({{< relref "/publications/network crash prediction/index.md" >}})**
 
 The master provided a strong foundation in advanced statistical methods and AI, which I am now applying to my PhD research at Scuola Superiore Sant'Anna.

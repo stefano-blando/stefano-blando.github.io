@@ -1,6 +1,5 @@
 ---
 title: "A Multi-Method Validation Framework for Large-Scale Multilingual Text Analytics"
-url: "/publications/multi-method-validation-framework/"
 authors:
 - me
 - "Domenica Fioredistella Iezzi"
@@ -44,7 +43,7 @@ url_pdf: ''
 url_code: ''
 url_dataset: ''
 url_poster: ''
-url_project: '/projects/nlp-semantic-network-analysis/'
+url_project: '/en/projects/nlp-semantic-network-analysis/'
 url_slides: ''
 url_source: ''
 url_video: ''

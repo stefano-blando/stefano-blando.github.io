@@ -32,7 +32,7 @@ featured: true
 
 links:
 - name: News
-  url: /blog/mars-etaps-2026-acceptance/
+  url: /en/blog/mars-etaps-2026-acceptance/
 - name: Interactive Explorer
   url: /island-model-app/
 

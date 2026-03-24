@@ -1,7 +1,7 @@
 ---
 title: "Network Topology Analysis and Machine Learning Techniques for Systemic Risk Prediction in U.S. Equity Markets"
 authors:
-- me  
+- me-it  
 date: "2026-01-15"
 doi: ""
 
@@ -16,12 +16,12 @@ publication_types: ["Thesis"]
 
 # Publication name and optional abbreviation (e.g. journal).
 publication: "University of Rome Tor Vergata - School of Economics and Finance"
-publication_short: "Master Thesis"
+publication_short: "Tesi di Master"
 
-abstract: "This paper investigates the predictive power of Graph Neural Networks (GNNs) in forecasting systemic risk events. By modelling financial markets as dynamic complex networks, we extract topological features that serve as early warning signals. The study demonstrates how these signals can be integrated into algorithmic trading strategies to mitigate downside risk during market turmoil, outperforming traditional benchmark models."
+abstract: "Questo lavoro indaga il potere predittivo delle Graph Neural Networks (GNN) nella previsione di eventi di rischio sistemico. Modellando i mercati finanziari come reti complesse dinamiche, estraiamo feature topologiche che agiscono come segnali di early warning. Lo studio mostra come tali segnali possano essere integrati in strategie di algorithmic trading per mitigare il downside risk durante fasi di turbolenza di mercato, superando benchmark tradizionali."
 
 # Summary. An optional shortened abstract.
-summary: "Leveraging Graph Neural Networks (GNNs) and complex network theory to detect early warning signals of systemic risk in financial markets."
+summary: "Uso di Graph Neural Networks (GNN) e teoria delle reti complesse per rilevare segnali di early warning del rischio sistemico nei mercati finanziari."
 
 tags:
 - Systemic Risk
@@ -44,7 +44,7 @@ url_pdf: ''
 url_code: ''
 url_dataset: ''
 url_poster: ''
-url_project: '/en/projects/network-crash-prediction/'
+url_project: '/it/projects/network-crash-prediction/'
 url_slides: ''
 url_source: ''
 url_video: ''
@@ -52,7 +52,7 @@ url_video: ''
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
 image:
-  caption: 'Network Topology Visualization'
+  caption: 'Visualizzazione della topologia di rete'
   focal_point: ""
   preview_only: false
 

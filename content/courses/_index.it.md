@@ -1,6 +1,6 @@
 ---
-title: Courses
-summary: My courses
+title: Corsi
+summary: I miei corsi
 type: landing
 draft: true
 
@@ -15,7 +15,7 @@ sections:
   - block: collection
     id: courses
     content:
-      title: Courses
+      title: Corsi
       filters:
         tag: Course
         kinds:

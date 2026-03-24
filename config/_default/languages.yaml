@@ -2,21 +2,51 @@
 #   Create a section for each of your site's languages.
 #   Documentation: https://docs.hugoblox.com/reference/language/
 
-# Default language
 en:
-  languageCode: en-us
-  # Uncomment for multi-lingual sites, and move English content into `en` sub-folder.
-  #contentDir: content/en
+  languageCode: en-US
+  languageName: English
+  title: Stefano Blando
+  weight: 1
+  params:
+    hugoblox:
+      identity:
+        tagline: PhD Candidate in Artificial Intelligence
+        description: Stefano Blando - PhD Candidate in AI at SSSA and UniPi. Research on agent-based models, graph neural networks, systemic risk, complex systems, and machine learning.
+      seo:
+        title: Stefano Blando | AI Researcher & PhD Candidate
+      locale:
+        address_format: en-gb
 
-# Uncomment the lines below to configure your website in a second language.
-#zh:
-#  languageCode: zh-Hans
-#  contentDir: content/zh
-#  title: Chinese website title...
-#  params:
-#    description: Site description in Chinese...
-#  menu:
-#    main:
-#      - name: 传
-#        url: '#about'
-#        weight: 1
+it:
+  languageCode: it-IT
+  languageName: Italiano
+  title: Stefano Blando
+  weight: 2
+  params:
+    hugoblox:
+      identity:
+        tagline: Dottorando in Intelligenza Artificiale
+        description: Stefano Blando - Dottorando in AI presso SSSA e UniPi. Ricerca su modelli agent-based, graph neural networks, rischio sistemico, sistemi complessi e machine learning.
+      seo:
+        title: Stefano Blando | Ricercatore AI e Dottorando
+      locale:
+        date_format: "2 Jan 2006"
+        time_format: "15:04"
+        address_format: it
+  menu:
+    main:
+      - name: Profilo
+        url: /
+        weight: 10
+      - name: Pubblicazioni
+        url: /#papers
+        weight: 11
+      - name: News
+        url: /#news
+        weight: 13
+      - name: Esperienza
+        url: experience/
+        weight: 20
+      - name: Progetti
+        url: projects/
+        weight: 30

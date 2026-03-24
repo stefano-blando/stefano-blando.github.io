@@ -19,7 +19,7 @@ links:
     url: /pfse-app/
   - icon: hero/document-text
     name: Paper
-    url: /publications/robust-port-opt/
+    url: /en/publications/robust-port-opt/
 ---
 
 This project introduces the **Parallel Factor Space Estimator (PFSE)**, a hybrid framework for robust covariance estimation that resolves a fundamental trade-off in institutional portfolio management: traditional robust estimators (MCD, Tyler) offer strong statistical guarantees but are computationally infeasible for daily rebalancing of 100+ assets, while efficient methods (Ledoit-Wolf, sample covariance) have zero breakdown point against systematic contamination.

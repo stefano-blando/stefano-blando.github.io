@@ -1,7 +1,7 @@
 ---
 title: "High-dimensional Robust Portfolio Optimization Under Contamination: A Factor-Analytic Approach"
 authors:
-- me
+- me-it
 - Alessio Farcomeni
 date: "2025-04-04"
 doi: ""
@@ -19,10 +19,10 @@ publication_types: ["Preprint / Working Paper"]
 publication: "Computational Economics (in review)"
 publication_short: "Computational Economics (in review)"
 
-abstract: "This thesis addresses the challenge of portfolio optimization in high-dimensional settings (p > n) affected by sparse contamination (outliers). By proposing a robust Factor-Analytic approach, the study demonstrates how to stabilize covariance matrix estimation against data anomalies. The resulting allocation strategies exhibit superior resilience and risk-adjusted returns compared to traditional Mean-Variance frameworks, especially during market shocks."
+abstract: "Questo lavoro affronta la sfida dell'ottimizzazione di portafoglio in contesti high-dimensional (p > n) affetti da contaminazione sparsa (outlier). Proponendo un approccio robust Factor-Analytic, lo studio mostra come stabilizzare la stima della matrice di covarianza contro anomalie nei dati. Le strategie di allocazione risultanti mostrano resilienza e rendimenti corretti per il rischio superiori rispetto ai framework Mean-Variance tradizionali, soprattutto durante shock di mercato."
 
 # Summary. An optional shortened abstract.
-summary: "Based on my MSc thesis, this paper is currently in review at Computational Economics and develops a robust framework for portfolio optimization under contamination."
+summary: "Basato sulla mia tesi magistrale, questo paper e attualmente in review presso Computational Economics e sviluppa un framework robusto per l'ottimizzazione di portafoglio sotto contaminazione."
 
 tags:
 - Quantitative Finance
@@ -47,7 +47,7 @@ url_pdf: ''
 url_code: ''
 url_dataset: ''
 url_poster: ''
-url_project: '/en/projects/robust-portfolio-optimization/'
+url_project: '/it/projects/robust-portfolio-optimization/'
 url_slides: ''
 url_source: ''
 url_video: ''
@@ -55,7 +55,7 @@ url_video: ''
 # Featured image
 # To use, add an image named `featured.jpg/png` to your page's folder.
 image:
-  caption: 'Robust Frontier'
+  caption: 'Frontiera robusta'
   focal_point: ""
   preview_only: false
 
