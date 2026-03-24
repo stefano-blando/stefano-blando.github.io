@@ -31,18 +31,18 @@ sections:
   - block: markdown
     content:
       title: '📚 Research Overview'
-      subtitle: 'Agent-Based Computational Economics meets Artificial Intelligence'
+      subtitle: 'AI, Agent-Based Modeling, and Economics'
       text: |
-        My research lies at the intersection of **Agent-Based Computational Economics** and **Artificial Intelligence**, within the National PhD Program in AI for Society (SSSA & UniPi).
+        I study how adaptive agents make decisions, interact through changing networks, and generate aggregate economic dynamics.
 
-          I develop **adaptive cognitive architectures** for economic agents that co-evolve their decision strategies and social connections within complex networks — moving beyond static equilibrium toward realistic, heterogeneous, and adaptive behavior.
+          My work combines **AI**, **agent-based modeling**, and **quantitative methods** to build economic simulations that are not only more flexible, but also more testable and empirically grounded.
 
 
         ### Core Research Pillars:
 
-        * **Adaptive Agents & Network Formation:** Designing multi-tier cognitive architectures (MARL + GNN) where agents learn *how* to learn, forming and rewiring economic networks endogenously. Exploring **Agentic AI** (LLM-based deliberative agents) as a novel layer for economic simulation.
-        * **Formal Validation & Statistical Model Checking:** Employing **Statistical Model Checking** (MultiVeStA) and HPC-driven analysis to rigorously validate agent-based models under structural uncertainty, bridging the gap between  theoretical simulations and empirical reality.
-        * **Robust Statistics & Functional Data Analysis:** Applying **robust high-dimensional methods** and Functional Data Analysis to ground complex models in real-world data — from macro-financial panel data to network topology signals for systemic risk detection.
+        * **Adaptive Multi-Agent Systems:** Designing agents that switch across heuristic, learned, and deliberative policies while their interaction networks evolve endogenously.
+        * **Statistical Verification of Simulations:** Using **statistical model checking** to evaluate agent-based models through explicit properties, parameter exploration, and convergence diagnostics.
+        * **Robust Quantitative Methods:** Applying robust statistics, network methods, and econometric tools to problems in systemic risk, portfolio allocation, and firm-level distress.
 
     design:
       columns: '1'
