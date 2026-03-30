@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!D) { console.error('ISLAND_DATA not loaded'); return; }
   window._sweepData = D;
 
+  populateAuthors(D.metadata);
   populateAbstract(D.metadata);
   populateParamTable(D.metadata);
   buildParamPills(D);
@@ -21,6 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setTimeout(() => selectParam('alpha'), 80);
 });
+
+function populateAuthors(meta) {
+  const el = document.getElementById('authors-text');
+  const authors = meta?.paper?.authors;
+  if (!el || !Array.isArray(authors) || authors.length === 0) return;
+  el.innerHTML = authors.join(' &nbsp;·&nbsp; ');
+}
 
 // ── Abstract ──────────────────────────────────────────────────────────────────
 function populateAbstract(meta) {

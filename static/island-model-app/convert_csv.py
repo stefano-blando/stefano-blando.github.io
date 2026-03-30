@@ -321,7 +321,13 @@ print(f"[OK] {out_path.name}  ({len(stag_points)} points)")
 metadata = {
     "paper": {
         "title": "Statistical Model Checking of an Island Model for Economic Growth",
-        "authors": ["Stefano Blando", "Andrea Vandin", "Giorgio Fagiolo"],
+        "authors": [
+            "Stefano Blando",
+            "Giorgio Fagiolo",
+            "Daniele Giachini",
+            "Andrea Vandin",
+            "Ernest Ivanaj",
+        ],
         "venue": "MARS @ ETAPS 2026",
         "series": "EPTCS",
         "status": "Accepted",
