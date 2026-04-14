@@ -15,6 +15,12 @@ links:
   - icon: hero/play-circle
     name: Interactive Explorer
     url: /island-model-app/
+  - icon: hero/document-text
+    name: Proceedings
+    url: https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?MARS2026.2
+  - icon: hero/book-open
+    name: Publication Page
+    url: /en/publications/island-model-smc/
   - icon: brands/github
     name: MultiVeStA
     url: https://github.com/andrea-vandin/MultiVeStA
@@ -25,6 +31,8 @@ This project reproduces and extends the **Fagiolo & Dosi (2003) Island Model** �
 The paper was accepted at **MARS @ ETAPS 2026** (Workshop on Models for Formal Analysis of Real Systems, European Joint Conferences on Theory and Practice of Software).
 
 *Work with Giorgio Fagiolo, Daniele Giachini, Andrea Vandin, and Ernest Ivanaj (Scuola Superiore Sant'Anna).*
+
+Related pages: **[Proceedings](https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?MARS2026.2)**, **[publication page](/en/publications/island-model-smc/)**, and **[presentation recap](/en/blog/mars-etaps-2026-presentation/)**.
 
 ## What the Model Does
 
@@ -47,4 +55,6 @@ Our analysis confirms the **optimality of moderate exploration** (ε ≈ 0.1), r
 The interactive app lets you explore the model live: watch agents move across the technology landscape, observe imitation cascades and exploration events, run MultiVeStA sensitivity analysis on α, φ, and ρ, and see how the sequential sampling converges.
 
 * **[Open Interactive Explorer](/island-model-app/)**
+* **[Read the proceedings version](https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?MARS2026.2)**
+* **[View the publication page](/en/publications/island-model-smc/)**
 * **[MultiVeStA on GitHub](https://github.com/andrea-vandin/MultiVeStA)**

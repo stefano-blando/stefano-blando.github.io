@@ -20,8 +20,10 @@ Il nostro paper, **"Statistical model checking of the Island Model: an establish
 
 Il lavoro e co-firmato con **Giorgio Fagiolo**, **Daniele Giachini**, **Andrea Vandin** ed **Ernest Ivanaj**. Il paper mostra come **statistical model checking** e **MultiVeStA** possano essere usati per rendere l'analisi dell'Island Model piu rigorosa, piu automatizzata e piu riproducibile, preservando al tempo stesso la sostanza economica del framework originale.
 
-Lo presentero a **Torino, domenica 12 aprile 2026**.
+L'ho presentato a **Torino, domenica 12 aprile 2026**.
 
-📄 **[Leggi il paper]({{< relref "/publications/island-model-smc/index.it.md" >}})**
+📄 **[Leggi la versione nei proceedings](https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?MARS2026.2)**  
+👉 **[Vai alla pagina della pubblicazione]({{< relref "/publications/island-model-smc/index.it.md" >}})**  
+🎤 **[Vedi il resoconto della presentazione]({{< relref "/blog/mars-etaps-2026-presentation/index.it.md" >}})**
 
 Per me, questo e uno degli esempi piu chiari della direzione che voglio dare al mio lavoro di dottorato: fornire basi statistiche piu forti ai modelli di simulazione complessi senza perderne l'interpretabilita.
