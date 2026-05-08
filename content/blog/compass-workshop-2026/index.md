@@ -26,7 +26,7 @@ I am particularly excited to be part of the **Organizing Committee** and to spea
 - **Where:** Scuola Superiore Sant'Anna, Piazza Martiri della Libertà, 33, Pisa (Room 3) & Online
 - **Program:** The day includes keynotes by Prabhani Kuruppumullage Don, Guido Germano, and Federica Casarosa, followed by three panels dedicated to modeling, legal ethics, and economic complexity.
 
-📄 **[Download the full program (PDF)]({{< relref "/uploads/Locandina_COMPASS.pdf" >}})**  
+📄 **[Download the full program (PDF)](/uploads/Locandina_COMPASS.pdf)**  
 🔗 **[Event Website](https://compass-workshop-ai.github.io/compass-workshop/en/)** (Registration is required for the online link)
 
 I look forward to seeing many of you there!

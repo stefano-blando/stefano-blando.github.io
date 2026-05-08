@@ -26,7 +26,7 @@ Sono particolarmente entusiasta di far parte del **Comitato Organizzatore** e di
 - **Dove:** Scuola Superiore Sant'Anna, Piazza Martiri della Libertà, 33, Pisa (Aula 3) e Online
 - **Programma:** La giornata prevede i keynote di Prabhani Kuruppumullage Don, Guido Germano e Federica Casarosa, seguiti da tre panel dedicati a modellazione, etica legale e complessità economica.
 
-📄 **[Scarica il programma completo (PDF)]({{< relref "/uploads/Locandina_COMPASS.pdf" >}})**  
+📄 **[Scarica il programma completo (PDF)](/uploads/Locandina_COMPASS.pdf)**  
 🔗 **[Sito dell'evento](https://compass-workshop-ai.github.io/compass-workshop/en/)** (La registrazione è obbligatoria per ricevere il link per la partecipazione online)
 
 Vi aspetto!
