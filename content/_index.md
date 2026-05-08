@@ -16,7 +16,7 @@ sections:
       text: ''
       button:
         text: Download CV
-        url: /uploads/resume.pdf
+        url: https://stefano-blando.github.io/uploads/resume.pdf
     design:
       background:
         gradient_mesh:
