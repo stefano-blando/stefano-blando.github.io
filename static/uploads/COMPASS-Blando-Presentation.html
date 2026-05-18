@@ -1,0 +1,1742 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Network Topology & ML for Systemic Risk — Thesis Defense</title>
+<meta name="viewport" content="width=1920, initial-scale=1" />
+<style>
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 300 700;
+    font-display: swap;
+    src: url('fonts/inter.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400 600;
+    font-display: swap;
+    src: url('fonts/jetbrains-mono.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Fraunces';
+    font-style: normal;
+    font-weight: 300 400;
+    font-display: swap;
+    src: url('fonts/fraunces.woff2') format('woff2');
+  }
+</style>
+<style>
+  :root {
+    --bg-0: #0A0B0F;
+    --bg-1: #11131A;
+    --bg-2: #181B25;
+    --line: rgba(232, 234, 240, 0.08);
+    --line-2: rgba(232, 234, 240, 0.16);
+    --ink-0: #F4F5F8;
+    --ink-1: #E8EAED;
+    --ink-2: #A6ABB8;
+    --ink-3: #6B7180;
+    --cyan: oklch(0.78 0.12 220);
+    --cyan-dim: oklch(0.5 0.08 220);
+    --cyan-glow: oklch(0.78 0.18 220 / 0.22);
+    --amber: oklch(0.78 0.13 70);
+    --amber-dim: oklch(0.5 0.09 70);
+    --amber-glow: oklch(0.78 0.2 70 / 0.22);
+    --crimson: oklch(0.62 0.18 28);
+    --green: oklch(0.72 0.12 155);
+    --sans: 'Inter', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+    --display: 'Fraunces', 'Inter', serif;
+  }
+
+  html, body {
+    margin: 0; padding: 0;
+    background: var(--bg-0);
+    color: var(--ink-1);
+    font-family: var(--sans);
+    overflow: hidden;
+  }
+
+  deck-stage {
+    background: var(--bg-0) !important;
+    --deck-stage-canvas-bg: var(--bg-0);
+  }
+
+  section {
+    background: var(--bg-0);
+    color: var(--ink-1);
+    font-family: var(--sans);
+    box-sizing: border-box;
+    padding: 70px 110px 110px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* shared atoms */
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 18px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    font-weight: 500;
+  }
+  .eyebrow .dot { color: var(--cyan); margin-right: 14px; }
+  .kicker { color: var(--cyan); font-family: var(--mono); font-size: 18px; letter-spacing: 0.16em; text-transform: uppercase; }
+
+  h1, h2, h3 { margin: 0; font-weight: 500; letter-spacing: -0.02em; color: var(--ink-0); text-wrap: balance; }
+  h1 { font-size: 116px; line-height: 0.98; letter-spacing: -0.035em; font-weight: 300; }
+  h2 { font-size: 80px; line-height: 1.02; letter-spacing: -0.03em; font-weight: 400; }
+  h3 { font-size: 44px; line-height: 1.1; }
+
+  p, li { font-size: 26px; line-height: 1.55; color: var(--ink-1); text-wrap: pretty; }
+  .lead { font-size: 34px; line-height: 1.45; color: var(--ink-1); max-width: 28ch; }
+
+  .num { font-family: var(--mono); font-feature-settings: "tnum"; }
+  .display-num {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 220px;
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--ink-0);
+  }
+
+  .footer {
+    position: absolute;
+    bottom: 28px;
+    left: 110px;
+    right: 110px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .footer .left { display: flex; gap: 32px; align-items: center; }
+  .footer .pill {
+    border: 1px solid var(--line-2);
+    padding: 6px 12px;
+    border-radius: 999px;
+    color: var(--ink-2);
+  }
+
+  .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 80px 80px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse at center, black 30%, transparent 80%);
+    z-index: -1;
+  }
+
+  /* ambient grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: -100%;
+    z-index: 1000;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3C%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    pointer-events: none;
+    animation: grain 8s steps(10) infinite;
+  }
+  @keyframes grain {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-5%, -10%); }
+    20% { transform: translate(-15%, 5%); }
+    30% { transform: translate(7%, -25%); }
+    40% { transform: translate(-5%, 25%); }
+    50% { transform: translate(-15%, 10%); }
+    60% { transform: translate(15%, 0%); }
+    70% { transform: translate(0%, 15%); }
+    80% { transform: translate(3%, 35%); }
+    90% { transform: translate(-10%, 10%); }
+  }
+
+  /* dynamic glow */
+  .ambient-glow {
+    position: fixed;
+    width: 60vw;
+    height: 60vw;
+    background: radial-gradient(circle, var(--cyan-glow) 0%, transparent 70%);
+    top: -20vw;
+    right: -20vw;
+    pointer-events: none;
+    z-index: -2;
+    filter: blur(80px);
+    opacity: 0.5;
+    animation: glow-drift 20s ease-in-out infinite alternate;
+  }
+  @keyframes glow-drift {
+    from { transform: translate(0, 0) scale(1); }
+    to { transform: translate(-10vw, 10vw) scale(1.1); }
+  }
+
+  .vrule {
+    width: 1px; height: 100%;
+    background: var(--line);
+  }
+
+  /* slide entrance — cinematic vertical scroll */
+  deck-stage section {
+    transition:
+      opacity 1000ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 1000ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transform: translateY(100%);
+    opacity: 0;
+    pointer-events: none;
+  }
+  deck-stage section[data-deck-active] {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+  deck-stage section.exiting {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  /* step reveal — vertical-scroll site feel */
+  .step {
+    opacity: 0;
+    transform: translateY(30px);
+    transition:
+      opacity 800ms cubic-bezier(0.16, 1, 0.3, 1),
+      transform 800ms cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+  .step.is-on { opacity: 1; transform: translateY(0); }
+  .step.delay-1 { transition-delay: 150ms; }
+  .step.delay-2 { transition-delay: 300ms; }
+  .step.delay-3 { transition-delay: 450ms; }
+  .step.delay-4 { transition-delay: 600ms; }
+  .step.delay-5 { transition-delay: 750ms; }
+
+  /* progress dots in footer (legacy — unused now) */
+  .stepdots { display: none; }
+
+  /* vertical scroll-progress rail — right edge */
+  .scrollrail {
+    position: fixed;
+    right: 28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 300px;
+    background: rgba(232, 234, 240, 0.04);
+    border-radius: 4px;
+    z-index: 50;
+    overflow: visible;
+  }
+  .scrollrail .fill {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    background: linear-gradient(180deg, var(--cyan), var(--amber));
+    transform-origin: top;
+    height: 0%;
+    transition: height 800ms cubic-bezier(0.16, 1, 0.3, 1);
+    border-radius: 4px;
+    box-shadow: 0 0 15px var(--cyan-glow);
+  }
+  .scrollrail .label {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%) rotate(-90deg);
+    transform-origin: right center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    color: var(--ink-3);
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  /* menu overlay */
+  .menu-trigger {
+    position: fixed;
+    top: 28px; right: 28px;
+    z-index: 50;
+    background: rgba(20, 22, 30, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--line-2);
+    color: var(--ink-2);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .menu-trigger:hover {
+    background: rgba(30, 35, 50, 0.8);
+    border-color: var(--cyan);
+    color: var(--ink-0);
+  }
+  .menu-trigger kbd {
+    font-family: var(--mono);
+    background: var(--bg-2);
+    border: 1px solid var(--line-2);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-left: 10px;
+    font-size: 11px;
+    color: var(--cyan);
+  }
+
+  .menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483647;
+    background: rgba(10, 11, 15, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    display: none;
+    padding: 80px 120px;
+    overflow-y: auto;
+    opacity: 0;
+    transition: opacity 500ms ease;
+  }
+  .menu-overlay.open { display: block; opacity: 1; }
+  .menu-overlay h2 { font-size: 64px; margin-bottom: 12px; letter-spacing: -0.03em; }
+  .menu-overlay .menu-sub { color: var(--cyan); font-family: var(--mono); font-size: 14px; letter-spacing: 0.25em; text-transform: uppercase; margin-bottom: 64px; }
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .menu-card {
+    border: 1px solid var(--line-2);
+    background: rgba(24, 27, 37, 0.5);
+    padding: 32px 36px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 400ms cubic-bezier(0.16, 1, 0.3, 1);
+    color: var(--ink-1);
+    text-align: left;
+    font-family: var(--sans);
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .menu-overlay.open .menu-card { opacity: 1; transform: translateY(0); }
+  .menu-card:hover { border-color: var(--cyan); transform: scale(1.02) translateY(-5px); background: var(--bg-2); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+  .menu-card .num { color: var(--cyan); font-size: 14px; letter-spacing: 0.2em; font-family: var(--mono); }
+  .menu-card .ttl { color: var(--ink-0); font-size: 28px; margin-top: 12px; font-weight: 500; letter-spacing: -0.01em; }
+  .menu-card .desc { color: var(--ink-2); font-size: 17px; margin-top: 10px; line-height: 1.6; }
+
+  .menu-section-title {
+    color: var(--ink-3);
+    font-family: var(--mono);
+    font-size: 14px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin: 36px 0 16px;
+  }
+
+  /* ----- per-slide custom ----- */
+  /* Cover */
+  .cover {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0;
+    padding: 70px 110px 70px;
+  }
+  .cover .top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .cover .institution {
+    font-family: var(--mono);
+    font-size: 18px;
+    color: var(--ink-2);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    line-height: 1.7;
+  }
+  .cover .institution .accent { color: var(--cyan); }
+  .cover .center { display: flex; flex-direction: column; justify-content: center; }
+  .cover .title-block { max-width: 1500px; }
+  .cover .super { font-family: var(--mono); font-size: 20px; letter-spacing: 0.2em; color: var(--cyan); text-transform: uppercase; margin-bottom: 24px; }
+  .cover h1 { font-size: 132px; line-height: 0.96; }
+  .cover h1 em { font-style: normal; color: var(--cyan); font-family: var(--display); font-weight: 400; }
+  .cover .sub { font-size: 36px; color: var(--ink-2); margin-top: 28px; max-width: 30ch; }
+  .cover .bottom { display: flex; justify-content: space-between; align-items: flex-end; font-family: var(--mono); font-size: 18px; letter-spacing: 0.12em; color: var(--ink-2); }
+  .cover .bottom .author { color: var(--ink-0); font-size: 26px; letter-spacing: 0.04em; }
+  .cover .bottom .author small { color: var(--ink-3); font-size: 16px; letter-spacing: 0.14em; text-transform: uppercase; display: block; margin-top: 6px; }
+
+  .cover-bg-net {
+    position: absolute; right: 0; top: 0; width: 700px; height: 100%;
+    pointer-events: none;
+    opacity: 0.6;
+    mask-image: linear-gradient(to left, black 30%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 30%, transparent 100%);
+  }
+
+  /* agenda */
+  .agenda-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px 100px;
+    margin-top: 60px;
+  }
+  .agenda-item {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    gap: 24px;
+    align-items: start;
+    border-top: 1px solid var(--line-2);
+    padding-top: 24px;
+  }
+  .agenda-item .n { font-family: var(--mono); color: var(--cyan); font-size: 18px; letter-spacing: 0.14em; }
+  .agenda-item h3 { font-size: 38px; font-weight: 500; }
+  .agenda-item p { font-size: 20px; color: var(--ink-2); margin-top: 8px; }
+
+  /* big-stat slide */
+  .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2); }
+  .stat-cell { padding: 50px 40px; border-right: 1px solid var(--line-2); }
+  .stat-cell:last-child { border-right: 0; }
+  .stat-cell .label { font-family: var(--mono); font-size: 14px; letter-spacing: 0.2em; color: var(--ink-3); text-transform: uppercase; }
+  .stat-cell .v { font-family: var(--display); font-weight: 300; font-size: 130px; line-height: 1; margin-top: 18px; color: var(--ink-0); letter-spacing: -0.03em; }
+  .stat-cell .v .unit { font-size: 38px; color: var(--ink-2); margin-left: 6px; font-family: var(--mono); font-weight: 400; letter-spacing: 0; }
+  .stat-cell .desc { font-size: 18px; color: var(--ink-2); margin-top: 14px; line-height: 1.5; max-width: 30ch; }
+
+  /* problem slide */
+  .problem {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 90px;
+    height: 100%;
+    align-items: center;
+  }
+  .problem .left { display: flex; flex-direction: column; gap: 28px; }
+  .problem h2 em { color: var(--amber); font-style: normal; font-family: var(--display); font-weight: 400; }
+  .quote {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 44px;
+    line-height: 1.3;
+    color: var(--ink-0);
+    border-left: 2px solid var(--cyan);
+    padding-left: 32px;
+    max-width: 26ch;
+  }
+
+  /* timeline */
+  .crisis-timeline {
+    margin-top: 40px;
+    border-top: 1px solid var(--line-2);
+    padding-top: 28px;
+  }
+  .crisis-timeline .row {
+    display: grid;
+    grid-template-columns: 130px 1fr 130px;
+    gap: 28px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line);
+    align-items: baseline;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: all 600ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .crisis-timeline.is-on .row {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .crisis-timeline.is-on .row:nth-child(1) { transition-delay: 100ms; }
+  .crisis-timeline.is-on .row:nth-child(2) { transition-delay: 200ms; }
+  .crisis-timeline.is-on .row:nth-child(3) { transition-delay: 300ms; }
+  .crisis-timeline.is-on .row:nth-child(4) { transition-delay: 400ms; }
+  .crisis-timeline.is-on .row:nth-child(5) { transition-delay: 500ms; }
+  .crisis-timeline.is-on .row:nth-child(6) { transition-delay: 600ms; }
+
+  .crisis-timeline .row.head { color: var(--ink-3); font-family: var(--mono); font-size: 14px; letter-spacing: 0.16em; text-transform: uppercase; border-bottom-color: var(--line-2); padding-bottom: 12px; }
+  .crisis-timeline .row .y { font-family: var(--mono); color: var(--cyan); font-size: 22px; }
+  .crisis-timeline .row .ev { font-size: 22px; color: var(--ink-0); }
+  .crisis-timeline .row .dd { font-family: var(--mono); color: var(--amber); font-size: 22px; text-align: right; }
+
+  /* idea slide */
+  .idea-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    margin-top: 60px;
+    border-top: 1px solid var(--line-2);
+  }
+  .idea-col {
+    padding: 40px 36px 40px 0;
+    border-right: 1px solid var(--line-2);
+    padding-right: 36px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .idea-col.is-on {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .idea-col:nth-child(2) { padding-left: 36px; }
+  .idea-col:last-child { border-right: 0; padding-left: 36px; padding-right: 0; }
+  
+  .idea-col .ic {
+    width: 56px; height: 56px;
+    border: 1px solid var(--ink-3);
+    border-radius: 50%;
+    display: grid; place-items: center;
+    color: var(--ink-1);
+    font-family: var(--mono);
+    font-size: 22px;
+    margin-bottom: 24px;
+    transition: all 400ms ease;
+  }
+  
+  /* Symmetrical color scheme */
+  .idea-col:nth-child(1) .ic { border-color: var(--cyan); color: var(--cyan); }
+  .idea-col:nth-child(1) .tag { color: var(--cyan); }
+  
+  .idea-col:nth-child(2) .ic { border-color: var(--amber); color: var(--amber); }
+  .idea-col:nth-child(2) .tag { color: var(--amber); }
+  
+  .idea-col:nth-child(3) .ic { border-color: #4488ff; color: #4488ff; }
+  .idea-col:nth-child(3) .tag { color: #4488ff; }
+
+  .idea-col h3 { font-size: 36px; }
+  .idea-col p { font-size: 20px; color: var(--ink-2); margin-top: 18px; }
+  .idea-col .tag { font-family: var(--mono); font-size: 14px; color: var(--cyan); letter-spacing: 0.14em; text-transform: uppercase; }
+
+  /* network anim slide */
+  .net-slide {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 60px;
+    height: 100%;
+    align-items: center;
+  }
+  .net-slide .net-meta {
+    display: flex; flex-direction: column; gap: 32px;
+  }
+  .net-meta .stat {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-top: 1px solid var(--line-2);
+    padding-top: 22px;
+  }
+  .net-meta .stat .item .label { font-family: var(--mono); font-size: 13px; letter-spacing: 0.16em; color: var(--ink-3); text-transform: uppercase; }
+  .net-meta .stat .item .v { font-family: var(--display); font-weight: 300; font-size: 86px; line-height: 1; margin-top: 12px; color: var(--ink-0); transition: color 600ms ease; }
+  .net-meta .stat .item.crisis .v { color: var(--amber); }
+
+  .net-stage {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: radial-gradient(ellipse at center, rgba(30, 35, 50, 0.35), transparent 70%);
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+  }
+  .net-stage .regime-label {
+    position: absolute; top: 16px; left: 18px;
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink-2);
+  }
+  .net-stage .regime-label .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--cyan); margin-right: 10px;
+    box-shadow: 0 0 12px var(--cyan);
+    transition: background 600ms ease, box-shadow 600ms ease;
+  }
+  .net-stage[data-regime="crisis"] .regime-label .dot { background: var(--amber); box-shadow: 0 0 12px var(--amber); }
+  .net-stage .scrubber {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    height: 2px;
+    background: var(--line-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .net-stage .scrubber .fill { height: 100%; background: var(--cyan); width: 0; transition: width 800ms ease, background 800ms ease; }
+  .net-stage[data-regime="crisis"] .scrubber .fill { background: var(--amber); }
+  .net-stage canvas { width: 100%; height: 100%; display: block; border-radius: 6px; }
+
+  /* absorption ratio */
+  .ar-slide { display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px; align-items: center; height: 100%; }
+  .ar-stage {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    background: linear-gradient(180deg, rgba(20,25,38,0.4), rgba(10,11,15,0.6));
+  }
+  .ar-stage svg { width: 100%; height: 100%; display: block; }
+
+  /* ML architecture */
+  .ml-slide {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 50px;
+    height: 100%;
+  }
+  /* horizontal timeline */
+  .timeline-h {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    height: 300px;
+    margin-top: 80px;
+    padding: 0 40px;
+    position: relative;
+    border-bottom: 2px solid var(--line-2);
+  }
+  .timeline-h .event {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 140px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 800ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .timeline-h.is-on .event { opacity: 1; transform: translateY(0); }
+  .timeline-h .event:nth-child(1) { transition-delay: 100ms; }
+  .timeline-h .event:nth-child(2) { transition-delay: 250ms; }
+  .timeline-h .event:nth-child(3) { transition-delay: 400ms; }
+  .timeline-h .event:nth-child(4) { transition-delay: 550ms; }
+  .timeline-h .event:nth-child(5) { transition-delay: 700ms; }
+
+  .timeline-h .event .y { font-family: var(--mono); color: var(--cyan); font-size: 18px; margin-bottom: 12px; }
+  .timeline-h .event .bar { width: 4px; background: var(--cyan); border-radius: 2px 2px 0 0; transition: height 1s ease; }
+  .timeline-h .event .ev { font-size: 15px; color: var(--ink-0); text-align: center; margin-top: 16px; font-weight: 500; height: 45px; }
+  .timeline-h .event .dd { font-family: var(--mono); color: var(--amber); font-size: 16px; margin-top: 4px; }
+
+  /* Legend system */
+  .legend {
+    display: flex;
+    gap: 24px;
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    margin-top: 24px;
+  }
+  .legend-item { display: flex; align-items: center; gap: 8px; }
+  .legend-item .dot { width: 10px; height: 10px; border-radius: 50%; }
+
+  .future-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 60px;
+  }
+  .future-item {
+    padding: 32px;
+    background: rgba(232, 234, 240, 0.03);
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+  }
+  .future-item h3 { font-size: 28px; color: var(--cyan); margin-bottom: 16px; }
+  .future-item p { font-size: 18px; color: var(--ink-2); }
+
+  .ml-pipeline {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr auto 1fr;
+    align-items: center;
+    gap: 24px;
+    margin-top: 30px;
+  }
+  .ml-pipeline .stage-card {
+    border: 1px solid var(--line-2);
+    border-radius: 8px;
+    padding: 32px 28px;
+    background: var(--bg-1);
+    min-height: 320px;
+    display: flex; flex-direction: column;
+  }
+  .ml-pipeline .stage-card .label { font-family: var(--mono); color: var(--cyan); font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; }
+  .ml-pipeline .stage-card h3 { font-size: 30px; margin-top: 12px; }
+  .ml-pipeline .stage-card .body { flex: 1; margin-top: 22px; display: flex; flex-direction: column; justify-content: center; gap: 12px; }
+  .ml-pipeline .stage-card .chip { border: 1px solid var(--line-2); border-radius: 999px; padding: 10px 16px; font-family: var(--mono); font-size: 16px; color: var(--ink-1); display: inline-flex; align-items: center; gap: 10px; width: fit-content; }
+  .ml-pipeline .stage-card .chip .b { width: 8px; height: 8px; background: var(--cyan); border-radius: 50%; }
+  .ml-pipeline .stage-card .chip.gnn .b { background: var(--amber); }
+  .ml-pipeline .stage-card .meta { font-size: 16px; color: var(--ink-3); margin-top: 16px; font-family: var(--mono); }
+  .ml-pipeline .arrow { color: var(--ink-3); font-family: var(--mono); font-size: 32px; }
+
+  /* result hero */
+  .hero-stat {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 80px;
+    align-items: center;
+    height: 100%;
+    padding-bottom: 40px;
+  }
+  .hero-stat .left h2 { font-size: 76px; }
+  .hero-stat .left h2 em { color: var(--cyan); font-style: normal; font-family: var(--display); font-weight: 400; }
+  .hero-stat .right { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+  .hero-stat .num-huge {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 360px;
+    line-height: 0.86;
+    letter-spacing: -0.04em;
+    color: var(--ink-0);
+  }
+  .hero-stat .num-huge .unit { font-size: 64px; color: var(--ink-2); margin-left: 12px; font-family: var(--mono); font-weight: 400; letter-spacing: 0; }
+  .hero-stat .caption { font-size: 24px; color: var(--ink-2); max-width: 32ch; }
+
+  /* SHAP */
+  .shap-slide { display: grid; grid-template-columns: 0.9fr 1.4fr; gap: 60px; align-items: center; height: 100%; }
+  .shap-stage { border: 1px solid var(--line-2); border-radius: 6px; padding: 36px 40px; background: var(--bg-1); }
+  .shap-row { display: grid; grid-template-columns: 230px 1fr 80px; align-items: center; gap: 18px; padding: 11px 0; border-bottom: 1px solid var(--line); }
+  .shap-row:last-child { border-bottom: 0; }
+  .shap-row .feat { font-family: var(--mono); font-size: 16px; color: var(--ink-1); white-space: nowrap; }
+  .shap-row .feat .tag { color: var(--ink-3); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; display: block; margin-top: 2px; }
+  .shap-row .bar-track { height: 14px; background: rgba(232,234,240,0.05); border-radius: 2px; overflow: hidden; }
+  .shap-row .bar-fill { height: 100%; background: var(--cyan); width: 0; transition: width 1200ms cubic-bezier(0.2, 0.7, 0.2, 1); border-radius: 2px; }
+  .shap-row.network .bar-fill { background: var(--amber); }
+  .shap-row .val { font-family: var(--mono); font-size: 16px; color: var(--ink-2); text-align: right; }
+
+  /* CCK */
+  .cck-slide { display: grid; grid-template-columns: 1fr 1.4fr; gap: 60px; align-items: center; height: 100%; }
+  .cck-stage { aspect-ratio: 16 / 10; border: 1px solid var(--line-2); border-radius: 6px; padding: 24px; background: linear-gradient(180deg, rgba(20,25,38,0.4), rgba(10,11,15,0.6)); }
+  .cck-stage svg { width: 100%; height: 100%; }
+  .cck-table { margin-top: 20px; border-top: 1px solid var(--line-2); padding-top: 16px; }
+  .cck-table .row { display: grid; grid-template-columns: 1fr auto auto; gap: 24px; padding: 12px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .cck-table .row.head { color: var(--ink-3); font-family: var(--mono); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .cck-table .row .lab { font-size: 20px; color: var(--ink-0); }
+  .cck-table .row .lab small { color: var(--ink-3); font-size: 14px; display: block; margin-top: 2px; }
+  .cck-table .row .v { font-family: var(--mono); font-size: 22px; color: var(--ink-0); text-align: right; min-width: 90px; }
+  .cck-table .row .v.neg { color: var(--amber); }
+  .cck-table .row .v.pos { color: var(--cyan); }
+
+  /* spillover */
+  .spill-slide { display: grid; grid-template-columns: 1fr 1.5fr; gap: 60px; align-items: center; height: 100%; }
+  .heatmap-wrap { aspect-ratio: 1 / 1; border: 1px solid var(--line-2); border-radius: 6px; padding: 24px; background: var(--bg-1); display: flex; flex-direction: column; }
+  .heatmap-wrap .lab-x, .heatmap-wrap .lab-y { font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.06em; text-transform: uppercase; }
+  .heatmap-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    grid-template-rows: 1fr 24px;
+    gap: 6px;
+  }
+
+  /* contagion */
+  .cont-slide { display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px; align-items: center; height: 100%; }
+  .cont-stage { aspect-ratio: 1 / 1; border: 1px solid var(--line-2); border-radius: 6px; background: radial-gradient(ellipse at center, rgba(30,35,50,0.35), transparent 70%); position: relative; }
+  .cont-stage canvas { width: 100%; height: 100%; display: block; }
+  .cont-stage .legend { position: absolute; top: 18px; left: 18px; display: flex; gap: 16px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-2); }
+  .cont-stage .legend i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; }
+  .cont-stage .legend .a i { background: var(--crimson); box-shadow: 0 0 8px var(--crimson); }
+  .cont-stage .legend .b i { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
+  .cont-stage .legend .c i { background: var(--cyan-dim); }
+
+  /* equity */
+  .eq-slide { display: grid; grid-template-columns: 1fr 1.6fr; gap: 60px; align-items: center; height: 100%; }
+  .eq-stage { aspect-ratio: 16 / 10; border: 1px solid var(--line-2); border-radius: 6px; padding: 24px; background: linear-gradient(180deg, rgba(20,25,38,0.4), rgba(10,11,15,0.6)); }
+  .eq-stage svg { width: 100%; height: 100%; display: block; }
+
+  /* conclusion */
+  .conc-slide {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100%;
+    gap: 40px;
+  }
+  .conc-pillars {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .conc-pillars .col {
+    padding: 36px 32px;
+    border-right: 1px solid var(--line-2);
+  }
+  .conc-pillars .col:last-child { border-right: 0; }
+  .conc-pillars .col .lab { font-family: var(--mono); font-size: 13px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--cyan); }
+  .conc-pillars .col h3 { font-size: 28px; margin-top: 12px; line-height: 1.25; }
+  .conc-pillars .col p { font-size: 17px; color: var(--ink-2); margin-top: 10px; }
+
+  /* thanks */
+  .thanks-slide {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
+    gap: 40px;
+  }
+  .thanks-slide h1 { font-size: 220px; line-height: 0.9; }
+  .thanks-slide h1 em { font-style: normal; color: var(--cyan); font-family: var(--display); font-weight: 400; }
+  .thanks-slide .meta { font-family: var(--mono); font-size: 18px; color: var(--ink-2); letter-spacing: 0.12em; max-width: 60ch; line-height: 1.8; }
+
+  /* number list inside content */
+  ul.clean { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 16px; }
+  ul.clean li { font-size: 24px; color: var(--ink-1); position: relative; padding-left: 28px; }
+  ul.clean li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 14px; height: 1px; background: var(--cyan); }
+  ul.clean li > span:first-child:empty { display: none; }
+
+  .mini-table { font-family: var(--mono); border-top: 1px solid var(--line-2); margin-top: 24px; }
+  .mini-table .r { display: grid; grid-template-columns: 1fr auto auto; gap: 20px; padding: 10px 0; border-bottom: 1px solid var(--line); align-items: baseline; }
+  .mini-table .r.head { color: var(--ink-3); font-size: 12px; letter-spacing: 0.16em; text-transform: uppercase; }
+  .mini-table .r .v { font-size: 19px; color: var(--ink-0); text-align: right; }
+  .mini-table .r .v.h { color: var(--cyan); }
+  .mini-table .r .v.w { color: var(--amber); }
+
+  /* method slide */
+  .method-slide { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; height: 100%; }
+  .formula {
+    font-family: var(--mono);
+    background: var(--bg-1);
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    padding: 24px 28px;
+    color: var(--ink-0);
+    font-size: 22px;
+    line-height: 1.7;
+  }
+  .formula .var { color: var(--cyan); }
+  .formula .comment { color: var(--ink-3); }
+
+  /* Q&A backup section marker */
+  .qa-marker {
+    position: absolute; top: 36px; left: 110px;
+    font-family: var(--mono); font-size: 12px; color: var(--amber);
+    letter-spacing: 0.22em; text-transform: uppercase;
+  }
+  .qa-marker::before { content: "◆ "; color: var(--amber); }
+
+</style>
+</head>
+<body>
+
+<script type="application/json" id="speaker-notes">
+[
+  "Welcome. Today I'll walk you through how I combined network science with machine learning to predict systemic risk in equity markets, and turn those predictions into trading strategies.",
+  "Three acts: the problem of crisis prediction, the idea of correlation networks plus ML, the empirical results, and finally the economic value through trading strategies.",
+  "Crises share a common signature: correlations collapse to one. Diversification fails exactly when you need it most. Markets become a single asset.",
+  "The classical answer — VIX, the fear gauge — measures fear after it has arrived. We need something forward-looking, that watches the structure of the market itself.",
+  "The idea: treat the market as a graph. Stocks are nodes, return correlations are edges. As stress builds, the graph densifies — and we can measure that.",
+  "The empirical analysis rests on a 12.5-year longitudinal study of 210 S&P 500 stocks. We filtered for continuous data coverage to avoid survivorship bias and ensured a balanced sectoral distribution.",
+  "Here is the same market under two regimes: a calm 2019 and the COVID-19 crash of March 2020. Density triples; clustering coefficient reaches one. The graph collapses into a single tightly-coupled blob.",
+  "We compress that structure into a single eigenvalue-based number: the absorption ratio. When it spikes, the market is fragile. It rose well before COVID, before 2022, before SVB.",
+  "From these networks we extract 173 topological features and feed them — together with VIX and price features — into a battery of models, from gradient boosting to graph neural networks.",
+  "Predicting systemic risk requires defining it. We engineered 40 targets across five dimensions, including rolling weekly crashes, drawdown initiations, and high-correlation regimes.",
+  "This is the core academic proof: does the network add value? Ablation shows that while VIX is a powerful baseline, network features provide up to a 3% AUC improvement in high-correlation regimes.",
+  "The headline result: network features lead the market by an average of 4.2 trading days. 88.9% of Granger tests are significant from network to market. Structural anomalies emerge, on average, 36 days before crisis onset.",
+  "What does the model actually look at? VIX dominates, as expected. But sector-level network centralities — Health Care, Real Estate — show up surprisingly high.",
+  "Crises differ in microstructure. Shock events show strong herding — gamma-2 negative 81% of the time. Gradual bear markets do not.",
+  "Volatility flows asymmetrically across sectors. Industrials and Financials transmit; Utilities and Consumer Staples receive. The network knows who infects whom.",
+  "We can simulate contagion: shock a hub, watch the cascade propagate through the correlation graph. Failure paths concentrate in financials and tech.",
+  "Now the test of practical value: can we trade on this? We built three strategies — hysteresis switching, Kelly-style scaling, and an ML-trend hybrid.",
+  "To ensure these aren't just backtest artifacts, we ran 500 Monte Carlo permutations. The observed performance is statistically significant at p < 0.001.",
+  "The hybrid framework consistently outperforms buy-and-hold. Sharpe 0.79 vs 0.46. We generated alpha while reducing maximum drawdown.",
+  "Our research is grounded in the foundational works of Acharya, Adrian, Billio, and Diebold-Yilmaz, merging econometrics with graph theory.",
+  "Future work will explore multi-asset expansion, alternative graph constructions like transfer entropy, and explainable AI for super-transmitter detection.",
+  "In conclusion: network structure, when read carefully, anticipates stress. It's a leading, complementary, and tradeable signal. Thank you.",
+  "Q&A: Methodology details.",
+  "Q&A: COVID-19 case study.",
+  "Q&A: Robustness layers.",
+  "Q&A: Limitations and scientific honesty."
+]
+</script>
+
+<button class="menu-trigger" id="menuTrigger">Menu <kbd>M</kbd></button>
+
+<div class="scrollrail" id="scrollRail">
+  <div class="fill" id="scrollRailFill"></div>
+  <div class="label" id="scrollRailLabel">01 / 22</div>
+</div>
+
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-sub">Press M or Esc to close</div>
+  <h2>Index</h2>
+
+  <div class="menu-section-title">Main talk · 16 steps</div>
+  <div class="menu-grid" id="mainMenu"></div>
+
+  <div class="menu-section-title">Q&amp;A appendix · backup</div>
+  <div class="menu-grid" id="qaMenu"></div>
+</div>
+
+<deck-stage width="1920" height="1080" id="deck">
+
+  <!-- 01 — Cover -->
+  <section class="cover" data-label="Cover">
+    <div class="cover-bg-net"><canvas id="coverNet" width="700" height="1080"></canvas></div>
+    <div class="top">
+      <div class="institution">
+        <span style="color:var(--amber); font-weight: 600;">Scuola Superiore Sant'Anna</span><br/>
+        <span style="color:var(--cyan); font-weight: 500;">University of Pisa</span><br/>
+        Panel 3: AI for Complexity and Economic Systems<br/>
+        <span style="font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; opacity: 0.7; margin-top: 8px; display: block;">COMPASS · Complexity, Markets, Policy, and AI in Social Systems</span>
+      </div>
+      <div></div>
+    </div>
+    <div class="center">
+      <div class="title-block">
+        <h1>Network Topology &amp;<br/>Machine Learning for<br/><em>Systemic Risk</em></h1>
+        <p class="sub" style="margin-top: 48px; font-size: 38px; font-weight: 300; opacity: 0.8; font-family: var(--display); font-style: italic;">From early warning to trading strategies.</p>
+      </div>
+    </div>
+    <div class="bottom">
+      <div class="author">
+        Stefano Blando
+        <small>Author · Panel Chair</small>
+      </div>
+      <div>10 min · 5 min Q&amp;A</div>
+    </div>
+  </section>
+
+  <!-- 02 — Agenda -->
+  <section class="standard" data-label="Agenda">
+    <div class="grid-bg"></div>
+    <div class="eyebrow"><span class="dot">●</span>Agenda</div>
+    <h2 style="margin-top:24px; font-size: 86px;">Can structure predict stress?</h2>
+    
+    <div class="agenda-vertical" style="margin-top: 60px; display: flex; flex-direction: column; gap: 24px;">
+      
+      <div class="agenda-row step" style="display: grid; grid-template-columns: 120px 1fr auto; gap: 40px; align-items: center; padding: 32px 40px; background: rgba(232,234,240,0.02); border: 1px solid var(--line-2); border-radius: 12px;">
+        <div class="n" style="font-family:var(--mono); font-size: 32px; color:var(--cyan); opacity: 0.5;">01</div>
+        <div>
+          <h3 style="font-size: 48px;">Act I · The Problem</h3>
+          <p style="font-size: 22px; color:var(--ink-2); margin-top: 4px;">Why diversification fails when you need it most.</p>
+        </div>
+        <div class="tag" style="font-family:var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); border: 1px solid var(--line-2); padding: 6px 14px; border-radius: 4px;">Context</div>
+      </div>
+
+      <div class="agenda-row step" style="display: grid; grid-template-columns: 120px 1fr auto; gap: 40px; align-items: center; padding: 32px 40px; background: rgba(232,234,240,0.02); border: 1px solid var(--line-2); border-radius: 12px;">
+        <div class="n" style="font-family:var(--mono); font-size: 32px; color:var(--amber); opacity: 0.5;">02</div>
+        <div>
+          <h3 style="font-size: 48px;">Act II · The Idea</h3>
+          <p style="font-size: 22px; color:var(--ink-2); margin-top: 4px;">Correlation networks as a structural diagnostic lens.</p>
+        </div>
+        <div class="tag" style="font-family:var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); border: 1px solid var(--line-2); padding: 6px 14px; border-radius: 4px;">Methodology</div>
+      </div>
+
+      <div class="agenda-row step" style="display: grid; grid-template-columns: 120px 1fr auto; gap: 40px; align-items: center; padding: 32px 40px; background: rgba(232,234,240,0.02); border: 1px solid var(--line-2); border-radius: 12px;">
+        <div class="n" style="font-family:var(--mono); font-size: 32px; color:var(--cyan); opacity: 0.5;">03</div>
+        <div>
+          <h3 style="font-size: 48px;">Act III · The Evidence</h3>
+          <p style="font-size: 22px; color:var(--ink-2); margin-top: 4px;">Lead-lag, systemic herding, and contagion spillovers.</p>
+        </div>
+        <div class="tag" style="font-family:var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); border: 1px solid var(--line-2); padding: 6px 14px; border-radius: 4px;">Results</div>
+      </div>
+
+      <div class="agenda-row step" style="display: grid; grid-template-columns: 120px 1fr auto; gap: 40px; align-items: center; padding: 32px 40px; background: rgba(232,234,240,0.02); border: 1px solid var(--line-2); border-radius: 12px;">
+        <div class="n" style="font-family:var(--mono); font-size: 32px; color:var(--amber); opacity: 0.5;">04</div>
+        <div>
+          <h3 style="font-size: 48px;">Act IV · Economic Value</h3>
+          <p style="font-size: 22px; color:var(--ink-2); margin-top: 4px;">Generating alpha by avoiding structural risk regimes.</p>
+        </div>
+        <div class="tag" style="font-family:var(--mono); font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-3); border: 1px solid var(--line-2); padding: 6px 14px; border-radius: 4px;">Strategy</div>
+      </div>
+
+    </div>
+    <div class="footer"><div class="left"><span class="pill">02 · Agenda</span></div><div>↳ Press → to advance</div></div>
+  </section>
+
+  <!-- 03 — Problem -->
+  <section class="standard" data-label="Problem">
+    <div class="kicker">Act I — The Problem</div>
+    <h2>Diversification <em>evaporates</em><br/>when you need it most.</h2>
+    <p style="color:var(--ink-2); max-width: 50ch; margin-top: 24px;">Traditional risk measures (VIX, VaR) are contemporaneous. In systemic crises, correlation structure collapses before price action fully materializes.</p>
+    
+    <div class="timeline-h">
+      <div class="event">
+        <div class="y">2008</div>
+        <div class="bar" style="height: 140px;"></div>
+        <div class="ev">Global Financial Crisis</div>
+        <div class="dd">−56.8%</div>
+      </div>
+      <div class="event">
+        <div class="y">2018</div>
+        <div class="bar" style="height: 50px;"></div>
+        <div class="ev">Volmageddon</div>
+        <div class="dd">−19.8%</div>
+      </div>
+      <div class="event">
+        <div class="y">2020</div>
+        <div class="bar" style="height: 80px;"></div>
+        <div class="ev">COVID-19 Shock</div>
+        <div class="dd">−33.9%</div>
+      </div>
+      <div class="event">
+        <div class="y">2022</div>
+        <div class="bar" style="height: 65px;"></div>
+        <div class="ev">Bear Market</div>
+        <div class="dd">−25.4%</div>
+      </div>
+      <div class="event">
+        <div class="y">2024</div>
+        <div class="bar" style="height: 25px;"></div>
+        <div class="ev">Japan Carry Trade</div>
+        <div class="dd">−8.5%</div>
+      </div>
+    </div>
+    
+    <div class="quote" style="margin-top: 60px;">
+      “In a crisis, the average pairwise correlation of the S&amp;P 500 triples — from 0.23 to 0.65.”
+    </div>
+    
+    <div class="footer"><div class="left"><span class="pill">03 · Problem</span></div><div>Historical market signatures</div></div>
+  </section>
+
+  <!-- 04 — The Idea -->
+  <section data-label="Idea">
+    <div class="grid-bg"></div>
+    <div class="kicker">Act II — The Idea</div>
+    <h2 style="margin-top:18px;">If structure builds before stress,<br/><span style="color:var(--ink-2);">measure the structure.</span></h2>
+    <div class="idea-grid">
+      <div class="idea-col">
+        <div class="ic">G</div>
+        <div class="tag">Graph</div>
+        <h3>Stocks as nodes,<br/>correlations as edges.</h3>
+        <p>Daily, rolling 60-day correlation networks across 210 S&amp;P 500 constituents. 12.5 years of data — 2013 to 2025.</p>
+      </div>
+      <div class="idea-col">
+        <div class="ic">T</div>
+        <div class="tag">Topology</div>
+        <h3>173 features<br/>describing the shape.</h3>
+        <p>Centralities, modularity, clustering, eigenvalue spectra, absorption ratio, network entropy — global &amp; per-sector.</p>
+      </div>
+      <div class="idea-col">
+        <div class="ic">M</div>
+        <div class="tag">Models</div>
+        <h3>Predict 40 crash targets.<br/>Walk-forward, purged.</h3>
+        <p>Gradient boosting, LSTM, GraphSAGE, GAT — validated against weekly crashes, drawdowns, daily drops, vol regimes.</p>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">04 · Idea</span></div><div>structure → ML → probabilities → positions</div></div>
+  </section>
+
+  <!-- 05 — Dataset -->
+  <section data-label="Dataset">
+    <div class="grid-bg"></div>
+    <div class="eyebrow"><span class="dot">●</span>Methodology · Data</div>
+    <h2 style="margin-top:18px;">A 12.5-year longitudinal study<br/><span style="color:var(--ink-2);">of the S&amp;P 500 universe.</span></h2>
+    <div class="stat-row" style="margin-top: 50px;">
+      <div class="stat-cell">
+        <div class="label">Sample Period</div>
+        <div class="v">12.5<span class="unit">years</span></div>
+        <div class="desc">June 2013 — Dec 2025. 3,140 trading days covering 6 major crises.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="label">Universe Size</div>
+        <div class="v">210<span class="unit">stocks</span></div>
+        <div class="desc">Filtered for continuous data coverage and liquidity.</div>
+      </div>
+      <div class="stat-cell">
+        <div class="label">Observation Count</div>
+        <div class="v">3,081<span class="unit">graphs</span></div>
+        <div class="desc">Daily rolling correlation networks after 60-day warmup.</div>
+      </div>
+    </div>
+    <div class="agenda-grid" style="margin-top: 60px;">
+      <div class="agenda-item">
+        <div class="n">i</div>
+        <div>
+          <h3>GICS Balanced Distribution</h3>
+          <p>Financials, Tech, Health Care, and Industrials represent the core, ensuring cross-sector contagion capture.</p>
+        </div>
+      </div>
+      <div class="agenda-item">
+        <div class="n">ii</div>
+        <div>
+          <h3>Data Quality</h3>
+          <p>Forward-filling (< 5d) and winsorization at 1st/99th percentiles to preserve tail risk without outlier distortion.</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">05 · Dataset</span></div><div>210 constituents · balanced sector allocation</div></div>
+  </section>
+
+  <!-- 06 — Network animation -->
+  <section data-label="Network anim">
+    <div class="net-slide">
+      <div class="net-meta">
+        <div class="kicker">Methodology · Case Study: COVID-19</div>
+        <h2 style="font-size:64px;">A correlation graph<br/>collapsing under stress.</h2>
+        <p style="color:var(--ink-2); max-width: 32ch;">Visualizing the 2019-2020 transition. Note the loss of sectoral separation as edge density spikes and nodes condense.</p>
+        
+        <div class="stat" id="netStats">
+          <div class="item">
+            <div class="label">Avg. correlation</div>
+            <div class="v" style="color:var(--cyan); font-weight: 500;" data-calm="0.23" data-crisis="0.65">0.23</div>
+          </div>
+          <div class="item">
+            <div class="label">Density</div>
+            <div class="v" style="color:var(--amber); font-weight: 500;" data-calm="0.82" data-crisis="1.00">0.82</div>
+          </div>
+        </div>
+
+        <div class="legend" style="border-top: 1px solid var(--line-2); padding-top: 24px; margin-top: 32px;">
+          <div class="legend-item"><div class="dot" style="background:var(--cyan);"></div>Tech</div>
+          <div class="legend-item"><div class="dot" style="background:var(--amber);"></div>Fin</div>
+          <div class="legend-item"><div class="dot" style="background:var(--crimson);"></div>Energy</div>
+          <div class="legend-item"><div class="dot" style="background:var(--green);"></div>Health</div>
+        </div>
+
+        <button id="netToggle" style="margin-top: 40px; align-self:flex-start; background: var(--bg-2); border: 1px solid var(--line-2); color: var(--ink-1); padding: 12px 22px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: all 300ms ease;">Replay transition →</button>
+      </div>
+      <div class="net-stage" id="netStage" data-regime="calm">
+        <div class="regime-label"><span class="dot"></span><span id="netLabel">Calm regime · Q3 2019</span></div>
+        <canvas id="netCanvas" width="900" height="900"></canvas>
+        <div class="scrubber"><div class="fill" id="netScrub"></div></div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">06 · Network</span></div><div>Methodological focus: structural collapse</div></div>
+  </section>
+
+  <!-- 07 — Absorption Ratio -->
+  <section data-label="Absorption ratio">
+    <div class="ar-slide">
+      <div>
+        <div class="kicker">Methodology · Leading Indicator</div>
+        <h2 style="font-size:64px; margin-top: 14px;">Absorption ratio<br/><span style="color:var(--ink-2);">spikes before crises.</span></h2>
+        <div class="formula" style="margin-top: 32px; max-width: 32ch;">
+          AR = <span class="var">Σ λᵢ</span> / <span class="var">Σ λⱼ</span><br/>
+          <span class="comment"># Variance explained by top 20% eigenvectors</span>
+        </div>
+        <p style="color:var(--ink-2); margin-top: 32px; max-width: 34ch;">High AR indicates variance concentration: the market is tightly coupled, leaving little room for diversification and increasing the risk of systemic contagion.</p>
+        
+        <div class="legend" style="margin-top: 40px;">
+          <div class="legend-item"><div class="dot" style="background:var(--cyan);"></div>AR Value</div>
+          <div class="legend-item"><div class="dot" style="background:rgba(255,255,255,0.15);"></div>90th percentile</div>
+        </div>
+      </div>
+      <div class="ar-stage">
+        <svg id="arChart" viewBox="0 0 1000 560" preserveAspectRatio="none"></svg>
+        <div class="ar-meta" style="position: absolute; bottom: 8px; left: 60px; font-family: var(--mono); font-size: 12px; color: var(--ink-3);">
+          Data: S&amp;P 500 Index constituents (rolling window)
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">07 · Absorption Ratio</span></div><div>Leading signal of structural coupling</div></div>
+  </section>
+
+  <!-- 08 — ML pipeline -->
+  <section data-label="ML pipeline">
+    <div class="ml-slide">
+      <div>
+        <div class="kicker">Methodology · Robust Validation</div>
+        <h2 style="font-size:60px; margin-top: 12px;">Five model families.<br/><span style="color:var(--ink-2);">Purged Walk-Forward validation.</span></h2>
+        <p style="color:var(--ink-2); max-width: 60ch; margin-top: 16px;">We implement a strictly non-overlapping cross-validation to eliminate look-ahead bias. Class imbalance is handled via SMOTE-NC and cost-sensitive learning.</p>
+      </div>
+      <div class="ml-pipeline">
+        <div class="stage-card">
+          <div class="label" style="color:var(--cyan);">01 · Inputs</div>
+          <h3>Network<br/>+ Market</h3>
+          <div class="body">
+            <div class="chip"><span class="b" style="background:var(--cyan);"></span>173 topological features</div>
+            <div class="chip"><span class="b" style="background:var(--cyan);"></span>VIX &amp; price action</div>
+            <div class="chip"><span class="b" style="background:var(--cyan);"></span>Sector coupling</div>
+          </div>
+          <div class="meta">Daily window: 2013 — 2025</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="stage-card">
+          <div class="label" style="color:var(--amber);">02 · Models</div>
+          <h3>Ensembles,<br/>LSTM, GNN</h3>
+          <div class="body">
+            <div class="chip"><span class="b" style="background:var(--amber);"></span>XGBoost · LightGBM</div>
+            <div class="chip"><span class="b" style="background:var(--amber);"></span>Temporal (LSTM)</div>
+            <div class="chip gnn"><span class="b" style="background:var(--amber);"></span>GraphSAGE · GAT</div>
+          </div>
+          <div class="meta">40 targets · Purged CV</div>
+        </div>
+        <div class="arrow">→</div>
+        <div class="stage-card">
+          <div class="label" style="color:#4488ff;">03 · Outputs</div>
+          <h3>Probability<br/>ŷₜ in [0, 1]</h3>
+          <div class="body">
+            <div class="chip"><span class="b" style="background:#4488ff;"></span>Weekly crash likelihood</div>
+            <div class="chip"><span class="b" style="background:#4488ff;"></span>Drawdown initiation</div>
+            <div class="chip"><span class="b" style="background:#4488ff;"></span>3σ daily drop risk</div>
+          </div>
+          <div class="meta">→ Execution Strategies</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">08 · Pipeline</span></div><div>Strict prevention of look-ahead bias &amp; leakage</div></div>
+  </section>
+
+  <!-- 09 — Target Engineering -->
+  <section data-label="Targets">
+    <div class="grid-bg"></div>
+    <div class="eyebrow"><span class="dot">●</span>Methodology · Prediction Targets</div>
+    <h2 style="margin-top:18px; margin-bottom: 30px;">Defining "Stress": 40 targets across 5 dimensions.</h2>
+    
+    <div class="targets-grid" style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 20px; max-width: 1500px; margin: 0 auto;">
+      
+      <!-- Row 1: 3 boxes (each spans 2 columns) -->
+      <div class="agenda-item target-block" style="grid-column: span 2; background: rgba(232,234,240,0.03); border: 1px solid var(--line-2); border-radius: 12px; padding: 25px; display: flex; gap: 20px; align-items: flex-start; min-height: 180px;">
+        <div class="icon-wrap" style="flex-shrink: 0; padding-top: 5px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--crimson)"><path d="m3 11 18-5v12L3 14v-3z"></path><path d="M11.6 16.8a3 3 0 1 1-5.8-1.6"></path></svg>
+        </div>
+        <div class="content-wrap">
+          <h3 style="font-size: 32px; margin-bottom: 10px; color: var(--ink-0);">Weekly Crashes</h3>
+          <p style="font-size: 19px; line-height: 1.4; color:var(--ink-2); margin: 0;">Rolling 5-day returns < {−3%, −5%, −7%}. Captures rare tail events with 2%–24% base rates.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item target-block" style="grid-column: span 2; background: rgba(232,234,240,0.03); border: 1px solid var(--line-2); border-radius: 12px; padding: 25px; display: flex; gap: 20px; align-items: flex-start; min-height: 180px;">
+        <div class="icon-wrap" style="flex-shrink: 0; padding-top: 5px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber)"><path d="M7 7 3 11l4 4"></path><path d="M7 11h14"></path><path d="M11 7 7 11l4 4"></path></svg>
+        </div>
+        <div class="content-wrap">
+          <h3 style="font-size: 32px; margin-bottom: 10px; color: var(--ink-0);">Drawdown Init</h3>
+          <p style="font-size: 19px; line-height: 1.4; color:var(--ink-2); margin: 0;">Peak-to-trough declines > 10%. Captures the onset of structural bear markets.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item target-block" style="grid-column: span 2; background: rgba(232,234,240,0.03); border: 1px solid var(--line-2); border-radius: 12px; padding: 25px; display: flex; gap: 20px; align-items: flex-start; min-height: 180px;">
+        <div class="icon-wrap" style="flex-shrink: 0; padding-top: 5px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cyan)"><path d="M21 12H3"></path><path d="M16 17l5-5-5-5"></path><path d="M8 7l-5 5 5 5"></path></svg>
+        </div>
+        <div class="content-wrap">
+          <h3 style="font-size: 32px; margin-bottom: 10px; color: var(--ink-0);">Daily Drops</h3>
+          <p style="font-size: 19px; line-height: 1.4; color:var(--ink-2); margin: 0;">Returns < κ·σ. Identifies local tail events relative to current volatility regime.</p>
+        </div>
+      </div>
+
+      <!-- Row 2: 2 boxes (centered) -->
+      <div class="agenda-item target-block" style="grid-column: 2 / 4; background: rgba(232,234,240,0.03); border: 1px solid var(--line-2); border-radius: 12px; padding: 25px; display: flex; gap: 20px; align-items: flex-start; min-height: 180px;">
+        <div class="icon-wrap" style="flex-shrink: 0; padding-top: 5px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--green)"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path><path d="m9 12 2 2 4-4"></path></svg>
+        </div>
+        <div class="content-wrap">
+          <h3 style="font-size: 32px; margin-bottom: 10px; color: var(--ink-0);">Corr. Regimes</h3>
+          <p style="font-size: 19px; line-height: 1.4; color:var(--ink-2); margin: 0;">Average pairwise correlation > 90th pctl. Directly measures structural coupling.</p>
+        </div>
+      </div>
+
+      <div class="agenda-item target-block" style="grid-column: 4 / 6; background: rgba(232,234,240,0.03); border: 1px solid var(--line-2); border-radius: 12px; padding: 25px; display: flex; gap: 20px; align-items: flex-start; min-height: 180px;">
+        <div class="icon-wrap" style="flex-shrink: 0; padding-top: 5px;">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cyan)"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+        </div>
+        <div class="content-wrap">
+          <h3 style="font-size: 32px; margin-bottom: 10px; color: var(--ink-0);">VIX Regimes</h3>
+          <p style="font-size: 19px; line-height: 1.4; color:var(--ink-2); margin: 0;">VIX levels crossing 20, 25, or 30 thresholds. Measures implied volatility stress.</p>
+        </div>
+      </div>
+
+    </div>
+    <div class="footer"><div class="left"><span class="pill">09 · Target Engineering</span></div><div>Multi-horizon (5d to 20d) prediction framework</div></div>
+  </section>
+
+  <!-- 10 — Ablation Study -->
+  <section data-label="Ablation">
+    <div class="hero-stat" style="grid-template-columns: 1fr 1.2fr; align-items: center;">
+      <div class="left">
+        <div class="kicker">Results · Incremental Value</div>
+        <h2 style="font-size:72px; line-height: 1.1;">Does network topology<br/>add value beyond VIX?</h2>
+        <p style="color:var(--ink-2); margin-top: 32px; max-width: 32ch; font-size: 22px; line-height: 1.5;">Ablation analysis reveals that while VIX is the dominant baseline, network features provide a statistically significant "topological edge."</p>
+        <div class="quote" style="margin-top: 40px; border-left-color: var(--amber); font-size: 20px;">
+          "Network features provide up to +3% AUC improvement for high-correlation regimes and +2% for crashes."
+        </div>
+      </div>
+      <div class="right">
+        <div class="step">
+          <div class="mini-table" style="font-size: 24px; background: rgba(232,234,240,0.03); padding: 50px; border-radius: 16px; border: 1px solid var(--line-2); width: 100%;">
+            <div class="r head" style="font-size: 18px; margin-bottom: 25px; border-bottom: 1px solid var(--line-2); padding-bottom: 15px; grid-template-columns: 1.5fr 1fr 1fr; color: var(--ink-0); font-weight: 600; letter-spacing: 0.1em;">
+              <div>Feature Set</div>
+              <div style="color: var(--cyan);">Weekly Crash</div>
+              <div style="color: var(--cyan);">High Corr</div>
+            </div>
+            <div class="r" style="margin-bottom: 18px; grid-template-columns: 1.5fr 1fr 1fr;"><div>VIX Only <span style="color:var(--ink-3); font-size: 16px;">(23 feats)</span></div><div class="v">0.70</div><div class="v">0.89</div></div>
+            <div class="r" style="margin-bottom: 18px; grid-template-columns: 1.5fr 1fr 1fr;"><div>Market Only <span style="color:var(--ink-3); font-size: 16px;">(106 feats)</span></div><div class="v">0.72</div><div class="v">0.91</div></div>
+            <div class="r" style="margin-bottom: 18px; grid-template-columns: 1.5fr 1fr 1fr;"><div>Network Only <span style="color:var(--ink-3); font-size: 16px;">(173 feats)</span></div><div class="v">0.58</div><div class="v">0.87</div></div>
+            <div class="r" style="border-top: 2px solid var(--cyan); margin-top: 25px; padding-top: 25px; grid-template-columns: 1.5fr 1fr 1fr;"><div><span style="color:var(--cyan); font-weight: 600;">Full Model (ALL)</span></div><div class="v" style="color:var(--cyan); font-weight: 700; font-size: 32px;">0.74</div><div class="v" style="color:var(--cyan); font-weight: 700; font-size: 32px;">0.93</div></div>
+          </div>
+          <p style="margin-top: 32px; color: var(--ink-1); font-family: var(--mono); font-size: 18px; text-align: center; letter-spacing: 0.05em;">
+            <span style="color:var(--cyan);">●</span> AUC-ROC metrics · XGBoost · 4-fold Purged Walk-Forward
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">10 · Ablation Study</span></div><div>Statistically significant incremental predictive power</div></div>
+  </section>
+
+  <!-- 11 — Lead-lag headline -->
+  <section data-label="Lead-lag">
+    <div class="hero-stat" style="align-items: flex-start; padding-top: 60px;">
+      <div class="left">
+        <div class="kicker">Act III — Results · Predictive Power</div>
+        <h2 style="margin-top:14px; font-size: 64px;">Network features<br/><em>lead</em> the market.</h2>
+        <p class="lead" style="margin-top: 24px; color:var(--ink-2); font-size: 26px; line-height: 1.4;">Cross-correlation analysis reveals that topological changes peak before price action. Our Granger Causality tests confirm the directional signal.</p>
+        <ul class="clean" style="margin-top: 32px; gap: 20px; display: flex; flex-direction: column;">
+          <li><span style="color:var(--cyan); font-weight: 600;">➔ 88.9%</span> Granger tests significant</li>
+          <li><span style="color:var(--cyan); font-weight: 600;">➔ 36 days</span> average anomaly lead-time</li>
+          <li><span style="color:var(--cyan); font-weight: 600;">➔ Bonferroni</span> robust at p < 0.01</li>
+        </ul>
+      </div>
+      <div class="right" style="padding-top: 40px; display: flex; flex-direction: column; align-items: center;">
+        <div class="step">
+          <div class="num-huge" style="font-size: 320px; color:var(--cyan); line-height: 1;">4.2<span class="unit" style="font-size: 48px; color:var(--ink-3); margin-left: 10px;">days</span></div>
+          <div class="caption" style="margin-top: 24px; text-align: center; max-width: 34ch; font-size: 22px; color:var(--ink-1); line-height: 1.4;">
+            <span style="color:var(--cyan);">●</span> Average trading days by which network topology anticipates aggregate market movements.
+          </div>
+        </div>
+        
+        <div class="legend" style="margin-top: 48px; justify-content: center;">
+          <div class="legend-item"><div class="dot" style="background:var(--cyan);"></div>Leading Signal</div>
+          <div class="legend-item"><div class="dot" style="background:var(--ink-3);"></div>Market Index</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">11 · Lead-lag</span></div><div>Granger network → market : 88.9% significant</div></div>
+  </section>
+
+  <!-- 12 — SHAP -->
+  <section data-label="SHAP">
+    <div class="shap-slide">
+      <div>
+        <div class="kicker">Methodology · Feature Importance</div>
+        <h2 style="font-size:60px; margin-top:14px;">Structural drivers<br/><span style="color:var(--ink-2);">of predictive power.</span></h2>
+        <p style="color:var(--ink-2); max-width: 32ch; margin-top: 24px;">SHAP values for the Weekly Crash classifier. While VIX provides the baseline, sector-level centralities act as localized early-warning sensors.</p>
+        
+        <div class="legend" style="margin-top: 40px; border-top: 1px solid var(--line-2); padding-top: 24px;">
+          <div class="legend-item"><div class="dot" style="background:var(--cyan);"></div>Market Features</div>
+          <div class="legend-item"><div class="dot" style="background:var(--amber);"></div>Network Features</div>
+        </div>
+
+        <div class="quote" style="margin-top: 48px; font-size: 24px; border-left-color: var(--amber); max-width: 30ch;">
+          “Health Care eigenvector centrality outranks global density, pointing to localized coupling as a precursor to systemic failure.”
+        </div>
+      </div>
+      <div class="shap-stage" id="shapStage">
+        <div class="shap-row" data-w="100"><div class="feat">VIX_level<span class="tag">Market Baseline</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--cyan);"></div></div><div class="val">1.00</div></div>
+        <div class="shap-row" data-w="74"><div class="feat">market_drawdown<span class="tag">Price Action</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--cyan);"></div></div><div class="val">0.74</div></div>
+        <div class="shap-row" data-w="62"><div class="feat">VIX_change_5d<span class="tag">Vol Momentum</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--cyan);"></div></div><div class="val">0.62</div></div>
+        <div class="shap-row network" data-w="48"><div class="feat">healthcare_eigvec_cent<span class="tag" style="color:var(--amber);">Network · Sector</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--amber);"></div></div><div class="val">0.48</div></div>
+        <div class="shap-row" data-w="42"><div class="feat">momentum_20d<span class="tag">Market</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--cyan);"></div></div><div class="val">0.42</div></div>
+        <div class="shap-row network" data-w="36"><div class="feat">realestate_degree_cent<span class="tag" style="color:var(--amber);">Network · Sector</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--amber);"></div></div><div class="val">0.36</div></div>
+        <div class="shap-row network" data-w="30"><div class="feat">absorption_ratio<span class="tag" style="color:var(--amber);">Network · Spectral</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--amber);"></div></div><div class="val">0.30</div></div>
+        <div class="shap-row network" data-w="26"><div class="feat">network_density<span class="tag" style="color:var(--amber);">Network · Global</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--amber);"></div></div><div class="val">0.26</div></div>
+        <div class="shap-row" data-w="22"><div class="feat">bollinger_position<span class="tag">Market</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--cyan);"></div></div><div class="val">0.22</div></div>
+        <div class="shap-row network" data-w="18"><div class="feat">network_entropy<span class="tag" style="color:var(--amber);">Network · Global</span></div><div class="bar-track"><div class="bar-fill" style="background:var(--amber);"></div></div><div class="val">0.18</div></div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">12 · SHAP</span></div><div>Top 10 features for systemic risk detection</div></div>
+  </section>
+
+  <!-- 13 — Herding -->
+  <section data-label="Herding CCK">
+    <div class="cck-slide">
+      <div>
+        <div class="kicker">Methodology · Behavioral Signatures</div>
+        <h2 style="font-size:60px; margin-top:12px;">Shocks herd.<br/><span style="color:var(--ink-2);">Bear markets don't.</span></h2>
+        <p style="color:var(--ink-2); max-width: 32ch; margin-top: 22px;">Using the Chang-Cheng-Khorana (CCK) test to detect non-linear clustering. A negative γ₂ indicates that investors ignore idiosyncratic signals and follow the market crowd.</p>
+        
+        <div class="cck-table" style="margin-top: 32px;">
+          <div class="row head"><div>Crisis Category</div><div>Coeff. γ₂</div><div>Significance</div></div>
+          <div class="row"><div class="lab"><span style="color:var(--amber);">Shock Crises</span><small>COVID · SVB · Japan</small></div><div class="v neg">−1.33</div><div class="v neg">81.0%</div></div>
+          <div class="row"><div class="lab"><span style="color:var(--cyan);">Gradual Decline</span><small>Bear market 2022</small></div><div class="v pos">+3.59</div><div class="v">5.8%</div></div>
+        </div>
+
+        <div class="legend" style="margin-top: 40px; border-top: 1px solid var(--line-2); padding-top: 24px;">
+          <div class="legend-item"><div class="dot" style="background:var(--amber);"></div>Systemic Herding</div>
+          <div class="legend-item"><div class="dot" style="background:var(--cyan);"></div>Rational Dispersion</div>
+        </div>
+      </div>
+      <div class="cck-stage">
+        <svg id="cckPlot" viewBox="0 0 800 500"></svg>
+        <div style="text-align: right; font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-top: 12px;">
+          Model: CSADₜ = α + γ₁|Rₘ,ₜ| + γ₂R²ₘ,ₜ + εₜ
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">13 · Herding (CCK)</span></div><div>Evidence of behavioral regime shifts during shocks</div></div>
+  </section>
+
+  <!-- 14 — Spillover -->
+  <section data-label="Spillover">
+    <div class="spill-slide">
+      <div>
+        <div class="kicker">Methodology · Risk Transmission</div>
+        <h2 style="font-size:60px; margin-top:12px;">Volatility flows<br/><span style="color:var(--ink-2);">are asymmetric.</span></h2>
+        <p style="color:var(--ink-2); max-width: 32ch; margin-top: 22px;">Using Diebold-Yilmaz forecast-error variance decomposition to map how shocks migrate between the 11 GICS sectors.</p>
+        
+        <div class="legend" style="margin-top: 40px; border-top: 1px solid var(--line-2); padding-top: 24px;">
+          <div class="legend-item"><div class="dot" style="background:var(--amber);"></div>Net Transmitters</div>
+          <div class="legend-item"><div class="dot" style="background:var(--cyan);"></div>Net Receivers</div>
+        </div>
+
+        <ul class="clean" style="margin-top: 32px; gap: 16px; display: flex; flex-direction: column;">
+          <li><span style="color:var(--amber); font-weight: 600;">➔ Transmitters:</span> Industrials &amp; Financials</li>
+          <li><span style="color:var(--cyan); font-weight: 600;">➔ Receivers:</span> Utilities &amp; Staples</li>
+          <li><span style="color:var(--ink-1); font-weight: 500;">➔ Index:</span> Total connectedness spikes in crisis</li>
+        </ul>
+      </div>
+      <div class="heatmap-wrap">
+        <div style="font-family:var(--mono); font-size: 12px; color: var(--ink-3); letter-spacing: 0.16em; text-transform: uppercase; margin-bottom: 14px;">Spillover Matrix · % Contribution from Row → Column</div>
+        <div id="spillHeatmap"></div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">14 · Spillover heatmap</span></div><div>Diebold-Yilmaz methodology · sectoral interconnectedness</div></div>
+  </section>
+
+  <!-- 15 — Contagion cascade -->
+  <section data-label="Contagion">
+    <div class="cont-slide">
+      <div>
+        <div class="kicker">Methodology · Systemic Contagion</div>
+        <h2 style="font-size:60px; margin-top:12px;">Shock a hub.<br/><span style="color:var(--ink-2);">Watch it cascade.</span></h2>
+        <p style="color:var(--ink-2); max-width: 32ch; margin-top: 22px;">A Breadth-First Search (BFS) simulation on the 2020 network. When a node fails, it infects neighbors with probability proportional to their return correlation ρᵢⱼ.</p>
+        
+        <div class="legend" style="margin-top: 40px; border-top: 1px solid var(--line-2); padding-top: 24px;">
+          <div class="legend-item"><div class="dot" style="background:var(--crimson);"></div>Origin Hub</div>
+          <div class="legend-item"><div class="dot" style="background:var(--amber);"></div>Contagion</div>
+          <div class="legend-item"><div class="dot" style="background:var(--cyan);"></div>Healthy</div>
+        </div>
+
+        <p style="color:var(--ink-3); font-family: var(--mono); font-size: 15px; margin-top: 32px;">Finding: <span style="color:var(--amber);">Financials</span> and <span style="color:var(--amber);">Tech</span> serve as critical super-transmitters in 86% of simulations.</p>
+        
+        <button id="contagionReplay" style="margin-top: 40px; background: var(--bg-2); border: 1px solid var(--line-2); color: var(--ink-1); padding: 12px 22px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.16em; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: all 300ms ease;">Replay cascade →</button>
+      </div>
+      <div class="cont-stage" id="contStage">
+        <canvas id="contCanvas" width="900" height="900"></canvas>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">15 · Contagion</span></div><div>BFS algorithm · P(fail) ∝ ρᵢⱼ</div></div>
+  </section>
+
+  <!-- 16 — Trading -->
+  <section data-label="Trading">
+    <div class="eq-slide">
+      <div>
+        <div class="kicker">Methodology · Economic Validation</div>
+        <h2 style="font-size:60px; margin-top:12px;">Turning ŷₜ signals<br/><span style="color:var(--ink-2);">into systematic positions.</span></h2>
+        
+        <div class="legend" style="margin-top: 32px; border-bottom: 1px solid var(--line-2); padding-bottom: 24px;">
+          <div class="legend-item"><div class="dot" style="background:var(--cyan);"></div>ML Hybrid Strategy</div>
+          <div class="legend-item"><div class="dot" style="background:var(--ink-3);"></div>Buy &amp; Hold (S&amp;P 500)</div>
+        </div>
+
+        <ul class="clean" style="margin-top: 32px; gap: 12px; display: flex; flex-direction: column;">
+          <li><span style="color:var(--ink-1); font-weight: 500;">➔ Hysteresis:</span> Dynamic entry/exit thresholds.</li>
+          <li><span style="color:var(--ink-1); font-weight: 500;">➔ Kelly-style:</span> Position sizing as 1 − P(crash).</li>
+          <li><span style="color:var(--ink-1); font-weight: 500;">➔ ML-Trend:</span> Signal confirmation via 50d SMA.</li>
+        </ul>
+
+        <div class="mini-table" style="margin-top: 40px; background: rgba(232,234,240,0.02); padding: 20px; border-radius: 8px; border: 1px solid var(--line-2);">
+          <div class="r head"><div>Systematic Strategy</div><div>Sharpe</div><div>Max DD</div></div>
+          <div class="r"><div>S&amp;P 500 Benchmark</div><div class="v">0.46</div><div class="v">−25.4%</div></div>
+          <div class="r"><div>Hysteresis Switching</div><div class="v">0.63</div><div class="v">−22.8%</div></div>
+          <div class="r"><div><span style="color:var(--cyan);">★</span> GraphSAGE + Trend</div><div class="v h" style="color:var(--cyan); font-weight: 600;">0.79</div><div class="v h" style="color:var(--cyan); font-weight: 600;">−21.2%</div></div>
+        </div>
+      </div>
+      <div class="eq-stage">
+        <svg id="eqChart" viewBox="0 0 1000 600" preserveAspectRatio="none"></svg>
+        <div style="text-align: center; font-family: var(--mono); font-size: 11px; color: var(--ink-3); margin-top: 16px;">
+          Performance net of 5bps transaction costs · 2013—2025
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">16 · Trading strategies</span></div><div>Outperforming via structural risk avoidance</div></div>
+  </section>
+
+  <!-- 17 — Statistical Validation -->
+  <section data-label="Validation">
+    <div class="grid-bg"></div>
+    <div class="eyebrow"><span class="dot">●</span>Results · Robustness</div>
+    <h2 style="margin-top:18px;">Monte Carlo Validation:<br/><span style="color:var(--ink-2);">Performance beyond chance.</span></h2>
+    <div class="problem" style="grid-template-columns: 1fr 1.1fr; gap: 60px;">
+      <div class="left">
+        <div class="kicker">Permutation Test</div>
+        <p style="font-size: 22px;">We conducted 500 label-shuffling trials to establish the null distribution. Observed performance falls far into the tail.</p>
+        <ul class="clean" style="margin-top: 24px;">
+          <li><span style="color:var(--cyan); font-weight: 600;">➔ p-value < 0.001</span> for AUC and MCC</li>
+          <li><span style="color:var(--cyan); font-weight: 600;">➔ Bootstrap CI:</span> 95% [0.86, 0.91]</li>
+          <li><span style="color:var(--cyan); font-weight: 600;">➔ Zero Leakage:</span> Purged CV confirmed</li>
+        </ul>
+        <div class="quote" style="margin-top: 40px; font-size: 20px;">
+          "The model captures genuine structural signal, not backtest overfitting."
+        </div>
+      </div>
+      <div class="right">
+         <div class="ar-stage" style="aspect-ratio: 4/3; background: var(--bg-1);">
+           <!-- Simulated histogram placeholder -->
+           <div style="position: absolute; inset: 40px; border-bottom: 2px solid var(--line-2); border-left: 2px solid var(--line-2);">
+             <div style="position: absolute; bottom: 0; left: 10%; width: 60%; height: 40%; background: var(--line-2); opacity: 0.5; border-radius: 4px 4px 0 0;"></div>
+             <div style="position: absolute; bottom: 0; left: 85%; width: 2px; height: 90%; background: var(--cyan); box-shadow: 0 0 15px var(--cyan-glow);"></div>
+             <div style="position: absolute; top: 10%; left: 87%; color: var(--cyan); font-family: var(--mono); font-size: 12px;">OBSERVED<br/>AUC 0.79</div>
+             <div style="position: absolute; top: 50%; left: 20%; color: var(--ink-3); font-family: var(--mono); font-size: 12px;">NULL DISTRIBUTION<br/>(RANDOM GUESSING)</div>
+           </div>
+         </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">17 · Statistical Validation</span></div><div>Robustness against data snooping and overfitting</div></div>
+  </section>
+
+  <!-- 18 — Headline result -->
+  <section data-label="Headline">
+    <div class="hero-stat" style="grid-template-columns: 1fr 1.2fr; align-items: center;">
+      <div class="left">
+        <div class="kicker">Methodology · Executive Summary</div>
+        <h2 style="font-size:86px; line-height: 1.05;">Sharpe Ratio<br/><span style="color:var(--cyan);">0.79</span><br/><span style="font-size: 48px; color:var(--ink-3);">vs 0.46 Benchmark</span></h2>
+        <p style="color:var(--ink-2); margin-top: 32px; max-width: 32ch; font-size: 22px; line-height: 1.5;">The hybrid framework (GraphSAGE + Trend) consistently outperforms buy-and-hold by identifying structural fragility before price-based filters react.</p>
+        
+        <div class="quote" style="margin-top: 48px; font-size: 22px; max-width: 30ch;">
+          “A 71% improvement in risk-adjusted returns by measuring what VIX misses: the network structure.”
+        </div>
+      </div>
+      <div class="right">
+        <div class="stat-row" style="width: 100%; border-top: 1px solid var(--line-2); border-bottom: 1px solid var(--line-2);">
+          <div class="stat-cell" style="padding: 40px 30px;">
+            <div class="label" style="color:var(--cyan);">Net Performance</div>
+            <div class="v" style="font-size: 100px;">+21.7<span class="unit">%</span></div>
+            <div class="desc">Alpha generated over 12.5 years net of costs.</div>
+          </div>
+          <div class="stat-cell" style="padding: 40px 30px;">
+            <div class="label" style="color:var(--amber);">Risk Mitigation</div>
+            <div class="v" style="font-size: 100px;">−4.2<span class="unit">pp</span></div>
+            <div class="desc">Significant reduction in Maximum Drawdown.</div>
+          </div>
+          <div class="stat-cell" style="padding: 40px 30px;">
+            <div class="label" style="color:#4488ff;">Early Warning</div>
+            <div class="v" style="font-size: 100px;">36<span class="unit">d</span></div>
+            <div class="desc">Average lead-time for structural anomalies.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">18 · Headline</span></div><div>Robust statistical and economic significance</div></div>
+  </section>
+
+
+  <!-- 20 — Future Works -->
+  <section class="standard" data-label="Future">
+    <div class="grid-bg"></div>
+    <div class="eyebrow"><span class="dot">●</span>Closing</div>
+    <h2>Future Research Directions</h2>
+    <div class="future-grid" style="grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 40px;">
+      
+      <div class="future-item" style="padding: 24px; border-top: 2px solid var(--cyan);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cyan); margin-bottom: 15px;"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        <h3 style="font-size: 28px; margin-bottom: 10px;">Methodological Depth</h3>
+        <p style="font-size: 20px; line-height: 1.4; color:var(--ink-2);">Exploring partial correlations, transfer entropy, and directed causality networks.</p>
+      </div>
+
+      <div class="future-item" style="padding: 24px; border-top: 2px solid var(--amber);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber); margin-bottom: 15px;"><path d="m12 14 4-4"></path><path d="M3.34 19a10 10 0 1 1 17.32 0"></path></svg>
+        <h3 style="font-size: 28px; margin-bottom: 10px;">Advanced Algorithms</h3>
+        <p style="font-size: 20px; line-height: 1.4; color:var(--ink-2);">Higher-order interactions via Simplicial Complexes and hypergraph neural networks.</p>
+      </div>
+
+      <div class="future-item" style="padding: 24px; border-top: 2px solid var(--green);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--green); margin-bottom: 15px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"></path></svg>
+        <h3 style="font-size: 28px; margin-bottom: 10px;">Multi-Asset Expansion</h3>
+        <p style="font-size: 20px; line-height: 1.4; color:var(--ink-2);">Scaling to Crypto, Commodities, and FX for global risk transmission analysis.</p>
+      </div>
+
+      <div class="future-item" style="padding: 24px; border-top: 2px solid var(--cyan);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--cyan); margin-bottom: 15px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        <h3 style="font-size: 28px; margin-bottom: 10px;">NLP &amp; LLM Integration</h3>
+        <p style="font-size: 20px; line-height: 1.4; color:var(--ink-2);">Augmenting graphs with sentiment and entities from real-time financial news.</p>
+      </div>
+
+      <div class="future-item" style="padding: 24px; border-top: 2px solid var(--amber);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--amber); margin-bottom: 15px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <h3 style="font-size: 28px; margin-bottom: 10px;">Intraday Dynamics</h3>
+        <p style="font-size: 20px; line-height: 1.4; color:var(--ink-2);">High-frequency network analysis for real-time detection of flash crashes.</p>
+      </div>
+
+      <div class="future-item" style="padding: 24px; border-top: 2px solid var(--green);">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--green); margin-bottom: 15px;"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+        <h3 style="font-size: 28px; margin-bottom: 10px;">Graph GenAI &amp; XAI</h3>
+        <p style="font-size: 20px; line-height: 1.4; color:var(--ink-2);">Using GNNExplainer for super-transmitter detection and VAEs for stress testing.</p>
+      </div>
+
+    </div>
+    <div class="footer"><div class="left"><span class="pill">20 · Future Works</span></div><div>From Framework to Global Engine</div></div>
+  </section>
+
+  <!-- 21 — Conclusion -->
+  <section data-label="Conclusion">
+    <div class="conc-slide">
+      <div>
+        <div class="kicker">In closing</div>
+        <h2 style="font-size:72px; margin-top:14px;">Network topology adds<br/><span style="color:var(--ink-2);">a leading, complementary, tradeable signal.</span></h2>
+      </div>
+      <div class="conc-pillars">
+        <div class="col">
+          <div class="lab">Leads</div>
+          <h3>Networks anticipate the market by ~4 days, with anomalies 36 days before crises.</h3>
+        </div>
+        <div class="col">
+          <div class="lab">Complements</div>
+          <h3>VIX dominates, but networks add value for sudden shocks &amp; daily drops.</h3>
+        </div>
+        <div class="col">
+          <div class="lab">Trades</div>
+          <h3>GraphSAGE + trend filter: Sharpe 0.79 net of costs.</h3>
+        </div>
+        <div class="col">
+          <div class="lab">Caveats</div>
+          <h3>Strong VIX correlation (0.53–0.61). Crash labels are sparse. One market, one regime epoch.</h3>
+        </div>
+      </div>
+      <div style="display:flex; justify-content: space-between; align-items: center; padding-top: 12px;">
+        <div style="font-family:var(--mono); font-size: 16px; color: var(--ink-3); letter-spacing: 0.14em; text-transform: uppercase;">Future work · graph-temporal models · multi-asset · regime-aware sizing</div>
+        <div style="font-family:var(--mono); font-size: 14px; color: var(--ink-3); letter-spacing: 0.18em;">↳ press → for thanks</div>
+      </div>
+
+    </div>
+    <div class="footer"><div class="left"><span class="pill">21 · Conclusion</span></div><div>structure, when read carefully, anticipates stress</div>
+    </section>
+  <!-- 19 — References -->
+  <section class="standard" data-label="References">
+    <div class="grid-bg"></div>
+    <div class="eyebrow"><span class="dot">●</span>Bibliography</div>
+    <h2 style="margin-bottom: 40px;">Key Academic References</h2>
+    <div class="ref-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px 60px; align-content: start;">
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Acharya et al. (2017)</strong> Measuring systemic risk. <em>The Review of Financial Studies</em>, 30(1):2–47.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Adrian &amp; Brunnermeier (2016)</strong> CoVaR. <em>American Economic Review</em>, 106(7):1705–1741.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Billio et al. (2012)</strong> Econometric measures of connectedness and systemic risk. <em>Journal of Financial Economics</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Diebold &amp; Yilmaz (2014)</strong> On the network topology of variance decompositions. <em>Journal of Econometrics</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Kritzman et al. (2011)</strong> Principal components as a measure of systemic risk. <em>The Journal of Portfolio Management</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">López de Prado (2018)</strong> <em>Advances in Financial Machine Learning</em>. John Wiley &amp; Sons.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Mantegna (1999)</strong> Hierarchical structure in financial markets. <em>European Physical Journal B</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Newman &amp; Girvan (2004)</strong> Finding and evaluating community structure in networks. <em>Physical Review E</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Whaley (2000)</strong> The investor fear gauge. <em>The Journal of Portfolio Management</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Allen &amp; Gale (2000)</strong> Financial contagion. <em>Journal of Political Economy</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Breiman (2001)</strong> Random forests. <em>Machine Learning</em>, 45(1):5–32.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Chen &amp; Guestrin (2016)</strong> XGBoost: A scalable tree boosting system. <em>ACM SIGKDD</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Diebold &amp; Yilmaz (2009)</strong> Measuring asset return and volatility spillovers. <em>Economic Journal</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Hochreiter &amp; Schmidhuber (1997)</strong> Long short-term memory. <em>Neural Computation</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Kipf &amp; Welling (2017)</strong> Semi-supervised classification with GCNs. <em>ICLR</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Lundberg &amp; Lee (2017)</strong> A unified approach to interpreting model predictions. <em>NeurIPS</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Onnela et al. (2003)</strong> Dynamics of market correlations: Taxonomy and portfolio analysis. <em>Phys. Rev. E</em>.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Sornette (2009)</strong> <em>Why Stock Markets Crash: Critical Events in Complex Systems</em>. Princeton.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Taleb (2007)</strong> <em>The Black Swan: The Impact of the Highly Improbable</em>. Random House.</div>
+      <div class="ref-item" style="font-size: 22px; line-height: 1.4; color: var(--ink-2);"><strong style="color: var(--cyan);">Veličković et al. (2018)</strong> Graph attention networks. <em>ICLR</em>.</div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">19 · Bibliography</span></div><div>Academic foundation of the framework</div></div>
+  </section>
+
+  <!-- 22 — Thanks -->
+  <section class="thanks-slide" data-label="Thanks">
+    <div class="grid-bg"></div>
+    <div class="kicker">End of talk · ready for Q&amp;A</div>
+    <h1>Thank <em>you</em>.</h1>
+    <div class="meta">
+      Stefano Blando · <span style="color:var(--amber);">Scuola Superiore Sant'Anna</span> &amp; <span style="color:var(--cyan);">University of Pisa</span><br/>
+      Panel 3: AI for Complexity and Economic Systems · COMPASS Workshop<br/><br/>
+      Press <span style="color:var(--cyan);">M</span> to open the Q&amp;A appendix · 1 — methodology · 2 — robustness · 3 — case studies · 4 — extra results
+    </div>
+    <div class="footer"><div class="left"><span class="pill">22 · Final</span></div><div>← / →  navigate · M  menu · R  reset</div></div>
+  </section>
+
+  <!-- ============ Q&A BACKUP ============ -->
+
+  <!-- B1 -->
+  <section data-label="QA · Methodology">
+    <div class="qa-marker">Backup · Q&amp;A · 01</div>
+    <div class="method-slide" style="margin-top: 20px;">
+      <div>
+        <div class="kicker">Methodology in one slide</div>
+        <h2 style="font-size:48px; margin-top:8px;">Walk-forward<br/>with purging.</h2>
+        <p style="color:var(--ink-2); margin-top: 14px; font-size: 22px;">Rolling 60-day correlation window. Train past, test future, with embargo gap.</p>
+        <ul class="clean" style="margin-top: 14px;">
+          <li><span></span>Universe: 210 S&amp;P 500</li>
+          <li><span></span>2013–2025 · daily</li>
+          <li><span></span>SMOTE-NC + class weights</li>
+          <li><span></span>40 targets · 5 families</li>
+        </ul>
+      </div>
+      <div>
+        <div class="formula">
+          ρᵢⱼ,ₜ = corr(rᵢ, rⱼ ; <span class="var">t-60 → t</span>)<br/>
+          edge(i,j) iff ρᵢⱼ &gt; <span class="var">0.5</span><br/><br/>
+          Gₜ = (V, Eₜ)  →  φ(Gₜ) ∈ ℝ¹⁷³<br/><br/>
+          ŷₜ = f<span style="color:var(--cyan)">θ</span>( φ(Gₜ), VIXₜ, priceₜ )<br/>
+          <span class="comment"># f ∈ {XGB, LGBM, CatB, LSTM, GraphSAGE, GAT}</span>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">QA-1 · Methodology</span></div><div>press M · or → for next backup</div></div>
+  </section>
+
+  <!-- B2 -->
+  <section data-label="QA · COVID case">
+    <div class="qa-marker">Backup · Q&amp;A · 02</div>
+    <div style="margin-top: 60px;">
+      <div class="kicker">Case study · COVID-19</div>
+      <h2 style="font-size:60px; margin-top:12px;">First anomalies on 13 Jan 2020.<br/><span style="color:var(--ink-2);">Crash starts 19 Feb. — 37 days lead.</span></h2>
+      <div class="stat-row" style="margin-top: 60px;">
+        <div class="stat-cell">
+          <div class="label">Avg. correlation</div>
+          <div class="v">0.95<span class="unit">peak</span></div>
+          <div class="desc">From 0.23 baseline. Tripled in 25 sessions.</div>
+        </div>
+        <div class="stat-cell">
+          <div class="label">Absorption ratio</div>
+          <div class="v">0.84<span class="unit">peak</span></div>
+          <div class="desc">From 0.55 baseline. Top eigenvalue absorbed almost all variance.</div>
+        </div>
+        <div class="stat-cell">
+          <div class="label">Network density</div>
+          <div class="v">1.00<span class="unit">peak</span></div>
+          <div class="desc">From 0.82. Every pair correlated above the threshold.</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">QA-2 · COVID</span></div><div>natural experiment · fastest decline ever recorded</div></div>
+  </section>
+
+  <!-- B3 -->
+  <section data-label="QA · Robustness">
+    <div class="qa-marker">Backup · Q&amp;A · 03</div>
+    <div style="margin-top: 60px;">
+      <div class="kicker">Robustness</div>
+      <h2 style="font-size:60px; margin-top:12px;">Five robustness layers.<br/><span style="color:var(--ink-2);">All pass.</span></h2>
+      <div class="agenda-grid" style="margin-top: 40px;">
+        <div class="agenda-item"><div class="n">i</div><div><h3>Train/test splits</h3><p>Sharpe 0.71–0.83 across windows.</p></div></div>
+        <div class="agenda-item"><div class="n">ii</div><div><h3>Model swap</h3><p>XGB/LGBM/CatB within ±0.04 Sharpe.</p></div></div>
+        <div class="agenda-item"><div class="n">iii</div><div><h3>Feature subsets</h3><p>Network-only Sharpe 0.61, market-only 0.58.</p></div></div>
+        <div class="agenda-item"><div class="n">iv</div><div><h3>Permutation tests</h3><p>p &lt; 0.01 vs label-shuffled null.</p></div></div>
+      </div>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">QA-3 · Robustness</span></div><div>walk-forward + permutation + bootstrap</div></div>
+  </section>
+
+  <!-- B4 -->
+  <section data-label="QA · Limitations">
+    <div class="qa-marker">Backup · Q&amp;A · 04</div>
+    <div style="margin-top: 60px;">
+      <div class="kicker">Honest limitations</div>
+      <h2 style="font-size:60px; margin-top:12px;">What this work does <em style="color:var(--amber); font-style:normal; font-family: var(--display); font-weight:400;">not</em> claim.</h2>
+      <ul class="clean" style="margin-top: 50px; gap: 28px;">
+        <li><span></span><strong>Single market.</strong> US equities only. Cross-asset and cross-region replication is open work.</li>
+        <li><span></span><strong>Network ≠ orthogonal to VIX.</strong> r = 0.53–0.61. Incremental value concentrates on shock-type targets.</li>
+        <li><span></span><strong>Crash labels are sparse.</strong> 40 targets help, but base rates are low; we mitigate via SMOTE + class weights.</li>
+        <li><span></span><strong>Backtest, not live.</strong> Slippage modeled at 5 bps; turnover-aware. No regime-change in costs.</li>
+      </ul>
+    </div>
+    <div class="footer"><div class="left"><span class="pill">QA-4 · Limitations</span></div><div>scientific honesty as method</div></div>
+  </section>
+
+</deck-stage>
+
+<script src="deck-stage.js"></script>
+<script src="anim-engine.js"></script>
+</body>
+</html>
+
+
+
+tml>
+
+
+
+
