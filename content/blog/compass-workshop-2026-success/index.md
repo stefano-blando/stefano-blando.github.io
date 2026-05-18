@@ -27,12 +27,6 @@ The event featured three inspiring keynote lectures:
 
 I had the pleasure of co-organizing the event and participating in the discussion on **AI for Complexity and Economic Systems**, where we explored the potential of agent-based modeling and network science in forecasting and policy-making.
 
-### My Presentation
-During the workshop, I presented my latest research on the application of AI methods to socio-economic networks. You can explore the presentation materials below:
-
-- 🖥️ **[View Online Presentation (HTML)](/uploads/COMPASS-Blando-Presentation.html)**
-- 📦 **[Download Presentation (ZIP)](/uploads/COMPASS-Blando-Presentation.zip)**
-
 A big thank you to all the participants, the co-organizers, and the **Scuola Superiore Sant'Anna** for hosting this event. We also gratefully acknowledge the **University of Pisa (UniPi)** for the grant for high-impact doctoral scientific initiatives that made this workshop possible.
 
 This event represents a significant step in building an interdisciplinary bridge between AI and the social sciences.
