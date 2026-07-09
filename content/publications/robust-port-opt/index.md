@@ -1,5 +1,5 @@
 ---
-title: "High-dimensional Robust Portfolio Optimization Under Contamination: A Factor-Analytic Approach"
+title: "Robust Portfolio Optimization Under Systematic Market Disruptions: A Factor-Analytic Approach"
 authors:
 - me
 - Alessio Farcomeni
