@@ -27,6 +27,40 @@ sections:
         size: large
         shape: circle
 
+# Particles Background (Network)
+  - block: markdown
+    content:
+      text: |
+        <div id="tsparticles" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></div>
+        <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.5.0/tsparticles.bundle.min.js"></script>
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (window.tsParticles) {
+                tsParticles.load({
+                    id: "tsparticles",
+                    options: {
+                        background: { color: { value: "transparent" } },
+                        fpsLimit: 60,
+                        interactivity: {
+                            events: { onHover: { enable: true, mode: "grab" } },
+                            modes: { grab: { distance: 140, links: { opacity: 0.5 } } }
+                        },
+                        particles: {
+                            color: { value: "#ffffff" },
+                            links: { color: "#93c5fd", distance: 150, enable: true, opacity: 0.6, width: 1.5 },
+                            move: { direction: "none", enable: true, outModes: { default: "bounce" }, random: false, speed: 1.5, straight: false },
+                            number: { density: { enable: true, area: 800 }, value: 70 },
+                            opacity: { value: 0.8 },
+                            shape: { type: "circle" },
+                            size: { value: { min: 1, max: 3 } }
+                        },
+                        detectRetina: true
+                    }
+                });
+            }
+        });
+        </script>
+
   # 2. RESEARCH OVERVIEW
   - block: features
     content:
@@ -36,15 +70,15 @@ sections:
         - name: 'Adaptive Multi-Agent Systems'
           description: 'I design and simulate complex populations of agents that dynamically adapt their behavior. By combining reinforcement learning, heuristic rules, and deliberative strategies, these models reveal how micro-level interactions and evolving networks generate emergent macroeconomic phenomena.'
           icon: 'brain'
-          icon_pack: 'fas'
+          icon_pack: 'custom'
         - name: 'Statistical Verification'
           description: 'Ensuring the reliability of simulations is crucial. I employ advanced statistical model checking techniques to rigorously evaluate agent-based models. This involves exploring vast parameter spaces, conducting convergence diagnostics, and verifying explicit properties to build trust in simulated outcomes.'
           icon: 'network-wired'
-          icon_pack: 'fas'
+          icon_pack: 'custom'
         - name: 'Robust Quantitative Methods'
           description: 'My research applies state-of-the-art econometric tools, robust statistics, and Graph Neural Networks (GNNs) to real-world financial data. I focus on quantifying systemic risk, optimizing portfolio allocation, and predicting firm-level distress under extreme market conditions.'
           icon: 'chart-line'
-          icon_pack: 'fas'
+          icon_pack: 'custom'
     design:
       columns: '3'
     
