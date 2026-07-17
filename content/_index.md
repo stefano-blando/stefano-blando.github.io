@@ -31,11 +31,11 @@ sections:
   - block: markdown
     content:
       text: |
-        <div id="tsparticles" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></div>
+        <div id="tsparticles" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: 0; pointer-events: none;"></div>
         <script src="https://cdn.jsdelivr.net/npm/tsparticles@3.5.0/tsparticles.bundle.min.js"></script>
         <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            if (window.tsParticles) {
+        (function initParticles() {
+            if (typeof tsParticles !== 'undefined') {
                 tsParticles.load({
                     id: "tsparticles",
                     options: {
@@ -43,22 +43,24 @@ sections:
                         fpsLimit: 60,
                         interactivity: {
                             events: { onHover: { enable: true, mode: "grab" } },
-                            modes: { grab: { distance: 140, links: { opacity: 0.5 } } }
+                            modes: { grab: { distance: 150, links: { opacity: 0.8 } } }
                         },
                         particles: {
                             color: { value: "#ffffff" },
-                            links: { color: "#93c5fd", distance: 150, enable: true, opacity: 0.6, width: 1.5 },
-                            move: { direction: "none", enable: true, outModes: { default: "bounce" }, random: false, speed: 1.5, straight: false },
-                            number: { density: { enable: true, area: 800 }, value: 70 },
-                            opacity: { value: 0.8 },
+                            links: { color: "#93c5fd", distance: 150, enable: true, opacity: 0.8, width: 2 },
+                            move: { direction: "none", enable: true, outModes: { default: "bounce" }, random: false, speed: 2, straight: false },
+                            number: { density: { enable: true, area: 800 }, value: 80 },
+                            opacity: { value: 1 },
                             shape: { type: "circle" },
-                            size: { value: { min: 1, max: 3 } }
+                            size: { value: { min: 2, max: 4 } }
                         },
                         detectRetina: true
                     }
                 });
+            } else {
+                setTimeout(initParticles, 100);
             }
-        });
+        })();
         </script>
 
   # 2. RESEARCH OVERVIEW
