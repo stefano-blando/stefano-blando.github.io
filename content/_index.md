@@ -27,25 +27,26 @@ sections:
         size: large
         shape: circle
 
-# 2. RESEARCH OVERVIEW
-  - block: markdown
+  # 2. RESEARCH OVERVIEW
+  - block: features
     content:
       title: '📚 Research Overview'
-      subtitle: 'AI, Agent-Based Modeling, and Economics'
-      text: |
-        I study how adaptive agents make decisions, interact through changing networks, and generate aggregate economic dynamics.
-
-          My work combines **AI**, **agent-based modeling**, and **quantitative methods** to build economic simulations that are not only more flexible, but also more testable and empirically grounded.
-
-
-        ### Core Research Pillars:
-
-        * **Adaptive Multi-Agent Systems:** Designing agents that switch across heuristic, learned, and deliberative policies while their interaction networks evolve endogenously.
-        * **Statistical Verification of Simulations:** Using **statistical model checking** to evaluate agent-based models through explicit properties, parameter exploration, and convergence diagnostics.
-        * **Robust Quantitative Methods:** Applying robust statistics, network methods, and econometric tools to problems in systemic risk, portfolio allocation, and firm-level distress.
-
+      subtitle: 'My work combines AI, agent-based modeling, and quantitative methods to build economic simulations that are flexible, testable, and empirically grounded.'
+      items:
+        - name: 'Adaptive Multi-Agent Systems'
+          description: 'Designing agents that switch across heuristic, learned, and deliberative policies while their interaction networks evolve endogenously.'
+          icon: 'robot'
+          icon_pack: 'fas'
+        - name: 'Statistical Verification'
+          description: 'Using statistical model checking to evaluate agent-based models through explicit properties, parameter exploration, and convergence diagnostics.'
+          icon: 'chart-network'
+          icon_pack: 'fas'
+        - name: 'Robust Quantitative Methods'
+          description: 'Applying robust statistics, network methods, and econometric tools to problems in systemic risk, portfolio allocation, and firm-level distress.'
+          icon: 'chart-line'
+          icon_pack: 'fas'
     design:
-      columns: '1'
+      columns: '3'
     
   # 3. NEWS
   - block: collection

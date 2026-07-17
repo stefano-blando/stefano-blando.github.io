@@ -31,20 +31,20 @@ hugoblox:
     mode: system
     pack: "default"
     colors:
-      primary: ""
-      secondary: ""
-      neutral: ""
+      primary: "#2563eb"    # Royal Blue
+      secondary: "#0f172a"  # Navy / Slate 900
+      neutral: "#ffffff"    # Pure White
     colors_light: {}
     colors_dark: {}
     surfaces:
-      background: ""
-      foreground: ""
+      background: "#f8fafc"
+      foreground: "#0f172a"
       header:
-        background: ""
-        foreground: ""
+        background: "rgba(248, 250, 252, 0.8)" # Glassmorphism base
+        foreground: "#0f172a"
       footer:
-        background: ""
-        foreground: ""
+        background: "#0f172a"
+        foreground: "#f8fafc"
 
   # ────────────────────────────────────────────────────────────────────────────
   # TYPOGRAPHY
