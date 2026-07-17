@@ -86,6 +86,13 @@ h1, h2, h3 {
     transform: translateY(-2px);
 }
 
+/* Dark Mode Navy Gradient Background */
+.dark body {
+    background: linear-gradient(135deg, #020617 0%, #0f172a 50%, #1e3a8a 100%) !important;
+    background-attachment: fixed !important;
+    color: #f8fafc;
+}
+
 /* Scroll Animations */
 .reveal {
     opacity: 0;

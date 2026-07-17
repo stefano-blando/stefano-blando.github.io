@@ -28,23 +28,23 @@ hugoblox:
   # THEME
   # ────────────────────────────────────────────────────────────────────────────
   theme:
-    mode: system
+    mode: dark
     pack: "default"
     colors:
-      primary: "#2563eb"    # Royal Blue
-      secondary: "#0f172a"  # Navy / Slate 900
+      primary: "#3b82f6"    # Brighter Blue for dark mode
+      secondary: "#1e3a8a"  # Deep Navy
       neutral: "#ffffff"    # Pure White
     colors_light: {}
     colors_dark: {}
     surfaces:
-      background: "#f8fafc"
-      foreground: "#0f172a"
+      background: "#020617" # Very Dark Slate
+      foreground: "#f8fafc" # Light text
       header:
-        background: "rgba(248, 250, 252, 0.8)" # Glassmorphism base
-        foreground: "#0f172a"
-      footer:
-        background: "#0f172a"
+        background: "rgba(2, 6, 23, 0.7)" # Glassmorphism base dark
         foreground: "#f8fafc"
+      footer:
+        background: "#020617"
+        foreground: "#94a3b8"
 
   # ────────────────────────────────────────────────────────────────────────────
   # TYPOGRAPHY
