@@ -47,6 +47,14 @@ class HomepageContractTests(unittest.TestCase):
         self.assertIn("<details", source)
         self.assertIn("<summary", source)
 
+    def test_featured_projects_are_explicit_and_limited_to_three(self):
+        template = ROOT / "layouts/_partials/hbx/blocks/featured-projects/block.html"
+        self.assertTrue(template.exists())
+        source = template.read_text(encoding="utf-8")
+        self.assertIn("$block.content.slugs", source)
+        self.assertIn('site.GetPage (printf "/projects/%s" $slug)', source)
+
+
 
 
 

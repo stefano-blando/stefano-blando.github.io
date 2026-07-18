@@ -1,0 +1,33 @@
+{{ $block := . }}
+<section id="projects" class="featured-projects portfolio-section" aria-labelledby="projects-title">
+  <div class="portfolio-section__inner">
+    <p class="portfolio-eyebrow">{{ $block.content.eyebrow }}</p>
+    <h2 id="projects-title">{{ $block.content.title }}</h2>
+    <p class="portfolio-section__intro">{{ $block.content.text }}</p>
+    <div class="featured-projects__grid">
+      {{ range $slug := first 3 $block.content.slugs }}
+        {{ $project := site.GetPage (printf "/projects/%s" $slug) }}
+        {{ with $project }}
+          {{ $image := .Resources.GetMatch "featured.*" }}
+          <article class="featured-project portfolio-card" data-pointer-glow data-reveal>
+            <a class="featured-project__media" href="{{ .RelPermalink }}" aria-label="{{ .Title }}">
+              {{ with $image }}
+                {{ $thumb := .Fill "720x405 webp q88 Center" }}
+                <img src="{{ $thumb.RelPermalink }}" width="{{ $thumb.Width }}" height="{{ $thumb.Height }}" alt="" loading="lazy">
+              {{ end }}
+            </a>
+            <div class="featured-project__body">
+              <h3><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+              <p>{{ .Params.summary }}</p>
+              <div class="featured-project__tags">
+                {{ range first 3 .Params.tags }}<span>{{ . }}</span>{{ end }}
+              </div>
+              <a class="featured-project__link" href="{{ .RelPermalink }}">{{ $block.content.view_project }}</a>
+            </div>
+          </article>
+        {{ end }}
+      {{ end }}
+    </div>
+    <a class="portfolio-text-link" href="{{ relLangURL "projects/" }}">{{ $block.content.view_all }}</a>
+  </div>
+</section>
