@@ -8,7 +8,11 @@
     "dev": "hugo server --disableFastRender",
     "build": "hugo --minify && pnpm run pagefind",
     "pagefind": "pagefind --site public",
-    "check:i18n": "python3 scripts/check_i18n_sync.py"
+    "check:i18n": "python3 scripts/check_i18n_sync.py",
+    "test:ui": "python3 -m unittest discover -s tests -p 'test_*.py' -v",
+    "test:network": "node --test tests/network/*.test.mjs",
+    "test": "python3 -m unittest discover -s tests -p 'test_*.py' -v && node --test tests/network/*.test.mjs",
+    "audit:homepage": "python3 scripts/audit_built_homepage.py public"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.1.12",
