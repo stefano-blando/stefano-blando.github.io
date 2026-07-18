@@ -1,0 +1,6 @@
+.portfolio-contact { position: relative; padding: clamp(5rem, 10vw, 8rem) 1rem; border-top: 1px solid rgb(181 191 207 / 10%); background: radial-gradient(circle at 50% 0, rgb(82 111 168 / 16%), transparent 38%), rgb(4 6 12 / 88%); text-align: center; }
+.portfolio-contact__inner { width: min(780px, 100%); margin-inline: auto; }
+.portfolio-contact h2 { margin: 0; color: #f5f3ef; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.2rem, 5vw, 4rem); letter-spacing: -0.04em; }
+.portfolio-contact p { color: #9ba5b4; line-height: 1.7; }
+.portfolio-contact__links { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.65rem; margin-top: 1.5rem; }
+.portfolio-contact__links a { padding: 0.65rem 0.9rem; color: #c6cfdb; border: 1px solid #384558; border-radius: 0.65rem; text-decoration: none; }

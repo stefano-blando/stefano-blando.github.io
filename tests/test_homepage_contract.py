@@ -54,6 +54,18 @@ class HomepageContractTests(unittest.TestCase):
         self.assertIn("$block.content.slugs", source)
         self.assertIn('site.GetPage (printf "/projects/%s" $slug)', source)
 
+    def test_evidence_queries_publications_and_blog_content(self):
+        source = (ROOT / "layouts/_partials/hbx/blocks/portfolio-evidence/block.html").read_text(encoding="utf-8")
+        self.assertIn('where site.RegularPages "Section" "publications"', source)
+        self.assertIn('where site.RegularPages "Section" "blog"', source)
+        self.assertIn("url_pdf", source)
+
+    def test_contact_block_has_named_links(self):
+        source = (ROOT / "layouts/_partials/hbx/blocks/portfolio-contact/block.html").read_text(encoding="utf-8")
+        self.assertIn("$block.content.links", source)
+        self.assertIn('id="contact"', source)
+
+
 
 
 
