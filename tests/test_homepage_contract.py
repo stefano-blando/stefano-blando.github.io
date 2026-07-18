@@ -32,6 +32,14 @@ class HomepageContractTests(unittest.TestCase):
         self.assertEqual(source.count('id="research-network-canvas"'), 1)
         self.assertNotIn("—", source)
 
+    def test_research_pillars_render_local_svg_assets(self):
+        template = ROOT / "layouts/_partials/hbx/blocks/research-pillars/block.html"
+        self.assertTrue(template.exists())
+        source = template.read_text(encoding="utf-8")
+        self.assertIn('resources.Get (printf "media/icons/%s.svg" .icon)', source)
+        self.assertNotIn("icon_pack", source)
+
+
 
 
 if __name__ == "__main__":
