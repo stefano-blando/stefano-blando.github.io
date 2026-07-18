@@ -39,6 +39,15 @@ class HomepageContractTests(unittest.TestCase):
         self.assertIn('resources.Get (printf "media/icons/%s.svg" .icon)', source)
         self.assertNotIn("icon_pack", source)
 
+    def test_education_timeline_uses_native_details_and_author_data(self):
+        template = ROOT / "layouts/_partials/hbx/blocks/education-timeline/block.html"
+        self.assertTrue(template.exists())
+        source = template.read_text(encoding="utf-8")
+        self.assertIn("site.Data.authors", source)
+        self.assertIn("<details", source)
+        self.assertIn("<summary", source)
+
+
 
 
 
