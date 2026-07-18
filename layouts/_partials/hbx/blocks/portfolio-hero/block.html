@@ -1,0 +1,42 @@
+{{ $block := . }}
+{{ $username := $block.content.username | default "me" }}
+{{ $author := index site.Data.authors $username }}
+{{ $portraitPath := printf "media/authors/%s.png" $username }}
+{{ $portrait := resources.Get $portraitPath }}
+
+<section id="home" class="portfolio-hero" aria-labelledby="portfolio-hero-title">
+  <canvas id="research-network-canvas" class="research-network-canvas" aria-hidden="true"></canvas>
+  <div class="portfolio-hero__inner">
+    <div class="portfolio-hero__copy" data-reveal>
+      <p class="portfolio-eyebrow">{{ $block.content.eyebrow }}</p>
+      <h1 id="portfolio-hero-title">{{ $block.content.headline | markdownify }}</h1>
+      <div class="portfolio-hero__summary">{{ $block.content.summary | markdownify }}</div>
+      <div class="portfolio-actions">
+        <a class="portfolio-button portfolio-button--primary" data-magnetic href="{{ $block.content.primary.url }}">{{ $block.content.primary.text }}</a>
+        <a class="portfolio-button portfolio-button--secondary" data-magnetic href="{{ $block.content.secondary.url }}">{{ $block.content.secondary.text }}</a>
+      </div>
+      <div class="portfolio-affiliations" aria-label="{{ $block.content.affiliations_label }}">
+        <span>{{ $block.content.affiliations_label }}</span>
+        {{ range $author.affiliations }}
+          <a href="{{ .url }}" rel="noopener">{{ .name }}</a>
+        {{ end }}
+      </div>
+    </div>
+
+    <div class="portfolio-portrait-wrap" data-reveal>
+      <div class="portfolio-portrait">
+        {{ with $portrait }}
+          {{ $image := .Fill "744x804 webp q90 Center" }}
+          <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $block.content.portrait_alt }}" fetchpriority="high">
+        {{ else }}
+          <span class="portfolio-portrait__fallback" aria-label="{{ $author.name.display }}">SB</span>
+        {{ end }}
+      </div>
+      <div class="portfolio-identity-card">
+        <strong>{{ $author.role }}</strong>
+        <span>{{ $block.content.identity_focus }}</span>
+        <span class="portfolio-location">{{ $block.content.location }}</span>
+      </div>
+    </div>
+  </div>
+</section>

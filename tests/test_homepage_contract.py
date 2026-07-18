@@ -23,6 +23,16 @@ class HomepageContractTests(unittest.TestCase):
         self.assertNotIn("tsparticles", homes.lower())
         self.assertEqual(hook.count('resources.Get "js/research-network/index.js"'), 1)
 
+    def test_personal_hero_uses_author_data_and_local_portrait(self):
+        template = ROOT / "layouts/_partials/hbx/blocks/portfolio-hero/block.html"
+        self.assertTrue(template.exists())
+        source = template.read_text(encoding="utf-8")
+        self.assertIn("site.Data.authors", source)
+        self.assertIn("media/authors/%s.png", source)
+        self.assertEqual(source.count('id="research-network-canvas"'), 1)
+        self.assertNotIn("—", source)
+
+
 
 if __name__ == "__main__":
     unittest.main()
