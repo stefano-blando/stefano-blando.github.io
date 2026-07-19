@@ -39,7 +39,7 @@ body { font-family: var(--portfolio-sans); background: radial-gradient(circle at
 main, .page-body { position: relative; z-index: 1; }
 section[id] { scroll-margin-top: 5rem; }
 
-.portfolio-section { position: relative; padding-block: clamp(4.5rem, 9vw, 8rem); }
+.portfolio-section { position: relative; padding-block: clamp(2.5rem, 5vw, 4rem); }
 .portfolio-section__inner { width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
 .portfolio-section h2 { margin: 0; color: var(--portfolio-text); font-family: var(--portfolio-serif); font-style: italic; font-size: clamp(2.1rem, 4vw, 3rem); letter-spacing: -0.02em; font-weight: 400; }
 .portfolio-section__intro { max-width: 62ch; margin-top: 1.2rem; color: var(--portfolio-muted); line-height: 1.75; font-size: 1.05rem; }
