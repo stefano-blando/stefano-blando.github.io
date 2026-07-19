@@ -62,12 +62,16 @@ class HomepageContractTests(unittest.TestCase):
         self.assertIn("<details", source)
         self.assertIn("<summary", source)
 
-    def test_featured_projects_are_explicit_and_limited_to_three(self):
+    def test_featured_projects_are_case_study_rows(self):
         template = ROOT / "layouts/_partials/hbx/blocks/featured-projects/block.html"
         self.assertTrue(template.exists())
         source = template.read_text(encoding="utf-8")
         self.assertIn("$block.content.slugs", source)
         self.assertIn('site.GetPage (printf "/projects/%s" $slug)', source)
+        self.assertIn('id="work"', source)
+        self.assertIn("featured-case__meta", source)
+        self.assertIn(".Params.links", source)
+        self.assertNotIn('id="projects"', source)
 
     def test_evidence_queries_publications_and_blog_content(self):
         source = (ROOT / "layouts/_partials/hbx/blocks/portfolio-evidence/block.html").read_text(encoding="utf-8")
