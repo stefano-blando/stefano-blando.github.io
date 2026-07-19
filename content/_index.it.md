@@ -15,12 +15,10 @@ sections:
       eyebrow: Stefano Blando | Ricercatore AI e Dottorando
       headline: Comprendere i sistemi complessi attraverso l'*intelligenza adattiva.*
       summary: La mia ricerca si colloca all'intersezione tra intelligenza artificiale, modellazione agent-based ed economia. Sviluppo simulazioni adattive, metodi di verifica statistica e strumenti applicativi per studiare sistemi economici complessi.
-      primary: {text: Esplora il mio lavoro, url: '#research'}
+      primary: {text: Esplora il mio lavoro, url: '#work'}
       secondary: {text: Scarica il CV, url: /uploads/resume.pdf}
-      affiliations_label: Affiliazioni
       portrait_alt: Ritratto di Stefano Blando
-      identity_focus: Sistemi multi-agente adattivi e reti economiche
-      location: Pisa, Italia
+      social_label: Profili social
   - block: research-pillars
     content:
       eyebrow: Profilo di ricerca

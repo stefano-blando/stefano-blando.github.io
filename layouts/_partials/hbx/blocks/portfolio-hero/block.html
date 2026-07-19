@@ -7,36 +7,42 @@
 <section id="home" class="portfolio-hero" aria-labelledby="portfolio-hero-title">
   <canvas id="research-network-canvas" class="research-network-canvas" aria-hidden="true"></canvas>
   <div class="portfolio-hero__inner">
-    <div class="portfolio-hero__copy" data-reveal>
-      <p class="portfolio-eyebrow">{{ $block.content.eyebrow }}</p>
-      <h1 id="portfolio-hero-title">{{ $block.content.headline | markdownify }}</h1>
-      <div class="portfolio-hero__summary">{{ $block.content.summary | markdownify }}</div>
-      <div class="portfolio-actions">
-        <a class="portfolio-button portfolio-button--primary" data-magnetic href="{{ $block.content.primary.url }}">{{ $block.content.primary.text }}</a>
-        <a class="portfolio-button portfolio-button--secondary" data-magnetic href="{{ $block.content.secondary.url }}">{{ $block.content.secondary.text }}</a>
-      </div>
-      <div class="portfolio-affiliations" aria-label="{{ $block.content.affiliations_label }}">
-        <span>{{ $block.content.affiliations_label }}</span>
-        {{ range $author.affiliations }}
-          <a href="{{ .url }}" rel="noopener">{{ .name }}</a>
-        {{ end }}
+    <div class="portfolio-hero__copy">
+      <p class="portfolio-eyebrow" data-stagger>{{ $block.content.eyebrow }}</p>
+      <h1 id="portfolio-hero-title" data-stagger>{{ $block.content.headline | markdownify }}</h1>
+      <div class="portfolio-hero__summary" data-stagger>{{ $block.content.summary | markdownify }}</div>
+      <div class="portfolio-actions" data-stagger>
+        <a class="portfolio-button portfolio-button--primary" href="{{ $block.content.primary.url }}">{{ $block.content.primary.text }}</a>
+        <a class="portfolio-button portfolio-button--secondary" href="{{ $block.content.secondary.url }}">{{ $block.content.secondary.text }}</a>
       </div>
     </div>
 
-    <div class="portfolio-portrait-wrap" data-reveal>
+    <div class="portfolio-hero__portrait-col" data-stagger>
       <div class="portfolio-portrait">
         {{ with $portrait }}
-          {{ $image := .Fill "744x804 webp q90 Center" }}
+          {{ $image := .Fill "520x520 webp q90 Center" }}
           <img src="{{ $image.RelPermalink }}" width="{{ $image.Width }}" height="{{ $image.Height }}" alt="{{ $block.content.portrait_alt }}" fetchpriority="high">
         {{ else }}
           <span class="portfolio-portrait__fallback" aria-label="{{ $author.name.display }}">SB</span>
         {{ end }}
       </div>
-      <div class="portfolio-identity-card">
-        <strong>{{ $author.role }}</strong>
-        <span>{{ $block.content.identity_focus }}</span>
-        <span class="portfolio-location">{{ $block.content.location }}</span>
-      </div>
+      <ul class="portfolio-hero__social" aria-label="{{ $block.content.social_label }}">
+        {{ range $author.links }}
+          {{ $slug := "email" }}
+          {{ if in .url "github" }}{{ $slug = "github" }}{{ else if in .url "linkedin" }}{{ $slug = "linkedin" }}{{ else if in .url "scholar" }}{{ $slug = "google-scholar" }}{{ end }}
+          {{ $icon := resources.Get (printf "media/icons/social/%s.svg" $slug) }}
+          <li>
+            <a href="{{ .url }}"{{ if strings.HasPrefix .url "http" }} rel="noopener"{{ end }} aria-label="{{ .label | default $slug }}">
+              {{ with $icon }}{{ .Content | safeHTML }}{{ end }}
+            </a>
+          </li>
+        {{ end }}
+      </ul>
+      {{ range $author.links }}
+        {{ if strings.HasPrefix .url "mailto:" }}
+          <a class="portfolio-hero__email" href="{{ .url }}">{{ strings.TrimPrefix "mailto:" .url }}</a>
+        {{ end }}
+      {{ end }}
     </div>
   </div>
 </section>

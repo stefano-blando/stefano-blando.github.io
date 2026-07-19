@@ -17,14 +17,12 @@ sections:
       summary: My research lies at the intersection of artificial intelligence, agent-based modeling, and economics. I develop adaptive simulations, statistical verification methods, and practical tools for studying complex economic systems.
       primary:
         text: Explore my work
-        url: '#research'
+        url: '#work'
       secondary:
         text: Download CV
         url: /uploads/resume.pdf
-      affiliations_label: Affiliated with
       portrait_alt: Portrait of Stefano Blando
-      identity_focus: Adaptive multi-agent systems and economic networks
-      location: Based in Pisa, Italy
+      social_label: Social profiles
 
   - block: research-pillars
     content:

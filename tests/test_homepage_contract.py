@@ -31,6 +31,14 @@ class HomepageContractTests(unittest.TestCase):
         self.assertIn("media/authors/%s.png", source)
         self.assertEqual(source.count('id="research-network-canvas"'), 1)
         self.assertNotIn("—", source)
+        self.assertIn("portfolio-hero__social", source)
+        self.assertIn("$author.links", source)
+        self.assertIn('media/icons/social', source)
+        self.assertNotIn("portfolio-identity-card", source)
+        for icon in ("github", "linkedin", "google-scholar", "email"):
+            self.assertTrue(
+                (ROOT / f"assets/media/icons/social/{icon}.svg").exists(), icon
+            )
 
     def test_research_pillars_render_local_svg_assets(self):
         template = ROOT / "layouts/_partials/hbx/blocks/research-pillars/block.html"
