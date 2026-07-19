@@ -1,18 +1,17 @@
-import { createModularTopology, getNeighborIds } from './topology.js';
+import { createHeroTopology, getNeighborIds } from './topology.js';
 
 export class ResearchNetworkRenderer {
   constructor(canvas, profile) {
     this.canvas = canvas;
     this.context = canvas.getContext('2d', { alpha: true });
     this.profile = profile;
-    this.graph = createModularTopology({
-      communitySizes: profile.nodeCount === 18 ? [6, 6, 6] : [10, 10, 10],
-    });
+    this.graph = createHeroTopology({ nodeCount: profile.nodeCount });
     this.nodesById = new Map(this.graph.nodes.map((node) => [node.id, node]));
     this.pointer = null;
     this.highlighted = new Set();
     this.frameId = null;
     this.hidden = document.hidden;
+    this.inView = true;
     this.resize = this.resize.bind(this);
     this.onPointerMove = this.onPointerMove.bind(this);
     this.onPointerLeave = this.onPointerLeave.bind(this);
@@ -25,17 +24,31 @@ export class ResearchNetworkRenderer {
     window.addEventListener('resize', this.resize, { passive: true });
     document.addEventListener('visibilitychange', this.onVisibilityChange);
     if (this.profile.pointer) {
-      window.addEventListener('pointermove', this.onPointerMove, { passive: true });
-      window.addEventListener('pointerleave', this.onPointerLeave, { passive: true });
+      this.canvas.parentElement.addEventListener('pointermove', this.onPointerMove, { passive: true });
+      this.canvas.parentElement.addEventListener('pointerleave', this.onPointerLeave, { passive: true });
+    }
+    if ('IntersectionObserver' in window) {
+      this.viewObserver = new IntersectionObserver((entries) => {
+        this.inView = entries.some((entry) => entry.isIntersecting);
+        this.requestFrame();
+      });
+      this.viewObserver.observe(this.canvas);
     }
     this.draw();
-    if (this.profile.animate) this.frameId = requestAnimationFrame(this.frame);
+    this.requestFrame();
+  }
+
+  requestFrame() {
+    if (this.profile.animate && !this.hidden && this.inView && this.frameId === null) {
+      this.frameId = requestAnimationFrame(this.frame);
+    }
   }
 
   resize() {
+    const host = this.canvas.parentElement.getBoundingClientRect();
     const ratio = Math.min(window.devicePixelRatio || 1, 2);
-    this.width = window.innerWidth;
-    this.height = window.innerHeight;
+    this.width = host.width;
+    this.height = host.height;
     this.canvas.width = Math.round(this.width * ratio);
     this.canvas.height = Math.round(this.height * ratio);
     this.canvas.style.width = `${this.width}px`;
@@ -45,7 +58,11 @@ export class ResearchNetworkRenderer {
   }
 
   onPointerMove(event) {
-    this.pointer = { x: event.clientX / this.width, y: event.clientY / this.height };
+    const bounds = this.canvas.getBoundingClientRect();
+    this.pointer = {
+      x: (event.clientX - bounds.left) / this.width,
+      y: (event.clientY - bounds.top) / this.height,
+    };
     let nearest = null;
     let distance = Number.POSITIVE_INFINITY;
     for (const node of this.graph.nodes) {
@@ -67,9 +84,7 @@ export class ResearchNetworkRenderer {
 
   onVisibilityChange() {
     this.hidden = document.hidden;
-    if (!this.hidden && this.profile.animate && this.frameId === null) {
-      this.frameId = requestAnimationFrame(this.frame);
-    }
+    this.requestFrame();
   }
 
   update() {
@@ -99,32 +114,36 @@ export class ResearchNetworkRenderer {
       const source = this.nodesById.get(edge.source);
       const target = this.nodesById.get(edge.target);
       const active = this.highlighted.has(source.id) && this.highlighted.has(target.id);
+      const alpha = active ? 0.55 : Math.min(source.opacity, target.opacity) * 0.35;
       this.context.beginPath();
       this.context.moveTo(source.x * this.width, source.y * this.height);
       this.context.lineTo(target.x * this.width, target.y * this.height);
       this.context.strokeStyle = active
-        ? 'rgba(146, 190, 232, 0.68)'
-        : edge.bridge
-          ? 'rgba(104, 147, 196, 0.30)'
-          : 'rgba(126, 151, 184, 0.18)';
-      this.context.lineWidth = active ? 1.4 : 0.8;
+        ? `rgba(146, 190, 232, ${alpha})`
+        : `rgba(126, 151, 184, ${alpha})`;
+      this.context.lineWidth = active ? 1.2 : 0.8;
       this.context.stroke();
     }
     for (const node of this.graph.nodes) {
       const active = this.highlighted.has(node.id);
-      const radius = Math.min(2.2 + node.degree * 0.55, 6.5) + (active ? 1.2 : 0);
       this.context.beginPath();
-      this.context.arc(node.x * this.width, node.y * this.height, radius, 0, Math.PI * 2);
+      this.context.arc(
+        node.x * this.width,
+        node.y * this.height,
+        node.radius + (active ? 1 : 0),
+        0,
+        Math.PI * 2,
+      );
       this.context.fillStyle = active
         ? 'rgba(181, 210, 239, 0.95)'
-        : 'rgba(118, 151, 191, 0.58)';
+        : `rgba(126, 158, 199, ${node.opacity})`;
       this.context.fill();
     }
   }
 
   frame() {
     this.frameId = null;
-    if (this.hidden) return;
+    if (this.hidden || !this.inView) return;
     this.update();
     this.draw();
     this.frameId = requestAnimationFrame(this.frame);
@@ -132,9 +151,10 @@ export class ResearchNetworkRenderer {
 
   destroy() {
     if (this.frameId !== null) cancelAnimationFrame(this.frameId);
+    if (this.viewObserver) this.viewObserver.disconnect();
     window.removeEventListener('resize', this.resize);
-    window.removeEventListener('pointermove', this.onPointerMove);
-    window.removeEventListener('pointerleave', this.onPointerLeave);
+    this.canvas.parentElement.removeEventListener('pointermove', this.onPointerMove);
+    this.canvas.parentElement.removeEventListener('pointerleave', this.onPointerLeave);
     document.removeEventListener('visibilitychange', this.onVisibilityChange);
   }
 }
