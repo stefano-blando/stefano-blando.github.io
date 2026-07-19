@@ -1,9 +1,10 @@
 {{ $block := .wcBlock }}
-<section id="contact" class="portfolio-contact" aria-labelledby="contact-title">
+<section id="contact" class="portfolio-contact portfolio-section" aria-labelledby="contact-title">
   <div class="portfolio-contact__inner" data-reveal>
     <p class="portfolio-eyebrow">{{ $block.content.eyebrow }}</p>
     <h2 id="contact-title">{{ $block.content.title }}</h2>
-    <p>{{ $block.content.text }}</p>
+    <p class="portfolio-contact__text">{{ $block.content.text }}</p>
+    <a class="portfolio-contact__email" href="mailto:{{ $block.content.email }}">{{ $block.content.email }}</a>
     <div class="portfolio-contact__links">
       {{ range $block.content.links }}
         <a href="{{ .url }}"{{ if strings.HasPrefix .url "http" }} rel="noopener"{{ end }}>{{ .label }}</a>

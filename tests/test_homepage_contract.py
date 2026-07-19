@@ -54,14 +54,6 @@ class HomepageContractTests(unittest.TestCase):
             self.assertNotIn("interest_groups", home)
             self.assertNotIn("icon:", home)
 
-    def test_education_timeline_uses_native_details_and_author_data(self):
-        template = ROOT / "layouts/_partials/hbx/blocks/education-timeline/block.html"
-        self.assertTrue(template.exists())
-        source = template.read_text(encoding="utf-8")
-        self.assertIn("site.Data.authors", source)
-        self.assertIn("<details", source)
-        self.assertIn("<summary", source)
-
     def test_featured_projects_are_case_study_rows(self):
         template = ROOT / "layouts/_partials/hbx/blocks/featured-projects/block.html"
         self.assertTrue(template.exists())
@@ -73,24 +65,23 @@ class HomepageContractTests(unittest.TestCase):
         self.assertIn(".Params.links", source)
         self.assertNotIn('id="projects"', source)
 
-    def test_evidence_queries_publications_and_blog_content(self):
-        source = (ROOT / "layouts/_partials/hbx/blocks/portfolio-evidence/block.html").read_text(encoding="utf-8")
-        self.assertIn('where site.RegularPages "Section" "publications"', source)
-        self.assertIn('where site.RegularPages "Section" "blog"', source)
-        self.assertIn("url_pdf", source)
-
-    def test_contact_block_has_named_links(self):
+    def test_contact_block_has_primary_email_and_named_links(self):
         source = (ROOT / "layouts/_partials/hbx/blocks/portfolio-contact/block.html").read_text(encoding="utf-8")
         self.assertIn("$block.content.links", source)
         self.assertIn('id="contact"', source)
+        self.assertIn("portfolio-contact__email", source)
+
+    def test_menu_links_survive_homepage_slimdown(self):
+        menu = (ROOT / "config/_default/menus.yaml").read_text(encoding="utf-8")
+        self.assertIn("'/#work'", menu)
+        self.assertIn("publications/", menu)
+        self.assertNotIn("'/#publications'", menu)
 
     def test_homepage_block_order_and_copy_are_synchronized(self):
         expected = [
             "portfolio-hero",
             "research-pillars",
-            "education-timeline",
             "featured-projects",
-            "portfolio-evidence",
             "portfolio-contact",
         ]
         for relative in ("content/_index.md", "content/_index.it.md"):

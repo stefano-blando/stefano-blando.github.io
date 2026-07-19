@@ -34,8 +34,6 @@ sections:
         - name: Metodi Quantitativi Robusti
           description: Applico econometria, statistica robusta e graph learning a problemi di rischio sistemico e decisioni finanziarie.
           topics: [Econometria, Rischio Sistemico, Reti Economiche]
-  - block: education-timeline
-    content: {username: me-it, eyebrow: Formazione, title: Percorso accademico, text: Un percorso multidisciplinare dalla filosofia e dalla governance alla finanza quantitativa, all'intelligenza artificiale e ai sistemi complessi., present: presente}
   - block: featured-projects
     content:
       eyebrow: Progetti selezionati
@@ -47,15 +45,13 @@ sections:
         - multi-agent-orchestration
       view_project: Vedi progetto
       view_all: Esplora tutti i progetti
-  - block: portfolio-evidence
-    content: {publications_eyebrow: Pubblicazioni selezionate, publications_title: Risultati della ricerca, news_eyebrow: Aggiornamenti, news_title: News e riconoscimenti, view_pdf: Vedi PDF, view_entry: Vedi scheda}
   - block: portfolio-contact
     content:
       eyebrow: Contatti
       title: Parliamo di ricerca, sistemi o collaborazioni.
       text: Vivo a Pisa e sono disponibile per collaborazioni accademiche e tecniche su intelligenza artificiale, reti economiche e sistemi complessi.
+      email: stefano.blando@santannapisa.it
       links:
-        - {label: Email, url: 'mailto:stefano.blando@santannapisa.it'}
         - {label: GitHub, url: 'https://github.com/stefano-blando'}
         - {label: LinkedIn, url: 'https://www.linkedin.com/in/stefano-blando/'}
         - {label: Google Scholar, url: 'https://scholar.google.com/citations?user=dNbRRG0AAAAJ'}

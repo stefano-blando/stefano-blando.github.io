@@ -40,14 +40,6 @@ sections:
           description: I apply econometrics, robust statistics, and graph learning to systemic risk and financial decision problems.
           topics: [Econometrics, Systemic Risk, Economic Networks]
 
-  - block: education-timeline
-    content:
-      username: me
-      eyebrow: Background
-      title: Academic journey
-      text: A multidisciplinary path from philosophy and governance to quantitative finance, artificial intelligence, and complex systems.
-      present: present
-
   - block: featured-projects
     content:
       eyebrow: Selected builds
@@ -60,23 +52,13 @@ sections:
       view_project: View project
       view_all: Explore all projects
 
-  - block: portfolio-evidence
-    content:
-      publications_eyebrow: Selected publications
-      publications_title: Research outputs
-      news_eyebrow: Latest
-      news_title: News and recognition
-      view_pdf: View PDF
-      view_entry: View entry
-
   - block: portfolio-contact
     content:
       eyebrow: Contact
       title: Let us discuss research, systems, or collaboration.
       text: I am based in Pisa and open to academic and technical collaborations in artificial intelligence, economic networks, and complex systems.
+      email: stefano.blando@santannapisa.it
       links:
-        - label: Email
-          url: mailto:stefano.blando@santannapisa.it
         - label: GitHub
           url: https://github.com/stefano-blando
         - label: LinkedIn
