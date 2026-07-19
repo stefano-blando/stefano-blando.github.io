@@ -65,6 +65,30 @@ class HomepageContractTests(unittest.TestCase):
         self.assertIn("$block.content.links", source)
         self.assertIn('id="contact"', source)
 
+    def test_homepage_block_order_and_copy_are_synchronized(self):
+        expected = [
+            "portfolio-hero",
+            "research-pillars",
+            "education-timeline",
+            "featured-projects",
+            "portfolio-evidence",
+            "portfolio-contact",
+        ]
+        for relative in ("content/_index.md", "content/_index.it.md"):
+            source = (ROOT / relative).read_text(encoding="utf-8")
+            found = [line.split(":", 1)[1].strip() for line in source.splitlines() if line.strip().startswith("- block:")]
+            self.assertEqual(found, expected)
+            self.assertIn("spacing: '0rem'", source)
+            self.assertNotIn("tsparticles", source.lower())
+            self.assertNotIn("—", source)
+
+    def test_homepage_selects_three_featured_projects(self):
+        for relative in ("content/_index.md", "content/_index.it.md"):
+            source = (ROOT / relative).read_text(encoding="utf-8")
+            for slug in ("risk-sentinel", "island-model-smc", "multi-agent-orchestration"):
+                self.assertIn(f"- {slug}", source)
+
+
 
 
 

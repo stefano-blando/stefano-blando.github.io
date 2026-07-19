@@ -35,18 +35,9 @@ it:
         address_format: en-gb
   menu:
     main:
-      - name: Profilo
-        url: /
-        weight: 10
-      - name: Pubblicazioni
-        url: /#papers
-        weight: 11
-      - name: News
-        url: /#news
-        weight: 13
-      - name: Esperienza
-        url: experience/
-        weight: 20
-      - name: Progetti
-        url: projects/
-        weight: 30
+      - {name: Ricerca, url: '/#research', weight: 10}
+      - {name: Pubblicazioni, url: '/#publications', weight: 20}
+      - {name: Progetti, url: 'projects/', weight: 30}
+      - {name: Esperienza, url: 'experience/', weight: 40}
+      - {name: Contatti, url: '/#contact', weight: 50}
+

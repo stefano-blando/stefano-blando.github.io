@@ -6,73 +6,90 @@ date: 2022-10-24
 type: landing
 
 design:
-  spacing: '6rem'
+  spacing: '0rem'
 
 sections:
-  # 1. BIOGRAFIA
-  - block: resume-biography-3
+  - block: portfolio-hero
     content:
       username: me
-      text: ''
-      button:
+      eyebrow: Stefano Blando | AI Researcher and PhD Candidate
+      headline: Understanding complex systems through *adaptive intelligence.*
+      summary: My research lies at the intersection of artificial intelligence, agent-based modeling, and economics. I develop adaptive simulations, statistical verification methods, and practical tools for studying complex economic systems.
+      primary:
+        text: Explore my work
+        url: '#research'
+      secondary:
         text: Download CV
-        url: https://stefano-blando.github.io/uploads/resume.pdf
-    design:
-      background:
-        gradient_mesh:
-          enable: true
-      name:
-        size: lg
-      avatar:
-        size: large
-        shape: circle
+        url: /uploads/resume.pdf
+      affiliations_label: Affiliated with
+      portrait_alt: Portrait of Stefano Blando
+      identity_focus: Adaptive multi-agent systems and economic networks
+      location: Based in Pisa, Italy
 
-  # 2. RESEARCH OVERVIEW
-  - block: features
+  - block: research-pillars
     content:
-      title: '📚 Research Overview'
-      subtitle: 'My work combines AI, agent-based modeling, and quantitative methods to build economic simulations that are flexible, testable, and empirically grounded.'
+      eyebrow: Research profile
+      title: Three connected research pillars
+      text: My work combines adaptive agents, statistical verification, and robust quantitative methods to study complex economic systems.
       items:
-        - name: 'Adaptive Multi-Agent Systems'
-          description: 'I design and simulate complex populations of agents that dynamically adapt their behavior. By combining reinforcement learning, heuristic rules, and deliberative strategies, these models reveal how micro-level interactions and evolving networks generate emergent macroeconomic phenomena.'
-          icon: 'brain'
-          icon_pack: 'custom'
-        - name: 'Statistical Verification'
-          description: 'Ensuring the reliability of simulations is crucial. I employ advanced statistical model checking techniques to rigorously evaluate agent-based models. This involves exploring vast parameter spaces, conducting convergence diagnostics, and verifying explicit properties to build trust in simulated outcomes.'
-          icon: 'network-wired'
-          icon_pack: 'custom'
-        - name: 'Robust Quantitative Methods'
-          description: 'My research applies state-of-the-art econometric tools, robust statistics, and Graph Neural Networks (GNNs) to real-world financial data. I focus on quantifying systemic risk, optimizing portfolio allocation, and predicting firm-level distress under extreme market conditions.'
-          icon: 'chart-line'
-          icon_pack: 'custom'
-    design:
-      columns: '3'
-    
-  # 3. NEWS
-  - block: collection
-    id: news
-    content:
-      title: Latest News
-      subtitle: ''
-      text: ''
-      filters:
-        folders:
-          - blog
-        exclude_featured: false
-    design:
-      view: date_title_summary
-      columns: 2
+        - name: Adaptive Multi-Agent Systems
+          icon: brain
+          description: I study populations of learning, heuristic, and deliberative agents interacting over evolving economic networks.
+        - name: Statistical Verification
+          icon: network-wired
+          description: I use convergence diagnostics and statistical model checking to make simulation evidence more reliable and reproducible.
+        - name: Robust Quantitative Methods
+          icon: chart-line
+          description: I apply econometrics, robust statistics, and graph learning to systemic risk and financial decision problems.
+      interest_groups:
+        - name: Artificial Intelligence
+          items: [Multi-Agent Systems, Reinforcement Learning, Graph Neural Networks]
+        - name: Economics and Quantitative Methods
+          items: [Agent-Based Modeling, Robust Statistics, Financial Econometrics]
+        - name: Network Science and Complex Systems
+          items: [Economic Networks, Systemic Risk, Statistical Model Checking]
 
-  # 4. PUBBLICAZIONI
-  - block: collection
-    id: papers
+  - block: education-timeline
     content:
-      title: Publications
-      filters:
-        folders:
-          - publications
-        featured_only: false
-    design:
-      view: citation
-      columns: 1
+      username: me
+      eyebrow: Background
+      title: Academic journey
+      text: A multidisciplinary path from philosophy and governance to quantitative finance, artificial intelligence, and complex systems.
+      present: present
+
+  - block: featured-projects
+    content:
+      eyebrow: Selected builds
+      title: Research translated into technology
+      text: Three projects that connect research questions with working simulations, interfaces, and agentic systems.
+      slugs:
+        - risk-sentinel
+        - island-model-smc
+        - multi-agent-orchestration
+      view_project: View project
+      view_all: Explore all projects
+
+  - block: portfolio-evidence
+    content:
+      publications_eyebrow: Selected publications
+      publications_title: Research outputs
+      news_eyebrow: Latest
+      news_title: News and recognition
+      view_pdf: View PDF
+      view_entry: View entry
+
+  - block: portfolio-contact
+    content:
+      eyebrow: Contact
+      title: Let us discuss research, systems, or collaboration.
+      text: I am based in Pisa and open to academic and technical collaborations in artificial intelligence, economic networks, and complex systems.
+      links:
+        - label: Email
+          url: mailto:stefano.blando@santannapisa.it
+        - label: GitHub
+          url: https://github.com/stefano-blando
+        - label: LinkedIn
+          url: https://www.linkedin.com/in/stefano-blando/
+        - label: Google Scholar
+          url: https://scholar.google.com/citations?user=dNbRRG0AAAAJ
 ---
