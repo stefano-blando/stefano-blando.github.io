@@ -11,6 +11,11 @@ imports:
 
 # Install any Hugo Blox within the `hugo-blox/blox/` folder
 mounts:
+  # Route local block styles (layouts/_partials/hbx/blocks/*/style.css) into the
+  # community CSS bundle that the theme's site_head.html concatenates and links.
+  - source: layouts/_partials/hbx/blocks
+    target: assets/dist/community/blox
+    includeFiles: '**.css'
   - source: hugo-blox/blox/community
     target: layouts/_partials/blox/community/
     includeFiles: '**.html'

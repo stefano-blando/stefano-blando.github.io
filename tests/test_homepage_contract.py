@@ -98,6 +98,16 @@ class HomepageContractTests(unittest.TestCase):
             for slug in ("risk-sentinel", "island-model-smc", "multi-agent-orchestration"):
                 self.assertIn(f"- {slug}", source)
 
+    def test_block_styles_are_mounted_into_css_pipeline(self):
+        module = (ROOT / "config/_default/module.yaml").read_text(encoding="utf-8")
+        self.assertIn("layouts/_partials/hbx/blocks", module)
+        self.assertIn("assets/dist/community/blox", module)
+        hook = ROOT / "layouts/_partials/hooks/head-end/block-styles.html"
+        self.assertTrue(hook.exists())
+        source = hook.read_text(encoding="utf-8")
+        self.assertIn('readDir "layouts/_partials/hbx/blocks"', source)
+        self.assertIn("resources.Concat", source)
+
     def test_design_tokens_and_fonts_are_defined(self):
         css = (ROOT / "assets/css/custom.css").read_text(encoding="utf-8")
         for token in (

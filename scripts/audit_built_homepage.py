@@ -38,6 +38,8 @@ def audit(path: Path) -> list[str]:
             failures.append(f"{path}: unexpected homepage id {removed_id}")
     if "portfolio-hero" not in facts.classes:
         failures.append(f"{path}: missing portfolio-hero class")
+    if "block-styles" not in html:
+        failures.append(f"{path}: block styles bundle is not linked")
     expected_alt = "Portrait of Stefano Blando" if "/en/" in path.as_posix() else "Ritratto di Stefano Blando"
     if expected_alt not in facts.alts:
         failures.append(f"{path}: missing portrait alt text")

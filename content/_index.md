@@ -42,7 +42,7 @@ sections:
 
   - block: featured-projects
     content:
-      eyebrow: Selected builds
+      eyebrow: Selected work
       title: Research translated into technology
       text: Three projects that connect research questions with working simulations, interfaces, and agentic systems.
       slugs:
