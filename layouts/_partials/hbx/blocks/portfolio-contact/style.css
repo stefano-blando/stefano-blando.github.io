@@ -8,10 +8,24 @@
   font-style: italic;
   font-size: clamp(1.2rem, 2.4vw, 1.6rem);
   text-decoration: none;
-  border-bottom: 1px solid rgb(158 183 219 / 40%);
+  border-bottom: 1px solid rgba(158, 183, 219, 0.3);
   padding-bottom: 0.2rem;
+  transition: border-color 250ms ease, color 250ms ease, transform 250ms ease;
 }
-.portfolio-contact__email:hover { border-bottom-color: var(--portfolio-accent); }
+.portfolio-contact__email:hover {
+  border-bottom-color: var(--portfolio-text);
+  color: var(--portfolio-text);
+  transform: scale(1.02);
+}
 .portfolio-contact__links { display: flex; justify-content: center; gap: 1.75rem; margin-top: 2rem; }
-.portfolio-contact__links a { color: var(--portfolio-muted); font-size: 0.9rem; font-weight: 600; text-decoration: none; }
-.portfolio-contact__links a:hover { color: var(--portfolio-text); }
+.portfolio-contact__links a {
+  color: var(--portfolio-muted);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 250ms ease, transform 250ms ease;
+}
+.portfolio-contact__links a:hover {
+  color: var(--portfolio-accent);
+  transform: translateY(-1px);
+}

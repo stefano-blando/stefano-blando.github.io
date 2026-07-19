@@ -41,9 +41,9 @@ section[id] { scroll-margin-top: 5rem; }
 
 .portfolio-section { position: relative; padding-block: clamp(4.5rem, 9vw, 8rem); }
 .portfolio-section__inner { width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
-.portfolio-section h2 { margin: 0; color: var(--portfolio-text); font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.03em; font-weight: 600; }
-.portfolio-section__intro { max-width: 62ch; margin-top: 1rem; color: var(--portfolio-muted); line-height: 1.7; }
-.portfolio-eyebrow { margin: 0 0 1rem; color: var(--portfolio-accent); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.portfolio-section h2 { margin: 0; color: var(--portfolio-text); font-family: var(--portfolio-serif); font-style: italic; font-size: clamp(2.1rem, 4vw, 3rem); letter-spacing: -0.02em; font-weight: 400; }
+.portfolio-section__intro { max-width: 62ch; margin-top: 1.2rem; color: var(--portfolio-muted); line-height: 1.75; font-size: 1.05rem; }
+.portfolio-eyebrow { margin: 0 0 1.2rem; color: var(--portfolio-accent); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
 .portfolio-serif-accent { font-family: var(--portfolio-serif); font-style: italic; font-weight: 400; color: var(--portfolio-accent); }
 
 ::-webkit-scrollbar { width: 8px; }
@@ -82,3 +82,94 @@ section[id] { scroll-margin-top: 5rem; }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
   [data-reveal] { opacity: 1; transform: none; }
 }
+
+/* ==========================================================================
+   PREMIUM EDITORIAL & UX ENHANCEMENTS
+   ========================================================================== */
+
+/* Global Typographic Polish */
+h1, 
+.page-header-title, 
+.article-title, 
+.pub-list-item-title, 
+.project-title {
+  font-family: var(--portfolio-serif) !important;
+  font-style: italic !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.02em !important;
+}
+
+/* Explicitly preserve Hero H1's technical mixed layout */
+.portfolio-hero h1 {
+  font-family: var(--portfolio-sans) !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
+}
+
+/* Ambient Background Glow (Subtle Animation) */
+body::before {
+  content: "";
+  position: fixed;
+  top: -10%;
+  right: -10%;
+  width: 60vw;
+  height: 60vw;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(82, 111, 168, 0.07) 0%, transparent 70%);
+  z-index: -1;
+  pointer-events: none;
+  animation: ambient-glow 18s ease-in-out infinite alternate;
+}
+
+@keyframes ambient-glow {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-8%, 8%) scale(1.15); }
+}
+
+/* Fade-out Gradient Section Separators */
+.portfolio-section:not(:last-of-type)::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(158, 183, 219, 0.12), transparent);
+  pointer-events: none;
+}
+
+/* Premium Navigation Hover & Active States */
+#site-header a {
+  position: relative;
+  color: var(--portfolio-muted);
+  transition: color 250ms ease;
+}
+
+#site-header a:hover {
+  color: var(--portfolio-text) !important;
+}
+
+#site-header a:not([href$="#contact"])::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: var(--portfolio-accent);
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: width 250ms ease;
+  pointer-events: none;
+}
+
+#site-header a:not([href$="#contact"]):hover::after,
+#site-header a:not([href$="#contact"])[aria-current="location"]::after {
+  width: 12px;
+}
+
+#site-header a[aria-current="location"] {
+  color: var(--portfolio-text) !important;
+  font-weight: 600;
+}
+
