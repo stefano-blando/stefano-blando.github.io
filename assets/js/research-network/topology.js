@@ -9,83 +9,73 @@ function createRandom(seed) {
   };
 }
 
-function distributeCount(total, communities = 3) {
-  const base = Math.floor(total / communities);
-  const remainder = total % communities;
-  return Array.from(
-    { length: communities },
-    (_, index) => base + (index < remainder ? 1 : 0),
-  );
-}
+// Normalized hero-section coordinates covered by headline/summary/CTAs.
+export const TEXT_ZONE = { x0: 0.03, x1: 0.6, y0: 0.16, y1: 0.8 };
 
 export function getNetworkProfile({ width, saveData, reducedMotion }) {
   const compact = width < 768 || saveData;
+  const nodeCount = compact ? 18 : width < 1280 ? 28 : 40;
   return {
-    nodeCount: compact ? 18 : 30,
+    nodeCount,
     animate: !reducedMotion,
     pointer: !compact && !reducedMotion,
   };
 }
 
-export function createModularTopology({
-  communitySizes = distributeCount(30),
-  seed = 20260718,
-} = {}) {
+function inTextZone(x, y) {
+  return x >= TEXT_ZONE.x0 && x <= TEXT_ZONE.x1 && y >= TEXT_ZONE.y0 && y <= TEXT_ZONE.y1;
+}
+
+function sampleAnchor(random) {
+  // Rejection sampling: keep at most ~1 in 8 candidates that fall behind the text.
+  for (let attempt = 0; attempt < 20; attempt += 1) {
+    const x = random();
+    const y = random();
+    if (!inTextZone(x, y) || random() < 0.125) return { x, y };
+  }
+  return { x: 0.65 + random() * 0.35, y: random() };
+}
+
+export function createHeroTopology({ nodeCount = 40, seed = 20260719 } = {}) {
   const random = createRandom(seed);
-  const centers = [
-    { x: 0.2, y: 0.28 },
-    { x: 0.76, y: 0.3 },
-    { x: 0.52, y: 0.73 },
-  ];
   const nodes = [];
+  for (let index = 0; index < nodeCount; index += 1) {
+    const { x, y } = sampleAnchor(random);
+    const radius = 1.5 + random() * 3.5;
+    nodes.push({
+      id: `n${index}`,
+      anchorX: x,
+      anchorY: y,
+      x,
+      y,
+      vx: 0,
+      vy: 0,
+      radius,
+      opacity: 0.3 + ((radius - 1.5) / 3.5) * 0.6,
+    });
+  }
+
   const edges = [];
   const edgeKeys = new Set();
-  const addEdge = (source, target, bridge = false) => {
+  const addEdge = (source, target) => {
     const key = [source, target].sort().join(':');
     if (source === target || edgeKeys.has(key)) return;
     edgeKeys.add(key);
-    edges.push({ source, target, bridge });
+    edges.push({ source, target });
   };
 
-  communitySizes.forEach((size, community) => {
-    const center = centers[community % centers.length];
-    for (let index = 0; index < size; index += 1) {
-      const angle = (Math.PI * 2 * index) / size + random() * 0.35;
-      const radius = 0.055 + random() * 0.09;
-      nodes.push({
-        id: `c${community}-n${index}`,
-        community,
-        anchorX: center.x + Math.cos(angle) * radius,
-        anchorY: center.y + Math.sin(angle) * radius,
-        x: center.x + Math.cos(angle) * radius,
-        y: center.y + Math.sin(angle) * radius,
-        vx: 0,
-        vy: 0,
-        degree: 0,
-      });
-    }
-
-    for (let index = 0; index < size; index += 1) {
-      const current = `c${community}-n${index}`;
-      const next = `c${community}-n${(index + 1) % size}`;
-      addEdge(current, next);
-      if (size > 3 && index % 2 === 0) {
-        const chord = `c${community}-n${(index + 2) % size}`;
-        addEdge(current, chord);
-      }
-    }
-  });
-
-  for (let community = 0; community < communitySizes.length - 1; community += 1) {
-    addEdge(`c${community}-n0`, `c${community + 1}-n0`, true);
+  for (const node of nodes) {
+    const distances = nodes
+      .filter((other) => other.id !== node.id)
+      .map((other) => ({
+        id: other.id,
+        distance: Math.hypot(other.anchorX - node.anchorX, other.anchorY - node.anchorY),
+      }))
+      .sort((a, b) => a.distance - b.distance)
+      .slice(0, 2)
+      .filter((entry) => entry.distance <= 0.3);
+    for (const entry of distances) addEdge(node.id, entry.id);
   }
-
-  const degreeById = new Map(nodes.map((node) => [node.id, 0]));
-  for (const edge of edges) {
-    degreeById.set(edge.source, degreeById.get(edge.source) + 1);
-    degreeById.set(edge.target, degreeById.get(edge.target) + 1);
-  }
-  for (const node of nodes) node.degree = degreeById.get(node.id);
 
   return { nodes, edges };
 }
