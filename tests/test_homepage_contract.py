@@ -88,6 +88,29 @@ class HomepageContractTests(unittest.TestCase):
             for slug in ("risk-sentinel", "island-model-smc", "multi-agent-orchestration"):
                 self.assertIn(f"- {slug}", source)
 
+    def test_design_tokens_and_fonts_are_defined(self):
+        css = (ROOT / "assets/css/custom.css").read_text(encoding="utf-8")
+        for token in (
+            "--portfolio-bg",
+            "--portfolio-surface",
+            "--portfolio-surface-2",
+            "--portfolio-text",
+            "--portfolio-muted",
+            "--portfolio-faint",
+            "--portfolio-accent",
+            "--portfolio-line",
+        ):
+            self.assertIn(token, css)
+        self.assertIn("font-family: 'Fraunces'", css)
+        self.assertIn("font-family: 'Instrument Sans'", css)
+        self.assertIn("font-display: swap", css)
+        for font in (
+            "fonts/fraunces-italic.woff2",
+            "fonts/instrument-sans-regular.woff2",
+            "fonts/instrument-sans-600.woff2",
+        ):
+            self.assertTrue((ROOT / "static" / font).exists(), font)
+
     def test_built_homepage_audit_exists(self):
         audit = ROOT / "scripts/audit_built_homepage.py"
         self.assertTrue(audit.exists())

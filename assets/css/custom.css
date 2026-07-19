@@ -1,21 +1,50 @@
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/fonts/fraunces-italic.woff2') format('woff2');
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('/fonts/instrument-sans-regular.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('/fonts/instrument-sans-600.woff2') format('woff2');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}
+
 :root {
   --portfolio-bg: #060810;
   --portfolio-surface: #101621;
+  --portfolio-surface-2: #182338;
   --portfolio-text: #f5f3ef;
   --portfolio-muted: #a5adba;
+  --portfolio-faint: #657fa8;
+  --portfolio-accent: #9eb7db;
+  --portfolio-line: rgba(158, 183, 219, 0.14);
   --portfolio-focus: #9eb7db;
+  --portfolio-sans: 'Instrument Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --portfolio-serif: 'Fraunces', Georgia, 'Times New Roman', serif;
 }
 
 html { scroll-behavior: smooth; }
-body { background: radial-gradient(circle at 80% 10%, rgb(55 73 116 / 14%), transparent 28%), var(--portfolio-bg); color: var(--portfolio-text); }
+body { font-family: var(--portfolio-sans); background: radial-gradient(circle at 80% 10%, rgb(55 73 116 / 14%), transparent 28%), var(--portfolio-bg); color: var(--portfolio-text); }
 main, .page-body { position: relative; z-index: 1; }
 section[id] { scroll-margin-top: 5rem; }
 
-.portfolio-section { position: relative; padding-block: clamp(4rem, 8vw, 7rem); }
-.portfolio-section__inner { width: min(1180px, calc(100% - 2rem)); margin-inline: auto; }
-.portfolio-section h2 { margin: 0; color: #eef0f3; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -0.04em; }
-.portfolio-section__intro { max-width: 70ch; color: #9ba5b4; line-height: 1.7; }
-.portfolio-eyebrow { margin: 0 0 1rem; color: #9eb7db; font-size: 0.78rem; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
+.portfolio-section { position: relative; padding-block: clamp(4.5rem, 9vw, 8rem); }
+.portfolio-section__inner { width: min(1120px, calc(100% - 2.5rem)); margin-inline: auto; }
+.portfolio-section h2 { margin: 0; color: var(--portfolio-text); font-size: clamp(1.8rem, 3.5vw, 2.6rem); letter-spacing: -0.03em; font-weight: 600; }
+.portfolio-section__intro { max-width: 62ch; margin-top: 1rem; color: var(--portfolio-muted); line-height: 1.7; }
+.portfolio-eyebrow { margin: 0 0 1rem; color: var(--portfolio-accent); font-size: 0.78rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.portfolio-serif-accent { font-family: var(--portfolio-serif); font-style: italic; font-weight: 400; color: var(--portfolio-accent); }
 
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: #080b12; }
