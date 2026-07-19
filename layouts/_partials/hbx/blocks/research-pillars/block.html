@@ -1,34 +1,20 @@
 {{ $block := .wcBlock }}
-<section id="research" class="research-pillars portfolio-section" aria-labelledby="research-title">
+<section id="research" class="research-list portfolio-section" aria-labelledby="research-title">
   <div class="portfolio-section__inner">
     <p class="portfolio-eyebrow">{{ $block.content.eyebrow }}</p>
     <h2 id="research-title">{{ $block.content.title }}</h2>
     <p class="portfolio-section__intro">{{ $block.content.text }}</p>
-    <div class="research-pillars__grid">
-      {{ range $block.content.items }}
-        {{ $icon := resources.Get (printf "media/icons/%s.svg" .icon) }}
-        <article class="research-card portfolio-card" data-pointer-glow data-reveal>
-          <span class="research-card__icon" aria-hidden="true">
-            {{ with $icon }}
-              {{ .Content | safeHTML }}
-            {{ else }}
-              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="none" stroke="currentColor" stroke-width="2"/></svg>
-            {{ end }}
-          </span>
-          <h3>{{ .name }}</h3>
-          <p>{{ .description }}</p>
-        </article>
-      {{ end }}
-    </div>
-    <div class="research-interests" data-reveal>
-      {{ range $block.content.interest_groups }}
-        <div class="research-interest-group">
-          <h3>{{ .name }}</h3>
-          <div class="research-chips">
-            {{ range .items }}<span>{{ . }}</span>{{ end }}
+    <ol class="research-list__items">
+      {{ range $index, $item := $block.content.items }}
+        <li class="research-list__row" data-reveal>
+          <span class="research-list__numeral" aria-hidden="true">{{ printf "%02d" (add $index 1) }}</span>
+          <div class="research-list__body">
+            <h3>{{ $item.name }}</h3>
+            <p>{{ $item.description }}</p>
           </div>
-        </div>
+          <p class="research-list__topics">{{ delimit $item.topics " · " }}</p>
+        </li>
       {{ end }}
-    </div>
+    </ol>
   </div>
 </section>

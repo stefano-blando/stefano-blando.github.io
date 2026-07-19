@@ -40,12 +40,19 @@ class HomepageContractTests(unittest.TestCase):
                 (ROOT / f"assets/media/icons/social/{icon}.svg").exists(), icon
             )
 
-    def test_research_pillars_render_local_svg_assets(self):
+    def test_research_pillars_render_editorial_numbered_list(self):
         template = ROOT / "layouts/_partials/hbx/blocks/research-pillars/block.html"
         self.assertTrue(template.exists())
         source = template.read_text(encoding="utf-8")
-        self.assertIn('resources.Get (printf "media/icons/%s.svg" .icon)', source)
-        self.assertNotIn("icon_pack", source)
+        self.assertIn("research-list__numeral", source)
+        self.assertIn("research-list__topics", source)
+        self.assertNotIn("media/icons", source)
+        self.assertNotIn("interest_groups", source)
+        for relative in ("content/_index.md", "content/_index.it.md"):
+            home = (ROOT / relative).read_text(encoding="utf-8")
+            self.assertIn("topics:", home)
+            self.assertNotIn("interest_groups", home)
+            self.assertNotIn("icon:", home)
 
     def test_education_timeline_uses_native_details_and_author_data(self):
         template = ROOT / "layouts/_partials/hbx/blocks/education-timeline/block.html"

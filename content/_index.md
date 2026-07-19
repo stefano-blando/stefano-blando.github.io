@@ -28,24 +28,17 @@ sections:
     content:
       eyebrow: Research profile
       title: Three connected research pillars
-      text: My work combines adaptive agents, statistical verification, and robust quantitative methods to study complex economic systems.
+      text: My work combines adaptive agents, statistical verification, and robust quantitative methods to study complex economic systems, from simulation design to empirical validation.
       items:
         - name: Adaptive Multi-Agent Systems
-          icon: brain
-          description: I study populations of learning, heuristic, and deliberative agents interacting over evolving economic networks.
+          description: I study populations of learning, heuristic, and deliberative agents interacting over evolving economic networks, studying how local adaptation shapes aggregate dynamics.
+          topics: [Multi-Agent Systems, Reinforcement Learning, Graph Neural Networks]
         - name: Statistical Verification
-          icon: network-wired
           description: I use convergence diagnostics and statistical model checking to make simulation evidence more reliable and reproducible.
+          topics: [Statistical Model Checking, Agent-Based Modeling, Reproducibility]
         - name: Robust Quantitative Methods
-          icon: chart-line
           description: I apply econometrics, robust statistics, and graph learning to systemic risk and financial decision problems.
-      interest_groups:
-        - name: Artificial Intelligence
-          items: [Multi-Agent Systems, Reinforcement Learning, Graph Neural Networks]
-        - name: Economics and Quantitative Methods
-          items: [Agent-Based Modeling, Robust Statistics, Financial Econometrics]
-        - name: Network Science and Complex Systems
-          items: [Economic Networks, Systemic Risk, Statistical Model Checking]
+          topics: [Econometrics, Systemic Risk, Economic Networks]
 
   - block: education-timeline
     content:

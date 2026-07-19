@@ -23,15 +23,17 @@ sections:
     content:
       eyebrow: Profilo di ricerca
       title: Tre linee di ricerca connesse
-      text: Il mio lavoro combina agenti adattivi, verifica statistica e metodi quantitativi robusti per studiare sistemi economici complessi.
+      text: Il mio lavoro combina agenti adattivi, verifica statistica e metodi quantitativi robusti per studiare sistemi economici complessi, dal disegno delle simulazioni alla validazione empirica.
       items:
-        - {name: Sistemi Multi-Agente Adattivi, icon: brain, description: Studio popolazioni di agenti che apprendono, applicano euristiche e deliberano all'interno di reti economiche in evoluzione.}
-        - {name: Verifica Statistica, icon: network-wired, description: Uso diagnostica di convergenza e statistical model checking per rendere le evidenze delle simulazioni più affidabili e riproducibili.}
-        - {name: Metodi Quantitativi Robusti, icon: chart-line, description: Applico econometria, statistica robusta e graph learning a problemi di rischio sistemico e decisioni finanziarie.}
-      interest_groups:
-        - {name: Intelligenza Artificiale, items: [Sistemi Multi-Agente, Reinforcement Learning, Graph Neural Networks]}
-        - {name: Economia e Metodi Quantitativi, items: [Agent-Based Modeling, Statistica Robusta, Econometria Finanziaria]}
-        - {name: Network Science e Sistemi Complessi, items: [Reti Economiche, Rischio Sistemico, Statistical Model Checking]}
+        - name: Sistemi Multi-Agente Adattivi
+          description: Studio popolazioni di agenti che apprendono, applicano euristiche e deliberano all'interno di reti economiche in evoluzione, osservando come l'adattamento locale plasma le dinamiche aggregate.
+          topics: [Sistemi Multi-Agente, Reinforcement Learning, Graph Neural Networks]
+        - name: Verifica Statistica
+          description: Uso diagnostica di convergenza e statistical model checking per rendere le evidenze delle simulazioni più affidabili e riproducibili.
+          topics: [Statistical Model Checking, Agent-Based Modeling, Riproducibilità]
+        - name: Metodi Quantitativi Robusti
+          description: Applico econometria, statistica robusta e graph learning a problemi di rischio sistemico e decisioni finanziarie.
+          topics: [Econometria, Rischio Sistemico, Reti Economiche]
   - block: education-timeline
     content: {username: me-it, eyebrow: Formazione, title: Percorso accademico, text: Un percorso multidisciplinare dalla filosofia e dalla governance alla finanza quantitativa, all'intelligenza artificiale e ai sistemi complessi., present: presente}
   - block: featured-projects
