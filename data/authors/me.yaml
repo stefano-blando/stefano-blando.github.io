@@ -181,6 +181,12 @@
       label: Basic (A2)
 
   awards:
+    - title: VADISTAT Award for Best Scientific Contribution
+      awarder: Associazione VADISTAT - Per Simona Balbi (JADT 2026)
+      date: "2026-07-10"
+      summary: "Awarded for the paper 'A Multi-Method Validation Framework for Large-Scale Multilingual Text Analytics' (developed with Prof. D. Fioredistella Iezzi) at the 18th International Conference JADT 2026 in Palermo."
+      icon: hero/academic-cap
+      url: /blog/vadistat-award-2026/
     - title: 2nd Place AI Data Hackathon
       awarder: ""
       date: "2024-12-12"

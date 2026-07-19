@@ -1,0 +1,52 @@
+.award-card {
+  background: var(--portfolio-surface);
+  border: 1px solid var(--portfolio-line);
+  border-radius: 12px;
+  transition: border-color 250ms ease, transform 250ms ease, box-shadow 250ms ease;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.3);
+}
+
+.award-card:hover {
+  border-color: rgba(158, 183, 219, 0.35);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4), 0 0 15px 1px rgba(158, 183, 219, 0.05);
+}
+
+.award-card__title {
+  color: var(--portfolio-text) !important;
+}
+
+.award-card__icon {
+  color: var(--portfolio-accent) !important;
+}
+
+.award-card__meta {
+  color: var(--portfolio-faint) !important;
+}
+
+.award-card__summary {
+  color: var(--portfolio-muted) !important;
+  line-height: 1.6;
+}
+
+.award-card__summary p {
+  color: var(--portfolio-muted) !important;
+}
+
+.award-card__link {
+  color: var(--portfolio-accent) !important;
+  font-weight: 600;
+  transition: color 200ms ease;
+}
+
+.award-card__link:hover {
+  color: var(--portfolio-text) !important;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.award-intro {
+  color: var(--portfolio-muted);
+  max-width: 62ch;
+  line-height: 1.7;
+}
