@@ -1,4 +1,4 @@
-{{ $block := . }}
+{{ $block := .wcBlock }}
 {{ $publications := where site.RegularPages "Section" "publications" }}
 {{ $publications = where $publications "Params.featured" true }}
 {{ $news := where site.RegularPages "Section" "blog" }}

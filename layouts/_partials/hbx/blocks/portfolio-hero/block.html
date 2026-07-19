@@ -1,4 +1,4 @@
-{{ $block := . }}
+{{ $block := .wcBlock }}
 {{ $username := $block.content.username | default "me" }}
 {{ $author := index site.Data.authors $username }}
 {{ $portraitPath := printf "media/authors/%s.png" $username }}

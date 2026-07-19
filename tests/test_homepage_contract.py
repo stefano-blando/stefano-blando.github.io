@@ -88,6 +88,14 @@ class HomepageContractTests(unittest.TestCase):
             for slug in ("risk-sentinel", "island-model-smc", "multi-agent-orchestration"):
                 self.assertIn(f"- {slug}", source)
 
+    def test_built_homepage_audit_exists(self):
+        audit = ROOT / "scripts/audit_built_homepage.py"
+        self.assertTrue(audit.exists())
+        source = audit.read_text(encoding="utf-8")
+        for token in ("research-network-canvas", "cdn.jsdelivr.net", "tsparticles", "portfolio-hero"):
+            self.assertIn(token, source)
+
+
 
 
 

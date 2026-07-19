@@ -1,4 +1,4 @@
-{{ $block := . }}
+{{ $block := .wcBlock }}
 {{ $username := $block.content.username | default "me" }}
 {{ $author := index site.Data.authors $username }}
 <section id="education" class="education-timeline portfolio-section" aria-labelledby="education-title">
