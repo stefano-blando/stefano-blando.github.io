@@ -6,6 +6,6 @@
 main:
   - {name: Research, url: '/#research', weight: 10}
   - {name: Projects, url: 'projects/', weight: 20}
-  - {name: Publications, url: '/#publications', weight: 30}
+  - {name: Publications, url: 'publications/', weight: 30}
   - {name: Experience, url: 'experience/', weight: 40}
   - {name: Contact, url: '/#contact', weight: 50}
