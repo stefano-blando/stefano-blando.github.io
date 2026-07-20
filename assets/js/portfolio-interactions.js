@@ -63,6 +63,20 @@ function initializePortfolioInteractions() {
     }, { rootMargin: '-35% 0px -55%', threshold: 0 });
     sections.forEach((section) => sectionObserver.observe(section));
   }
+
+  const pillarRows = document.querySelectorAll('.research-list__row');
+  pillarRows.forEach((row) => {
+    const trigger = row.querySelector('.research-list__trigger');
+    const drawer = row.querySelector('.research-list__drawer');
+    if (!trigger || !drawer) return;
+
+    trigger.addEventListener('click', () => {
+      const isExpanded = trigger.getAttribute('aria-expanded') === 'true';
+      trigger.setAttribute('aria-expanded', !isExpanded);
+      drawer.setAttribute('aria-hidden', isExpanded);
+      row.classList.toggle('is-expanded', !isExpanded);
+    });
+  });
 }
 
 if (typeof document !== 'undefined') {

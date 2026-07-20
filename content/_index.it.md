@@ -24,16 +24,31 @@ sections:
       eyebrow: Profilo di ricerca
       title: Tre linee di ricerca connesse
       text: Il mio lavoro combina agenti adattivi, verifica statistica e metodi quantitativi robusti per studiare sistemi economici complessi, dal disegno delle simulazioni alla validazione empirica.
+      expand_label: Approfondisci e vedi progetti
+      projects_label: Progetti Correlati
       items:
         - name: Sistemi Multi-Agente Adattivi
           description: Studio popolazioni di agenti che apprendono, applicano euristiche e deliberano all'interno di reti economiche in evoluzione, osservando come l'adattamento locale plasma le dinamiche aggregate.
+          detailed_text: In questa linea di ricerca, modello i sistemi economici come reti dinamiche e decentralizzate di decisori eterogenei. Superando l'ipotesi di equilibrio globale ed agenti iper-razionali, gli agenti operano con razionalità limitata, interazioni locali e strategie adattive (come il reinforcement learning multi-agente e regole euristiche). Combinando la scienza delle reti e i modelli agent-based, studio come l'adattamento a livello micro generi fenomeni macroeconomici, variazioni di liquidità e dinamiche sistemiche emergenti.
           topics: [Sistemi Multi-Agente, Reinforcement Learning, Graph Neural Networks]
+          projects:
+            - risk-sentinel
+            - multi-agent-orchestration
+            - real-estate-ai-agent
         - name: Verifica Statistica
           description: Uso diagnostica di convergenza e statistical model checking per rendere le evidenze delle simulazioni più affidabili e riproducibili.
+          detailed_text: I modelli agent-based e le simulazioni stocastiche complesse generano un'immensa quantità di tracce di esecuzione che risultano notoriamente difficili da validare in modo formale. La mia ricerca applica il Statistical Model Checking (SMC), i test di ipotesi e la diagnostica di convergenza statistica per verificare i risultati delle simulazioni rispetto a specifiche di logica temporale. Questo approccio unisce i metodi formali all'economia agent-based, fornendo intervalli di confidenza quantificabili per politiche e scenari di stress testing.
           topics: [Statistical Model Checking, Agent-Based Modeling, Riproducibilità]
+          projects:
+            - island-model-smc
         - name: Metodi Quantitativi Robusti
           description: Applico econometria, statistica robusta e graph learning a problemi di rischio sistemico e decisioni finanziarie.
+          detailed_text: Per affrontare l'instabilità e gli shock strutturali nelle infrastrutture economiche, integro econometria robusta, teoria dei valori estremi e graph neural networks. Questo approccio consente di identificare precocemente i vettori di contagio finanziario, la propagazione dello stress nei mercati interbancari e la vulnerabilità delle reti energetiche. L'obiettivo è costruire framework quantitativi di supporto alle decisioni che rimangano solidi in presenza di distribuzioni a coda pesante e cambi di regime di mercato.
           topics: [Econometria, Rischio Sistemico, Reti Economiche]
+          projects:
+            - robust-portfolio-optimization
+            - network-crash-prediction
+            - gas-network-risk-forecasting
   - block: featured-projects
     content:
       eyebrow: Progetti selezionati

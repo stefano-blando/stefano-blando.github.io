@@ -29,16 +29,31 @@ sections:
       eyebrow: Research profile
       title: Three connected research pillars
       text: My work combines adaptive agents, statistical verification, and robust quantitative methods to study complex economic systems, from simulation design to empirical validation.
+      expand_label: Expand details & projects
+      projects_label: Relevant Projects
       items:
         - name: Adaptive Multi-Agent Systems
           description: I study populations of learning, heuristic, and deliberative agents interacting over evolving economic networks, studying how local adaptation shapes aggregate dynamics.
+          detailed_text: In this research line, I model economic systems as dynamic, decentralized networks of heterogeneous decision-makers. Rather than assuming hyper-rational global equilibrium, agents operate with bounded rationality, local interactions, and adaptive strategies (such as multi-agent reinforcement learning or heuristic decision rules). By combining network science and agent-based modeling, I analyze how micro-level adaptation gives rise to macroeconomic phenomena, market liquidity shifts, and emergent systemic patterns.
           topics: [Multi-Agent Systems, Reinforcement Learning, Graph Neural Networks]
+          projects:
+            - risk-sentinel
+            - multi-agent-orchestration
+            - real-estate-ai-agent
         - name: Statistical Verification
           description: I use convergence diagnostics and statistical model checking to make simulation evidence more reliable and reproducible.
+          detailed_text: Agent-based models and complex stochastic simulations generate massive execution traces that are notoriously challenging to validate formally. My work applies Statistical Model Checking (SMC), hypothesis testing, and rigorous statistical convergence diagnostics to verify complex simulation outcomes against temporal logic specifications. This bridge between formal methods and agent-based economics establishes quantifiable confidence intervals for policy interventions and stress-test scenarios.
           topics: [Statistical Model Checking, Agent-Based Modeling, Reproducibility]
+          projects:
+            - island-model-smc
         - name: Robust Quantitative Methods
           description: I apply econometrics, robust statistics, and graph learning to systemic risk and financial decision problems.
+          detailed_text: To address instability and structural shocks in economic infrastructure, I integrate robust econometrics, extreme value theory, and graph neural networks. This approach enables early detection of financial contagion vectors, stress propagation in interbank market networks, and energy network vulnerability forecasting. The goal is to build quantitative decision-support frameworks that remain resilient under heavy-tailed distributions and structural market regime shifts.
           topics: [Econometrics, Systemic Risk, Economic Networks]
+          projects:
+            - robust-portfolio-optimization
+            - network-crash-prediction
+            - gas-network-risk-forecasting
 
   - block: featured-projects
     content:
