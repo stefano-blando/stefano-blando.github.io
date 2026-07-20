@@ -37,7 +37,7 @@
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
-.featured-case__body h3 { margin: 0; font-family: var(--portfolio-serif); font-style: italic; font-size: 1.4rem; font-weight: 400; }
+.featured-case__body h3 { margin: 0; font-family: var(--portfolio-sans); font-style: normal; font-size: 1.3rem; font-weight: 600; letter-spacing: -0.015em; }
 .featured-case__body h3 a { color: var(--portfolio-text); text-decoration: none; transition: color 200ms ease; }
 .featured-case__body h3 a:hover { color: var(--portfolio-accent); }
 .featured-case__summary { margin: 0.5rem 0 0; max-width: 62ch; color: var(--portfolio-muted); line-height: 1.65; }

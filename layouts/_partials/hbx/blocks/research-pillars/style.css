@@ -51,10 +51,10 @@
 .research-list__body h3 {
   margin: 0;
   color: var(--portfolio-text);
-  font-family: var(--portfolio-serif);
-  font-style: italic;
-  font-size: 1.3rem;
-  font-weight: 400;
+  font-family: var(--portfolio-sans);
+  font-style: normal;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .research-list__body p {
