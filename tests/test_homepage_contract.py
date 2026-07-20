@@ -83,7 +83,7 @@ class HomepageContractTests(unittest.TestCase):
             "research-pillars",
             "featured-projects",
             "featured-publications",
-            "portfolio-experience",
+            "resume-experience",
             "portfolio-contact",
         ]
         for relative in ("content/_index.md", "content/_index.it.md"):

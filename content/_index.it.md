@@ -70,14 +70,13 @@ sections:
       view_pdf: PDF
       view_entry: Dettagli
 
-  - block: portfolio-experience
+  - block: resume-experience
     content:
-      eyebrow: Percorso & Formazione
-      title: Esperienza e percorso accademico
-      text: Il mio percorso unisce intelligenza artificiale, finanza quantitativa, economia computazionale e tutorato accademico tra Scuola Superiore Sant'Anna, UniPi e Tor Vergata.
-      experience_heading: Esperienze di Ricerca e Lavoro
-      education_heading: Titoli di Studio e Formazione
-      present: In corso
+      title: Esperienza e Formazione
+      username: me-it
+    design:
+      date_format: 'January 2006'
+      is_education_first: true
 
   - block: portfolio-contact
     content:
