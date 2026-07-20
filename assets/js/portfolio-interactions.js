@@ -52,39 +52,58 @@ function initializePortfolioInteractions() {
   window.addEventListener('scroll', updateHeader, { passive: true });
 
   if ('IntersectionObserver' in window) {
-    const sections = document.querySelectorAll('section[id]');
+    const sections = document.querySelectorAll('section');
     const navLinks = Array.from(document.querySelectorAll('#site-header a'));
 
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
         
-        const id = entry.target.id;
+        const id = (entry.target.id || '').toLowerCase();
+        const className = (entry.target.className || '').toLowerCase();
         
         const activeLink = navLinks.find((link) => {
-          const href = link.getAttribute('href') || '';
-          if (!href.includes('#')) return false;
-          const hash = href.split('#')[1];
-          if (!hash) return false;
+          const href = (link.getAttribute('href') || '').toLowerCase();
+          if (!href) return false;
 
-          if (id === hash) return true;
-          if ((id === 'resume-experience' || id === 'experience' || id === 'education') && (hash === 'experience' || hash === 'resume-experience')) return true;
-          if ((id === 'work' || id === 'projects' || id === 'featured-projects') && (hash === 'work' || hash === 'projects')) return true;
-          if ((id === 'featured-publications' || id === 'publications') && hash === 'publications') return true;
+          // 1. Research section
+          if ((id === 'research' || className.includes('research-list') || className.includes('research-pillars')) && href.includes('research')) {
+            return true;
+          }
+
+          // 2. Projects section
+          if ((id === 'work' || id === 'projects' || className.includes('featured-cases') || className.includes('featured-projects')) && (href.includes('projects') || href.includes('work'))) {
+            return true;
+          }
+
+          // 3. Publications section
+          if ((id === 'featured-publications' || id === 'publications') && href.includes('publications')) {
+            return true;
+          }
+
+          // 4. Experience section
+          if ((id.includes('experience') || id.includes('education') || className.includes('experience') || className.includes('education') || className.includes('wg-resume-experience')) && href.includes('experience')) {
+            return true;
+          }
+
+          // 5. Contact section
+          if ((id === 'contact' || className.includes('portfolio-contact')) && href.includes('contact')) {
+            return true;
+          }
+
           return false;
         });
 
-        navLinks.forEach((link) => {
-          link.removeAttribute('aria-current');
-          link.classList.remove('active');
-        });
-
         if (activeLink) {
+          navLinks.forEach((link) => {
+            link.removeAttribute('aria-current');
+            link.classList.remove('active');
+          });
           activeLink.setAttribute('aria-current', 'location');
           activeLink.classList.add('active');
         }
       });
-    }, { rootMargin: '-25% 0px -45%', threshold: 0 });
+    }, { rootMargin: '-20% 0px -40%', threshold: 0 });
 
     sections.forEach((section) => sectionObserver.observe(section));
   }
