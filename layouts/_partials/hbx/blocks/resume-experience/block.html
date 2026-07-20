@@ -24,7 +24,7 @@
             <article class="resume-timeline__card" data-reveal>
               <div class="resume-timeline__header">
                 <span class="resume-timeline__dates">
-                  {{ time.Format "2006" $item.start }} {{ with $item.end }}– {{ time.Format "2006" . }}{{ else }}– {{ if eq $.Lang "it" }}In corso{{ else }}Present{{ end }}{{ end }}
+                  {{ with $item.start }}{{ substr . 0 4 }}{{ end }} {{ with $item.end }}– {{ substr . 0 4 }}{{ else }}– {{ if eq $.Lang "it" }}In corso{{ else }}Present{{ end }}{{ end }}
                 </span>
                 {{ with $item.location }}<span class="resume-timeline__location">{{ . }}</span>{{ end }}
               </div>
@@ -46,7 +46,7 @@
             <article class="resume-timeline__card" data-reveal>
               <div class="resume-timeline__header">
                 <span class="resume-timeline__dates">
-                  {{ time.Format "2006" $item.start }} {{ with $item.end }}– {{ time.Format "2006" . }}{{ else }}– {{ if eq $.Lang "it" }}In corso{{ else }}Present{{ end }}{{ end }}
+                  {{ with $item.start }}{{ substr . 0 4 }}{{ end }} {{ with $item.end }}– {{ substr . 0 4 }}{{ else }}– {{ if eq $.Lang "it" }}In corso{{ else }}Present{{ end }}{{ end }}
                 </span>
               </div>
               <h4 class="resume-timeline__title">{{ $item.degree }}</h4>

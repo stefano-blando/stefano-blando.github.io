@@ -30,12 +30,9 @@ def audit(path: Path) -> list[str]:
     for forbidden in ("cdn.jsdelivr.net", "tsparticles", ">brain<", ">network-wired<", ">chart-line<"):
         if forbidden in html:
             failures.append(f"{path}: found forbidden token {forbidden}")
-    for required_id in ("research", "work", "contact"):
+    for required_id in ("research", "work", "publications", "experience", "contact"):
         if required_id not in facts.ids:
             failures.append(f"{path}: missing id {required_id}")
-    for removed_id in ("education", "publications", "projects"):
-        if removed_id in facts.ids:
-            failures.append(f"{path}: unexpected homepage id {removed_id}")
     if "portfolio-hero" not in facts.classes:
         failures.append(f"{path}: missing portfolio-hero class")
     if "block-styles" not in html:
