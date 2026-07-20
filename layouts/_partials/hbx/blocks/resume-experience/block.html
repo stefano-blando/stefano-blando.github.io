@@ -3,10 +3,13 @@
 {{ if eq $.Lang "it" }}{{ $username = "me-it" }}{{ end }}
 {{ $author := index site.Data.authors $username }}
 
+{{ $defaultTitle := "Experience & Education" }}
+{{ if eq $.Lang "it" }}{{ $defaultTitle = "Esperienza e Formazione" }}{{ end }}
+
 <section id="experience" class="resume-experience portfolio-section" aria-labelledby="experience-title">
   <div class="portfolio-section__inner">
     <p class="portfolio-eyebrow">{{ if eq $.Lang "it" }}Percorso & Formazione{{ else }}Background & Education{{ end }}</p>
-    <h2 id="experience-title">{{ $block.content.title | default (if eq $.Lang "it" "Esperienza e Formazione" "Experience & Education") }}</h2>
+    <h2 id="experience-title">{{ $block.content.title | default $defaultTitle }}</h2>
     <p class="portfolio-section__intro">
       {{ if eq $.Lang "it" }}
         Il mio percorso unisce intelligenza artificiale, finanza quantitativa, economia computazionale e tutorato accademico tra Scuola Superiore Sant'Anna, UniPi e Tor Vergata.
