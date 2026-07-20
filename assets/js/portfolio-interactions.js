@@ -53,24 +53,39 @@ function initializePortfolioInteractions() {
 
   if ('IntersectionObserver' in window) {
     const sections = document.querySelectorAll('section[id]');
+    const navLinks = Array.from(document.querySelectorAll('#site-header a'));
+
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (!entry.isIntersecting) return;
-        document.querySelectorAll('#site-header a[aria-current="location"]').forEach((link) => link.removeAttribute('aria-current'));
         
         const id = entry.target.id;
-        let selectors = [`#site-header a[href$="#${id}"]`];
-        if (id === 'resume-experience' || id === 'experience' || id === 'education') {
-          selectors.push('#site-header a[href$="#experience"]', '#site-header a[href$="#resume-experience"]');
-        }
-        if (id === 'work' || id === 'projects' || id === 'featured-projects') {
-          selectors.push('#site-header a[href$="#work"]', '#site-header a[href$="#projects"]');
-        }
         
-        const active = document.querySelector(selectors.join(', '));
-        active?.setAttribute('aria-current', 'location');
+        const activeLink = navLinks.find((link) => {
+          const href = link.getAttribute('href') || '';
+          if (!href.includes('#')) return false;
+          const hash = href.split('#')[1];
+          if (!hash) return false;
+
+          if (id === hash) return true;
+          if ((id === 'resume-experience' || id === 'experience' || id === 'education') && (hash === 'experience' || hash === 'resume-experience')) return true;
+          if ((id === 'work' || id === 'projects' || id === 'featured-projects') && (hash === 'work' || hash === 'projects')) return true;
+          if ((id === 'featured-publications' || id === 'publications') && hash === 'publications') return true;
+          return false;
+        });
+
+        navLinks.forEach((link) => {
+          link.removeAttribute('aria-current');
+          link.classList.remove('active');
+        });
+
+        if (activeLink) {
+          activeLink.setAttribute('aria-current', 'location');
+          activeLink.classList.add('active');
+        }
       });
-    }, { rootMargin: '-35% 0px -55%', threshold: 0 });
+    }, { rootMargin: '-25% 0px -45%', threshold: 0 });
+
     sections.forEach((section) => sectionObserver.observe(section));
   }
 

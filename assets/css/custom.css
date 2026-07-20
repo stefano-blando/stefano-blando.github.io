@@ -154,7 +154,7 @@ body::before {
   color: var(--portfolio-text) !important;
 }
 
-#site-header a:not([href$="#contact"])::after {
+#site-header a:not([href*="contact"])::after {
   content: "";
   position: absolute;
   bottom: -6px;
@@ -168,12 +168,14 @@ body::before {
   pointer-events: none;
 }
 
-#site-header a:not([href$="#contact"]):hover::after,
-#site-header a:not([href$="#contact"])[aria-current="location"]::after {
-  width: 12px;
+#site-header a:not([href*="contact"]):hover::after,
+#site-header a:not([href*="contact"])[aria-current="location"]::after,
+#site-header a:not([href*="contact"]).active::after {
+  width: 16px;
 }
 
-#site-header a[aria-current="location"] {
+#site-header a[aria-current="location"],
+#site-header a.active {
   color: var(--portfolio-text) !important;
   font-weight: 600;
 }
