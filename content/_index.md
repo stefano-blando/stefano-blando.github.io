@@ -67,6 +67,15 @@ sections:
       view_project: View project
       view_all: Explore all projects
 
+  - block: featured-publications
+    content:
+      eyebrow: Research output
+      title: Selected publications
+      text: Peer-reviewed papers, conference proceedings, and working papers in computational economics, agent-based modeling, and quantitative finance.
+      view_all: Explore all publications
+      view_pdf: PDF
+      view_entry: Details
+
   - block: portfolio-contact
     content:
       eyebrow: Contact

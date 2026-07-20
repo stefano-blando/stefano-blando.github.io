@@ -74,14 +74,14 @@ class HomepageContractTests(unittest.TestCase):
     def test_menu_links_survive_homepage_slimdown(self):
         menu = (ROOT / "config/_default/menus.yaml").read_text(encoding="utf-8")
         self.assertIn("'/#work'", menu)
-        self.assertIn("publications/", menu)
-        self.assertNotIn("'/#publications'", menu)
+        self.assertIn("'/#publications'", menu)
 
     def test_homepage_block_order_and_copy_are_synchronized(self):
         expected = [
             "portfolio-hero",
             "research-pillars",
             "featured-projects",
+            "featured-publications",
             "portfolio-contact",
         ]
         for relative in ("content/_index.md", "content/_index.it.md"):

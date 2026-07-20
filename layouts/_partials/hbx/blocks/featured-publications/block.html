@@ -1,0 +1,54 @@
+{{ $block := .wcBlock }}
+{{ $publications := where site.RegularPages "Section" "publications" }}
+<section id="publications" class="featured-publications portfolio-section" aria-labelledby="publications-title">
+  <div class="portfolio-section__inner">
+    <p class="portfolio-eyebrow">{{ $block.content.eyebrow }}</p>
+    <h2 id="publications-title">{{ $block.content.title }}</h2>
+    <p class="portfolio-section__intro">{{ $block.content.text }}</p>
+    
+    <div class="featured-publications__list">
+      {{ range $pub := first 4 $publications.ByDate.Reverse }}
+        <article class="featured-pub-card" data-reveal>
+          <div class="featured-pub-card__header">
+            <span class="featured-pub-card__year">{{ $pub.Date.Format "2006" }}</span>
+            {{ with $pub.Params.publication_short }}
+              <span class="featured-pub-card__venue">{{ . }}</span>
+            {{ else }}
+              {{ with $pub.Params.publication }}
+                <span class="featured-pub-card__venue">{{ . }}</span>
+              {{ end }}
+            {{ end }}
+          </div>
+
+          <h3 class="featured-pub-card__title">
+            <a href="{{ $pub.RelPermalink }}">{{ $pub.Title }}</a>
+          </h3>
+
+          {{ with $pub.Params.authors }}
+            <p class="featured-pub-card__authors">
+              {{ delimit . ", " }}
+            </p>
+          {{ end }}
+
+          {{ with $pub.Params.summary }}
+            <p class="featured-pub-card__summary">{{ . }}</p>
+          {{ end }}
+
+          <div class="featured-pub-card__actions">
+            <a class="featured-pub-card__btn featured-pub-card__btn--primary" href="{{ $pub.RelPermalink }}">{{ $block.content.view_entry | default "Details" }}</a>
+            {{ with $pub.Params.url_pdf }}
+              <a class="featured-pub-card__btn" href="{{ . }}" target="_blank" rel="noopener">{{ $block.content.view_pdf | default "PDF" }}</a>
+            {{ end }}
+            {{ range $pub.Params.links }}
+              <a class="featured-pub-card__btn" href="{{ .url }}" target="_blank" rel="noopener">{{ .name }}</a>
+            {{ end }}
+          </div>
+        </article>
+      {{ end }}
+    </div>
+
+    <div class="featured-publications__footer">
+      <a class="portfolio-text-link" href="{{ relLangURL "publications/" }}">{{ $block.content.view_all }} &rarr;</a>
+    </div>
+  </div>
+</section>

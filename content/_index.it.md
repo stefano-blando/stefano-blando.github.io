@@ -60,6 +60,16 @@ sections:
         - multi-agent-orchestration
       view_project: Vedi progetto
       view_all: Esplora tutti i progetti
+
+  - block: featured-publications
+    content:
+      eyebrow: Produzione scientifica
+      title: Pubblicazioni selezionate
+      text: Articoli scientifici, atti di conferenze e working paper in economia computazionale, modellazione agent-based e finanza quantitativa.
+      view_all: Esplora tutte le pubblicazioni
+      view_pdf: PDF
+      view_entry: Dettagli
+
   - block: portfolio-contact
     content:
       eyebrow: Contatti
