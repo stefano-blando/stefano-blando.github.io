@@ -1,0 +1,63 @@
+{{ $block := .wcBlock }}
+{{ $username := "me" }}
+{{ if eq $.Lang "it" }}{{ $username = "me-it" }}{{ end }}
+{{ $author := index site.Data.authors $username }}
+
+<section id="experience" class="resume-experience portfolio-section" aria-labelledby="experience-title">
+  <div class="portfolio-section__inner">
+    <p class="portfolio-eyebrow">{{ if eq $.Lang "it" }}Percorso & Formazione{{ else }}Background & Education{{ end }}</p>
+    <h2 id="experience-title">{{ $block.content.title | default (if eq $.Lang "it" "Esperienza e Formazione" "Experience & Education") }}</h2>
+    <p class="portfolio-section__intro">
+      {{ if eq $.Lang "it" }}
+        Il mio percorso unisce intelligenza artificiale, finanza quantitativa, economia computazionale e tutorato accademico tra Scuola Superiore Sant'Anna, UniPi e Tor Vergata.
+      {{ else }}
+        My background spans artificial intelligence, quantitative finance, computational economics, and academic tutorship across Scuola Superiore Sant'Anna, UniPi, and Tor Vergata.
+      {{ end }}
+    </p>
+
+    <div class="resume-experience__grid">
+      <!-- Column 1: Academic & Research Experience -->
+      <div class="resume-experience__col">
+        <h3 class="resume-experience__col-heading">{{ if eq $.Lang "it" }}Esperienza di Ricerca e Lavoro{{ else }}Research & Work Experience{{ end }}</h3>
+        <div class="resume-timeline">
+          {{ range $item := $author.experience }}
+            <article class="resume-timeline__card" data-reveal>
+              <div class="resume-timeline__header">
+                <span class="resume-timeline__dates">
+                  {{ time.Format "2006" $item.start }} {{ with $item.end }}– {{ time.Format "2006" . }}{{ else }}– {{ if eq $.Lang "it" }}In corso{{ else }}Present{{ end }}{{ end }}
+                </span>
+                {{ with $item.location }}<span class="resume-timeline__location">{{ . }}</span>{{ end }}
+              </div>
+              <h4 class="resume-timeline__title">{{ $item.role }}</h4>
+              <p class="resume-timeline__org">{{ $item.org }}</p>
+              {{ with $item.summary }}
+                <div class="resume-timeline__summary">{{ . | markdownify }}</div>
+              {{ end }}
+            </article>
+          {{ end }}
+        </div>
+      </div>
+
+      <!-- Column 2: Education & Degrees -->
+      <div class="resume-experience__col">
+        <h3 class="resume-experience__col-heading">{{ if eq $.Lang "it" }}Titoli di Studio e Formazione{{ else }}Education & Degrees{{ end }}</h3>
+        <div class="resume-timeline">
+          {{ range $item := $author.education }}
+            <article class="resume-timeline__card" data-reveal>
+              <div class="resume-timeline__header">
+                <span class="resume-timeline__dates">
+                  {{ time.Format "2006" $item.start }} {{ with $item.end }}– {{ time.Format "2006" . }}{{ else }}– {{ if eq $.Lang "it" }}In corso{{ else }}Present{{ end }}{{ end }}
+                </span>
+              </div>
+              <h4 class="resume-timeline__title">{{ $item.degree }}</h4>
+              <p class="resume-timeline__org">{{ $item.institution }}</p>
+              {{ with $item.summary }}
+                <div class="resume-timeline__summary">{{ . | markdownify }}</div>
+              {{ end }}
+            </article>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

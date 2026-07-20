@@ -73,9 +73,9 @@ class HomepageContractTests(unittest.TestCase):
 
     def test_menu_links_survive_homepage_slimdown(self):
         menu = (ROOT / "config/_default/menus.yaml").read_text(encoding="utf-8")
-        self.assertIn("'/#work'", menu)
+        self.assertIn("projects/", menu)
+        self.assertIn("experience/", menu)
         self.assertIn("'/#publications'", menu)
-        self.assertIn("'/#experience'", menu)
 
     def test_homepage_block_order_and_copy_are_synchronized(self):
         expected = [
