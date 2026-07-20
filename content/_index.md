@@ -76,6 +76,15 @@ sections:
       view_pdf: PDF
       view_entry: Details
 
+  - block: portfolio-experience
+    content:
+      eyebrow: Academic & Career Path
+      title: Experience and education
+      text: My background spans artificial intelligence, quantitative finance, computational economics, and academic tutorship across Scuola Superiore Sant'Anna, UniPi, and Tor Vergata.
+      experience_heading: Research & Work Experience
+      education_heading: Education & Degrees
+      present: Present
+
   - block: portfolio-contact
     content:
       eyebrow: Contact

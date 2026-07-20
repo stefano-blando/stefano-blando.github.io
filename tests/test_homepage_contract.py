@@ -75,6 +75,7 @@ class HomepageContractTests(unittest.TestCase):
         menu = (ROOT / "config/_default/menus.yaml").read_text(encoding="utf-8")
         self.assertIn("'/#work'", menu)
         self.assertIn("'/#publications'", menu)
+        self.assertIn("'/#experience'", menu)
 
     def test_homepage_block_order_and_copy_are_synchronized(self):
         expected = [
@@ -82,6 +83,7 @@ class HomepageContractTests(unittest.TestCase):
             "research-pillars",
             "featured-projects",
             "featured-publications",
+            "portfolio-experience",
             "portfolio-contact",
         ]
         for relative in ("content/_index.md", "content/_index.it.md"):
