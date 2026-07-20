@@ -90,13 +90,22 @@ section[id] { scroll-margin-top: 5rem; }
 /* Global Typographic Polish */
 h1, 
 .page-header-title, 
-.article-title, 
-.pub-list-item-title, 
 .project-title {
   font-family: var(--portfolio-serif) !important;
   font-style: italic !important;
   font-weight: 400 !important;
   letter-spacing: -0.02em !important;
+}
+
+/* Publication Titles (Normal Font & Normal Style for Readability) */
+.pub-list-item-title,
+.publication-title,
+.publication-row h3,
+.featured-pub-card__title,
+.featured-pub-card__title a {
+  font-family: var(--portfolio-sans) !important;
+  font-style: normal !important;
+  font-weight: 600 !important;
 }
 
 /* Explicitly preserve Hero H1's technical mixed layout */

@@ -49,14 +49,16 @@
 
 .featured-pub-card__title {
   margin: 0 0 0.5rem;
-  font-family: var(--portfolio-serif);
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-family: var(--portfolio-sans);
+  font-style: normal;
+  font-size: 1.1rem;
+  font-weight: 600;
   line-height: 1.4;
 }
 
 .featured-pub-card__title a {
   color: var(--portfolio-text);
+  font-style: normal;
   text-decoration: none;
   transition: color 200ms ease;
 }
