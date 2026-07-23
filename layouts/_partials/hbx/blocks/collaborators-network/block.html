@@ -5,7 +5,7 @@
       <div>
         <p class="portfolio-eyebrow">{{ $block.content.eyebrow | default "Research Network" }}</p>
         <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & L'EMbeDS Lab Network" }}</h2>
-        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive network visualization of co-authorship cliques, publication clusters, and L'EMbeDS lab collaborators." }}</p>
+        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive circular constellation network of co-authorship cliques, publication clusters, and L'EMbeDS lab collaborators." }}</p>
       </div>
 
       <div class="network-controls">
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <!-- D3 Interactive Force-Directed Network Container -->
+    <!-- D3 Interactive Circular Constellation Container -->
     <div class="network-viz-wrapper" data-reveal>
       <div id="collaborators-d3-container" class="collaborators-d3-container"></div>
 
@@ -55,131 +55,136 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script>
 (function() {
-  const nodesData = [
-    { id: 'sb', name: 'Stefano Blando (Me)', initials: 'SB', role: 'PhD Candidate', type: 'core', insts: ['SSSA Pisa', 'UniPi'], isCore: true, topics: ['Agent-Based Modeling', 'Statistical Model Checking', 'Agentic AI', 'Systemic Risk & Networks', 'Robust Statistics'] },
-    { id: 'gf', name: 'Giorgio Fagiolo', initials: 'GF', role: 'Full Professor', type: 'coauthor', insts: ['SSSA Pisa'], topics: ['Agent-Based Modeling', 'Macroeconomics'] },
-    { id: 'av', name: 'Andrea Vandin', initials: 'AV', role: 'Associate Professor', type: 'coauthor', insts: ['DTU Denmark', 'SSSA Pisa'], topics: ['Statistical Model Checking', 'Agentic AI'] },
-    { id: 'mn', name: 'Mauro Napoletano', initials: 'MN', role: 'Full Professor', type: 'coauthor', insts: ['Uni Côte d\'Azur', 'OFCE France'], topics: ['Macroeconomics', 'Agent-Based Modeling'] },
-    { id: 'tt', name: 'Tania Treibich', initials: 'TT', role: 'Associate Professor', type: 'coauthor', insts: ['Maastricht Univ.', 'OFCE France'], topics: ['Macroeconomics', 'Agent-Based Modeling'] },
-    { id: 'gs', name: 'Giuseppe Squillace', initials: 'GS', role: 'Researcher', type: 'coauthor', insts: ['CentraleSupélec (France)', 'SSSA Pisa'], topics: ['Agentic AI', 'Agent-Based Modeling'] },
-    { id: 'af', name: 'Alessio Farcomeni', initials: 'AF', role: 'Full Professor', type: 'coauthor', insts: ['Univ. Tor Vergata'], topics: ['Robust Statistics', 'Portfolio Optimization'] },
-    { id: 'mt', name: 'Max Tschaikowski', initials: 'MT', role: 'Professor', type: 'coauthor', insts: ['Co-author'], topics: ['Statistical Model Checking', 'Agentic AI'] },
-    { id: 'dg', name: 'Daniele Giachini', initials: 'DG', role: 'Researcher', type: 'coauthor', insts: ['SSSA Pisa'], topics: ['Agent-Based Modeling', 'Macroeconomics'] },
-    { id: 'rp', name: 'Riccardo Porcedda', initials: 'RP', role: 'PhD Candidate', type: 'coauthor', insts: ['SSSA Pisa'], topics: ['Agentic AI', 'Software Engineering'] },
-    { id: 'eg', name: 'Emmanuele Guerrazzi', initials: 'EG', role: 'Data Engineer', type: 'coauthor', insts: ['SSSA Pisa'], topics: ['Agentic AI', 'Data Engineering'] },
-    { id: 'fi', name: 'D. Fioredistella Iezzi', initials: 'FI', role: 'Full Professor', type: 'coauthor', insts: ['Univ. Tor Vergata'], topics: ['Robust Statistics', 'Text Analytics'] },
-    { id: 'ei', name: 'Ernest Ivanaj', initials: 'EI', role: 'Researcher', type: 'coauthor', insts: ['Co-author'], topics: ['Agent-Based Modeling', 'Simulation'] },
-    { id: 'fc', name: 'Francesca Chiaromonte', initials: 'FC', role: 'Full Professor (L\'EMbeDS Coord.)', type: 'lembeds', insts: ['Penn State USA', 'L\'EMbeDS SSSA'], topics: ['Statistics', 'L\'EMbeDS Coordination'] },
-    { id: 'le', name: 'Lorenzo Emer', initials: 'LE', role: 'PhD Candidate', type: 'lembeds', insts: ['SSSA Pisa', 'COMPASS 2026'], topics: ['Complex Systems', 'COMPASS Workshop'] },
-    { id: 'st', name: 'Simone Tonini', initials: 'ST', role: 'Research Fellow', type: 'lembeds', insts: ['L\'EMbeDS SSSA'], topics: ['Economic Modeling', 'L\'EMbeDS Lab'] }
-  ];
-
-  // Exact Co-authorship & Lab Links (Real publication cliques)
-  const linksData = [
-    // Island Model Paper Clique (MARS 2026)
-    { source: 'sb', target: 'gf', relation: 'paper', label: 'Island Model SMC (MARS 2026)' },
-    { source: 'sb', target: 'av', relation: 'paper', label: 'Island Model SMC (MARS 2026)' },
-    { source: 'sb', target: 'dg', relation: 'paper', label: 'Island Model SMC (MARS 2026)' },
-    { source: 'sb', target: 'ei', relation: 'paper', label: 'Island Model SMC (MARS 2026)' },
-    { source: 'gf', target: 'av', relation: 'paper', label: 'Co-authors' },
-    { source: 'gf', target: 'dg', relation: 'paper', label: 'Co-authors' },
-
-    // K+S Model SMC Preprint (arXiv:2606)
-    { source: 'sb', target: 'mn', relation: 'paper', label: 'K+S Model SMC (arXiv:2606)' },
-    { source: 'sb', target: 'tt', relation: 'paper', label: 'K+S Model SMC (arXiv:2606)' },
-    { source: 'mn', target: 'tt', relation: 'paper', label: 'Co-authors' },
-    { source: 'mn', target: 'gf', relation: 'paper', label: 'Co-authors' },
-
-    // Towards Agentic ABMs Preprint (arXiv:2607.17948)
-    { source: 'sb', target: 'gs', relation: 'paper', label: 'Towards Agentic ABMs (arXiv:2607.17948)' },
-    { source: 'sb', target: 'rp', relation: 'paper', label: 'Towards Agentic ABMs (arXiv:2607.17948)' },
-    { source: 'sb', target: 'eg', relation: 'paper', label: 'Towards Agentic ABMs (arXiv:2607.17948)' },
-    { source: 'sb', target: 'mt', relation: 'paper', label: 'Towards Agentic ABMs (arXiv:2607.17948)' },
-    { source: 'gs', target: 'rp', relation: 'paper', label: 'Co-authors' },
-    { source: 'gs', target: 'eg', relation: 'paper', label: 'Co-authors' },
-
-    // Robust Portfolio Paper (MSc & Computational Economics)
-    { source: 'sb', target: 'af', relation: 'paper', label: 'Robust Portfolio Optimization' },
-
-    // Multilingual Text Analytics (VADISTAT Award 2026)
-    { source: 'sb', target: 'fi', relation: 'paper', label: 'Text Analytics (VADISTAT 2026)' },
-
-    // L'EMbeDS Lab & Event Connections (Non-paper collaboration)
-    { source: 'sb', target: 'fc', relation: 'lembeds', label: 'L\'EMbeDS Lab' },
-    { source: 'sb', target: 'le', relation: 'lembeds', label: 'COMPASS 2026 Co-organizers' },
-    { source: 'sb', target: 'st', relation: 'lembeds', label: 'L\'EMbeDS Lab' },
-    { source: 'fc', target: 'gf', relation: 'lembeds', label: 'L\'EMbeDS Senior Faculty' },
-    { source: 'le', target: 'gf', relation: 'lembeds', label: 'COMPASS Workshop' }
+  const people = [
+    { id: 'sb', name: 'Stefano Blando (Me)', initials: 'SB', role: 'PhD Candidate', type: 'core', insts: ['SSSA Pisa', 'UniPi'], dual: true, paperCount: 4, isCore: true, topics: ['Agent-Based Modeling', 'Statistical Model Checking', 'Agentic AI', 'Systemic Risk & Networks', 'Robust Statistics'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)', 'Robust Portfolio Optimization'] },
+    { id: 'gf', name: 'Giorgio Fagiolo', initials: 'GF', role: 'Full Professor', type: 'coauthor', insts: ['SSSA Pisa'], dual: false, paperCount: 2, topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
+    { id: 'av', name: 'Andrea Vandin', initials: 'AV', role: 'Associate Professor', type: 'coauthor', insts: ['DTU Denmark', 'SSSA Pisa'], dual: true, paperCount: 3, topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
+    { id: 'mn', name: 'Mauro Napoletano', initials: 'MN', role: 'Full Professor', type: 'coauthor', insts: ['Uni Côte d\'Azur', 'OFCE France'], dual: true, paperCount: 1, topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
+    { id: 'tt', name: 'Tania Treibich', initials: 'TT', role: 'Associate Professor', type: 'coauthor', insts: ['Maastricht Univ.', 'OFCE France'], dual: true, paperCount: 1, topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
+    { id: 'gs', name: 'Giuseppe Squillace', initials: 'GS', role: 'Researcher', type: 'coauthor', insts: ['CentraleSupélec (France)', 'SSSA Pisa'], dual: true, paperCount: 1, topics: ['Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'af', name: 'Alessio Farcomeni', initials: 'AF', role: 'Full Professor', type: 'coauthor', insts: ['Univ. Tor Vergata'], dual: false, paperCount: 1, topics: ['Robust Statistics', 'Portfolio Optimization'], papers: ['Robust Portfolio Optimization'] },
+    { id: 'mt', name: 'Max Tschaikowski', initials: 'MT', role: 'Professor', type: 'coauthor', insts: ['Co-author'], dual: false, paperCount: 1, topics: ['Statistical Model Checking', 'Agentic AI'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'dg', name: 'Daniele Giachini', initials: 'DG', role: 'Researcher', type: 'coauthor', insts: ['SSSA Pisa'], dual: false, paperCount: 1, topics: ['Agent-Based Modeling', 'Macroeconomics'], papers: ['Island Model SMC (MARS 2026)'] },
+    { id: 'rp', name: 'Riccardo Porcedda', initials: 'RP', role: 'PhD Candidate', type: 'coauthor', insts: ['SSSA Pisa'], dual: false, paperCount: 1, topics: ['Agentic AI', 'Software Engineering'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'eg', name: 'Emmanuele Guerrazzi', initials: 'EG', role: 'Data Engineer', type: 'coauthor', insts: ['SSSA Pisa'], dual: false, paperCount: 1, topics: ['Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'fi', name: 'D. Fioredistella Iezzi', initials: 'FI', role: 'Full Professor', type: 'coauthor', insts: ['Univ. Tor Vergata'], dual: false, paperCount: 1, topics: ['Robust Statistics', 'Text Analytics'], papers: ['Multilingual Text Analytics (VADISTAT Award 2026)'] },
+    { id: 'ei', name: 'Ernest Ivanaj', initials: 'EI', role: 'Researcher', type: 'coauthor', insts: ['Co-author'], dual: false, paperCount: 1, topics: ['Agent-Based Modeling', 'Simulation'], papers: ['Island Model SMC (MARS 2026)'] },
+    { id: 'fc', name: 'Francesca Chiaromonte', initials: 'FC', role: 'Full Professor', type: 'lembeds', insts: ['Penn State USA', 'L\'EMbeDS SSSA'], dual: true, paperCount: 0, topics: ['Robust Statistics', 'L\'EMbeDS Coordination'], papers: [] },
+    { id: 'le', name: 'Lorenzo Emer', initials: 'LE', role: 'PhD Candidate', type: 'lembeds', insts: ['SSSA Pisa'], dual: false, paperCount: 0, topics: ['Systemic Risk & Networks', 'COMPASS Workshop'], papers: [] },
+    { id: 'st', name: 'Simone Tonini', initials: 'ST', role: 'Research Fellow', type: 'lembeds', insts: ['L\'EMbeDS SSSA'], dual: false, paperCount: 0, topics: ['Economic Modeling', 'L\'EMbeDS Lab'], papers: [] }
   ];
 
   let currentFilter = 'all';
-  let activeNode = null;
-  let simulation = null;
+  let activePerson = null;
 
-  function initForceNetwork() {
+  function initCircularConstellation() {
     const container = document.getElementById('collaborators-d3-container');
     if (!container || typeof d3 === 'undefined') return;
 
     container.innerHTML = '';
     const width = container.clientWidth || 840;
-    const height = Math.min(width * 0.7, 600);
+    const height = Math.min(width * 0.72, 640);
+    const cx = width / 2;
+    const cy = height / 2;
 
     const svg = d3.select(container).append('svg')
       .attr('width', width)
       .attr('height', height)
       .attr('viewBox', `0 0 ${width} ${height}`);
 
-    // Filter nodes & links based on tab
-    let nodes = nodesData.map(d => ({ ...d }));
-    if (currentFilter === 'coauthors') {
-      nodes = nodes.filter(d => d.type === 'core' || d.type === 'coauthor');
-    } else if (currentFilter === 'lembeds') {
-      nodes = nodes.filter(d => d.type === 'core' || d.type === 'lembeds');
-    }
+    // Gradients
+    const defs = svg.append('defs');
+    const grad = defs.append('linearGradient')
+      .attr('id', 'core-grad')
+      .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
+    grad.append('stop').attr('offset', '0%').attr('stop-color', '#0284c7');
+    grad.append('stop').attr('offset', '100%').attr('stop-color', '#6366f1');
 
-    const nodeIds = new Set(nodes.map(n => n.id));
-    const links = linksData
-      .filter(l => nodeIds.has(l.source) && nodeIds.has(l.target))
-      .map(d => ({ ...d }));
+    const dualGrad = defs.append('linearGradient')
+      .attr('id', 'dual-line-grad')
+      .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
+    dualGrad.append('stop').attr('offset', '0%').attr('stop-color', '#38bdf8');
+    dualGrad.append('stop').attr('offset', '100%').attr('stop-color', '#a855f7');
 
-    // Define Force Simulation
-    simulation = d3.forceSimulation(nodes)
-      .force('link', d3.forceLink(links).id(d => d.id).distance(d => d.relation === 'paper' ? 110 : 150))
-      .force('charge', d3.forceManyBody().strength(-380))
-      .force('center', d3.forceCenter(width / 2, height / 2))
-      .force('collision', d3.forceCollide().radius(35));
+    // Filter people
+    const filteredPeople = currentFilter === 'all' 
+      ? people 
+      : (currentFilter === 'coauthors' ? people.filter(p => p.type === 'core' || p.type === 'coauthor') : people.filter(p => p.type === 'core' || p.type === 'lembeds'));
 
-    // Force core node near center
-    const coreNode = nodes.find(n => n.isCore);
-    if (coreNode) {
-      coreNode.fx = width / 2;
-      coreNode.fy = height / 2;
-    }
+    const outerPeople = filteredPeople.filter(p => !p.isCore);
+    const rawCore = people.find(p => p.isCore);
 
-    // Draw Links
+    // Precise Circular Ring Position Calculation
+    const peoplePos = [];
+    const coreNodePos = {
+      ...rawCore,
+      x: cx,
+      y: cy
+    };
+    peoplePos.push(coreNodePos);
+
+    outerPeople.forEach((p, i) => {
+      const angle = (i / outerPeople.length) * 2 * Math.PI - Math.PI / 2;
+      const radius = Math.min(width, height) * (p.dual ? 0.35 : 0.40);
+      peoplePos.push({
+        ...p,
+        x: cx + radius * Math.cos(angle),
+        y: cy + radius * Math.sin(angle)
+      });
+    });
+
+    // Links: Connect Core (Stefano) to outer nodes
+    const links = [];
+    peoplePos.forEach(p => {
+      if (!p.isCore) {
+        links.push({
+          id: `core-${p.id}`,
+          source: coreNodePos,
+          target: p,
+          paperCount: p.paperCount,
+          type: p.type,
+          dual: p.dual
+        });
+      }
+    });
+
+    // Draw Outer Orbit Guide Ring
+    svg.append('circle')
+      .attr('cx', cx)
+      .attr('cy', cy)
+      .attr('r', Math.min(width, height) * 0.38)
+      .attr('fill', 'none')
+      .attr('stroke', 'rgba(56, 189, 248, 0.08)')
+      .attr('stroke-dasharray', '4 4')
+      .attr('stroke-width', 1);
+
+    // Draw Links (Smooth Bezier Curves)
     const gLines = svg.append('g').attr('class', 'g-lines');
-    const linkSel = gLines.selectAll('.net-link')
-      .data(links, d => `${d.source.id || d.source}-${d.target.id || d.target}`)
-      .join('line')
-      .attr('class', d => `net-link net-link--${d.relation}`)
-      .attr('stroke', d => d.relation === 'paper' ? '#38bdf8' : '#a855f7')
-      .attr('stroke-dasharray', d => d.relation === 'lembeds' ? '4 3' : 'none')
-      .attr('stroke-width', d => d.relation === 'paper' ? 2 : 1.4)
-      .attr('stroke-opacity', d => d.relation === 'paper' ? 0.65 : 0.35);
+    const pathSel = gLines.selectAll('.const-line')
+      .data(links, d => d.id)
+      .join('path')
+      .attr('class', 'const-line')
+      .attr('d', d => {
+        const mx = (d.source.x + d.target.x) / 2;
+        const my = (d.source.y + d.target.y) / 2;
+        return `M${d.source.x},${d.source.y} Q${cx + (mx - cx) * 0.45},${cy + (my - cy) * 0.45} ${d.target.x},${d.target.y}`;
+      })
+      .attr('stroke', d => d.type === 'lembeds' ? '#a855f7' : (d.dual ? 'url(#dual-line-grad)' : '#38bdf8'))
+      .attr('stroke-dasharray', d => d.type === 'lembeds' ? '4 3' : 'none')
+      .attr('stroke-width', d => d.paperCount >= 3 ? 3.2 : (d.paperCount >= 1 ? 2.2 : 1.3))
+      .attr('stroke-opacity', d => d.paperCount >= 1 ? 0.75 : 0.3)
+      .attr('fill', 'none');
 
     // Draw Nodes
     const gNodes = svg.append('g').attr('class', 'g-nodes');
-    const nodeGroup = gNodes.selectAll('.net-node')
-      .data(nodes, d => d.id)
+    const nodeGroup = gNodes.selectAll('.const-node')
+      .data(peoplePos, d => d.id)
       .join('g')
-      .attr('class', d => `net-node ${d.isCore ? 'net-node--core' : ''}`)
-      .style('cursor', 'pointer')
-      .call(d3.drag()
-        .on('start', dragStarted)
-        .on('drag', dragged)
-        .on('end', dragEnded));
+      .attr('class', d => `const-node ${d.isCore ? 'const-node--core' : ''}`)
+      .attr('transform', d => `translate(${d.x}, ${d.y})`)
+      .style('cursor', 'pointer');
 
-    // Halo pulse for Core Node
+    // Pulse halo around Core Node
     nodeGroup.filter(d => d.isCore).append('circle')
       .attr('r', 32)
       .attr('fill', 'none')
@@ -187,12 +192,12 @@
       .attr('stroke-width', 2)
       .attr('class', 'net-node-pulse');
 
-    // Circle Node
+    // Node Circles
     nodeGroup.append('circle')
-      .attr('r', d => d.isCore ? 22 : (d.type === 'coauthor' ? 17 : 15))
+      .attr('r', d => d.isCore ? 23 : (d.dual ? 18 : 16))
       .attr('fill', d => d.isCore ? 'url(#core-grad)' : (d.type === 'coauthor' ? 'rgba(12, 17, 27, 0.95)' : 'rgba(24, 18, 38, 0.95)'))
-      .attr('stroke', d => d.isCore ? '#38bdf8' : (d.type === 'coauthor' ? '#38bdf8' : '#a855f7'))
-      .attr('stroke-width', d => d.isCore ? 3 : 1.8);
+      .attr('stroke', d => d.isCore ? '#38bdf8' : (d.type === 'coauthor' ? (d.dual ? '#818cf8' : '#38bdf8') : '#a855f7'))
+      .attr('stroke-width', d => d.isCore ? 3 : (d.dual ? 2.2 : 1.6));
 
     // Initials Text
     nodeGroup.append('text')
@@ -203,80 +208,36 @@
       .attr('font-weight', '700')
       .text(d => d.initials);
 
-    // Name Label
+    // Name Labels
     nodeGroup.append('text')
-      .attr('y', d => d.isCore ? 38 : 28)
+      .attr('y', d => d.isCore ? 40 : 30)
       .attr('text-anchor', 'middle')
       .attr('fill', d => d.isCore ? '#38bdf8' : '#cbd5e1')
       .attr('font-size', d => d.isCore ? '11px' : '10px')
       .attr('font-weight', d => d.isCore ? '700' : '600')
       .text(d => d.isCore ? 'Stefano Blando (Me)' : (d.name.split(' ')[1] || d.name));
 
-    // Gradients
-    const defs = svg.append('defs');
-    const grad = defs.append('linearGradient')
-      .attr('id', 'core-grad')
-      .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
-    grad.append('stop').attr('offset', '0%').attr('stop-color', '#0284c7');
-    grad.append('stop').attr('offset', '100%').attr('stop-color', '#6366f1');
-
-    // Simulation Tick
-    simulation.on('tick', () => {
-      linkSel
-        .attr('x1', d => d.source.x)
-        .attr('y1', d => d.source.y)
-        .attr('x2', d => d.target.x)
-        .attr('y2', d => d.target.y);
-
-      nodeGroup
-        .attr('transform', d => `translate(${Math.max(30, Math.min(width - 30, d.x))}, ${Math.max(30, Math.min(height - 30, d.y))})`);
-    });
-
-    // Hover & Click Handlers
+    // Hover & Click Interactions
     nodeGroup.on('mouseenter', (ev, d) => {
-      const connectedIds = new Set([d.id]);
-      links.forEach(l => {
-        if (l.source.id === d.id) connectedIds.add(l.target.id);
-        if (l.target.id === d.id) connectedIds.add(l.source.id);
-      });
-
-      linkSel.attr('stroke-opacity', l => (l.source.id === d.id || l.target.id === d.id ? 0.95 : 0.08))
-        .attr('stroke-width', l => (l.source.id === d.id || l.target.id === d.id ? 3 : 1));
-
-      nodeGroup.style('opacity', n => connectedIds.has(n.id) ? 1 : 0.2);
+      pathSel.attr('stroke-opacity', l => (l.target.id === d.id || d.isCore ? 0.95 : 0.08))
+        .attr('stroke-width', l => (l.target.id === d.id ? 3.8 : 1.2));
     }).on('mouseleave', () => {
-      if (!activeNode) {
-        linkSel.attr('stroke-opacity', d => d.relation === 'paper' ? 0.65 : 0.35)
-          .attr('stroke-width', d => d.relation === 'paper' ? 2 : 1.4);
-        nodeGroup.style('opacity', 1);
+      if (!activePerson) {
+        pathSel.attr('stroke-opacity', d => d.paperCount >= 1 ? 0.75 : 0.3)
+          .attr('stroke-width', d => d.paperCount >= 3 ? 3.2 : (d.paperCount >= 1 ? 2.2 : 1.3));
       }
     }).on('click', (ev, d) => {
       ev.stopPropagation();
-      activeNode = d;
+      activePerson = d;
       showCard(d);
     });
 
     svg.on('click', () => {
-      activeNode = null;
+      activePerson = null;
       hideCard();
-      linkSel.attr('stroke-opacity', d => d.relation === 'paper' ? 0.65 : 0.35)
-        .attr('stroke-width', d => d.relation === 'paper' ? 2 : 1.4);
-      nodeGroup.style('opacity', 1);
+      pathSel.attr('stroke-opacity', d => d.paperCount >= 1 ? 0.75 : 0.3)
+        .attr('stroke-width', d => d.paperCount >= 3 ? 3.2 : (d.paperCount >= 1 ? 2.2 : 1.3));
     });
-  }
-
-  function dragStarted(event, d) {
-    if (!event.active && simulation) simulation.alphaTarget(0.3).restart();
-    if (!d.isCore) { d.fx = d.x; d.fy = d.y; }
-  }
-
-  function dragged(event, d) {
-    if (!d.isCore) { d.fx = event.x; d.fy = event.y; }
-  }
-
-  function dragEnded(event, d) {
-    if (!event.active && simulation) simulation.alphaTarget(0);
-    if (!d.isCore) { d.fx = null; d.fy = null; }
   }
 
   function showCard(p) {
@@ -287,17 +248,14 @@
     document.getElementById('card-role').innerText = p.role;
 
     const badgesEl = document.getElementById('card-badges');
-    badgesEl.innerHTML = p.insts.map(inst => `<span class="network-badge">${inst}</span>`).join('');
+    badgesEl.innerHTML = p.insts.map(inst => `<span class="network-badge ${p.dual ? 'network-badge--dual' : ''}">${inst}</span>`).join('');
 
     const topicsEl = document.getElementById('card-topics');
     topicsEl.innerHTML = p.topics.map(t => `<span class="network-chip">${t}</span>`).join('');
 
-    const connectedLinks = linksData.filter(l => l.source === p.id || l.target === p.id);
-    const paperLinks = connectedLinks.filter(l => l.relation === 'paper');
-
     const papersEl = document.getElementById('card-papers');
-    papersEl.innerHTML = paperLinks.length > 0
-      ? `<h4>Co-authored Papers / Projects (${paperLinks.length}):</h4><ul>${paperLinks.map(l => `<li>${l.label}</li>`).join('')}</ul>`
+    papersEl.innerHTML = (p.papers && p.papers.length > 0)
+      ? `<h4>Co-authored Works (${p.paperCount || p.papers.length}):</h4><ul>${p.papers.map(paper => `<li>${paper}</li>`).join('')}</ul>`
       : `<h4>Academic Collaboration:</h4><p class="network-card-note">L'EMbeDS Lab & Scientific Event Collaborator</p>`;
 
     card.classList.remove('hidden');
@@ -313,14 +271,14 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    initForceNetwork();
+    initCircularConstellation();
 
     document.querySelectorAll('.network-tab').forEach(tab => {
       tab.addEventListener('click', (e) => {
         document.querySelectorAll('.network-tab').forEach(t => t.classList.remove('active'));
         e.target.classList.add('active');
         currentFilter = e.target.getAttribute('data-filter');
-        initForceNetwork();
+        initCircularConstellation();
       });
     });
 
@@ -331,11 +289,11 @@
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
-        d3.selectAll('.net-node').style('opacity', d => (d.name.toLowerCase().includes(query) || d.isCore ? 1 : 0.15));
+        d3.selectAll('.const-node').style('opacity', d => (d.name.toLowerCase().includes(query) || d.isCore ? 1 : 0.15));
       });
     }
 
-    window.addEventListener('resize', initForceNetwork);
+    window.addEventListener('resize', initCircularConstellation);
   });
 })();
 </script>
