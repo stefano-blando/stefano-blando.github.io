@@ -1,38 +1,39 @@
 ---
-title: "Towards an Agentic LLM-based Approach to Requirement Formalization from Unstructured Specifications"
+title: "Towards Agentic Agent-based Models: Feasibility, Performance, and Statistical Model Checking"
 authors:
 - me
+- Emmanuele Guerrazzi
 - Riccardo Porcedda
 - Giuseppe Squillace
-- Emmanuele Guerrazzi
+- Max Tschaikowski
 - Andrea Vandin
-date: "2026-04-15"
+date: "2026-07-18"
 doi: ""
 
-publishDate: "2026-04-15T00:00:00Z"
+publishDate: "2026-07-18T00:00:00Z"
 
 publication_types: ["Article"]
 
-publication: "arXiv preprint"
+publication: "arXiv preprint arXiv:2607.17948"
 publication_short: "arXiv preprint (2026)"
 
-abstract: "Formalizing requirements from unstructured textual specifications is a critical yet error-prone phase in system verification and formal modeling. In this paper, we present an agentic LLM-based framework that automates the extraction, translation, and verification of formal logic specifications from natural language text. By integrating multi-agent orchestration, iterative self-reflection, and formal constraint checkers, our approach significantly reduces translation ambiguities and synthesis errors."
+abstract: "Integrating Large Language Models (LLMs) into traditional Agent-Based Models (ABMs) allows agents to leverage tool calls, semantic reasoning, and adaptive decision-making. In this paper, we evaluate the feasibility, performance, and emergent behavior of agentic ABMs using Mesa and statistical model checking via MultiVeStA. By conducting systematic statistical specification testing across agentic parameter spaces, we quantify the impact of LLM decision-making on macroeconomic and social simulation dynamics."
 
-summary: "arXiv preprint introducing an agentic LLM framework for automated formal requirement extraction and verification from unstructured specifications."
+summary: "arXiv preprint (2607.17948) evaluating LLM-driven agentic agent-based models with Statistical Model Checking via MultiVeStA."
 
 tags:
 - Agentic AI
+- Agent-Based Modeling
 - Large Language Models
-- Formal Verification
-- Multi-Agent Systems
-- Software Engineering
-- Requirement Formalization
+- Statistical Model Checking
+- MultiVeStA
+- Mesa
 
 featured: true
 
 links:
-- name: arXiv Preprint
-  url: https://arxiv.org/
+- name: arXiv:2607.17948
+  url: https://arxiv.org/abs/2607.17948
 
 url_pdf: ''
 url_code: ''
@@ -44,7 +45,7 @@ url_source: ''
 url_video: ''
 
 image:
-  caption: 'Agentic LLM-based requirement formalization pipeline'
+  caption: 'Towards Agentic Agent-based Models (arXiv:2607.17948)'
   focal_point: ""
   preview_only: false
 
