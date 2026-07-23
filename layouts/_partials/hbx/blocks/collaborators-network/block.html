@@ -1,156 +1,329 @@
 {{ $block := .wcBlock }}
 <section id="network" class="collaborators-network portfolio-section" aria-labelledby="collaborators-title">
   <div class="portfolio-section__inner">
-    <p class="portfolio-eyebrow">{{ $block.content.eyebrow | default "Research Network" }}</p>
-    <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & Collaborators" }}</h2>
-    <p class="portfolio-section__intro">{{ $block.content.text | default "Academic collaborators, co-authors, and research lab members across institutions." }}</p>
+    <div class="collaborators-header">
+      <div>
+        <p class="portfolio-eyebrow">{{ $block.content.eyebrow | default "Research Network" }}</p>
+        <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & Collaborators" }}</h2>
+        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive network of academic co-authors, supervisors, and research lab collaborators." }}</p>
+      </div>
 
-    <!-- Core Center Node: Stefano Blando -->
-    <div class="collaborator-core-card" data-reveal>
-      <div class="collaborator-core-card__avatar">SB</div>
-      <div class="collaborator-core-card__info">
-        <h3>Stefano Blando</h3>
-        <p class="collaborator-core-card__role">PhD Candidate in Artificial Intelligence · SSSA & UniPi</p>
-        <p class="collaborator-core-card__topics">Agent-Based Modeling · Statistical Model Checking · Systemic Risk · Agentic AI</p>
+      <div class="network-controls">
+        <div class="network-tabs" role="tablist">
+          <button class="network-tab active" data-cat="all">All (16)</button>
+          <button class="network-tab" data-cat="faculty">Faculty & Senior</button>
+          <button class="network-tab" data-cat="researchers">PostDoc & Staff</button>
+          <button class="network-tab" data-cat="phd">PhD Candidates</button>
+        </div>
+        <div class="network-search">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+          <input type="text" id="network-search-input" placeholder="Search collaborator..." aria-label="Search collaborator">
+        </div>
       </div>
     </div>
 
-    <!-- Co-authors & Lab Network Grid -->
-    <div class="collaborators-grid" data-reveal>
-      <div class="collaborator-card collaborator-card--highlight">
-        <div class="collaborator-card__avatar">GF</div>
-        <div class="collaborator-card__info">
-          <h3>Giorgio Fagiolo</h3>
-          <p class="collaborator-card__role">Full Professor · SSSA</p>
-          <p class="collaborator-card__topics">Island Model · K+S Model · Macro ABMs</p>
-        </div>
-      </div>
+    <!-- D3 Interactive Circular Network Container -->
+    <div class="network-viz-wrapper" data-reveal>
+      <div id="collaborators-d3-container" class="collaborators-d3-container"></div>
 
-      <div class="collaborator-card collaborator-card--highlight">
-        <div class="collaborator-card__avatar">AV</div>
-        <div class="collaborator-card__info">
-          <h3>Andrea Vandin</h3>
-          <p class="collaborator-card__role">Associate Professor · DTU & SSSA</p>
-          <p class="collaborator-card__topics">Statistical Model Checking · MultiVeStA</p>
+      <!-- Floating Glassmorphism Detail Card -->
+      <div id="network-detail-card" class="network-detail-card hidden" aria-hidden="true">
+        <button class="network-detail-card__close" aria-label="Close card">&times;</button>
+        <div class="network-detail-card__header">
+          <div class="network-detail-card__avatar" id="card-avatar">SB</div>
+          <div>
+            <h3 id="card-name">Stefano Blando</h3>
+            <p id="card-role" class="network-detail-card__role">PhD Candidate · SSSA & UniPi</p>
+          </div>
         </div>
-      </div>
-
-      <div class="collaborator-card collaborator-card--highlight">
-        <div class="collaborator-card__avatar">MN</div>
-        <div class="collaborator-card__info">
-          <h3>Mauro Napoletano</h3>
-          <p class="collaborator-card__role">Full Professor · Uni Côte d'Azur & OFCE</p>
-          <p class="collaborator-card__topics">Keynes+Schumpeter ABM · Macroeconomics</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card collaborator-card--highlight">
-        <div class="collaborator-card__avatar">TT</div>
-        <div class="collaborator-card__info">
-          <h3>Tania Treibich</h3>
-          <p class="collaborator-card__role">Associate Professor · Maastricht Univ. & OFCE</p>
-          <p class="collaborator-card__topics">Agent-Based Macroeconomics · Policy</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card collaborator-card--highlight">
-        <div class="collaborator-card__avatar">AF</div>
-        <div class="collaborator-card__info">
-          <h3>Alessio Farcomeni</h3>
-          <p class="collaborator-card__role">Full Professor · Univ. Tor Vergata</p>
-          <p class="collaborator-card__topics">Robust Statistics · Portfolio Optimization</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">MT</div>
-        <div class="collaborator-card__info">
-          <h3>Max Tschaikowski</h3>
-          <p class="collaborator-card__role">Professor / Researcher</p>
-          <p class="collaborator-card__topics">Agentic ABMs · Model Checking</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">DG</div>
-        <div class="collaborator-card__info">
-          <h3>Daniele Giachini</h3>
-          <p class="collaborator-card__role">Researcher · SSSA</p>
-          <p class="collaborator-card__topics">Island Model · Evolutionary Economics</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">GS</div>
-        <div class="collaborator-card__info">
-          <h3>Giuseppe Squillace</h3>
-          <p class="collaborator-card__role">Researcher · IMT Lucca & SSSA</p>
-          <p class="collaborator-card__topics">Agentic LLMs · Agentic ABMs</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">RP</div>
-        <div class="collaborator-card__info">
-          <h3>Riccardo Porcedda</h3>
-          <p class="collaborator-card__role">PhD Candidate · SSSA</p>
-          <p class="collaborator-card__topics">Agentic AI · Software Engineering</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">EG</div>
-        <div class="collaborator-card__info">
-          <h3>Emmanuele Guerrazzi</h3>
-          <p class="collaborator-card__role">Data Engineer · SSSA</p>
-          <p class="collaborator-card__topics">Multi-Agent Systems · Data Pipelines</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">LE</div>
-        <div class="collaborator-card__info">
-          <h3>Lorenzo Emer</h3>
-          <p class="collaborator-card__role">PhD Candidate · SSSA</p>
-          <p class="collaborator-card__topics">Complex Systems · Network Science</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">ST</div>
-        <div class="collaborator-card__info">
-          <h3>Simone Tonini</h3>
-          <p class="collaborator-card__role">Research Fellow · SSSA</p>
-          <p class="collaborator-card__topics">Economic Modeling · Data Science</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">FC</div>
-        <div class="collaborator-card__info">
-          <h3>Francesca Chiaromonte</h3>
-          <p class="collaborator-card__role">Full Professor · Penn State & SSSA</p>
-          <p class="collaborator-card__topics">Statistics · High-Dimensional Data</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">FI</div>
-        <div class="collaborator-card__info">
-          <h3>D. Fioredistella Iezzi</h3>
-          <p class="collaborator-card__role">Full Professor · Univ. Tor Vergata</p>
-          <p class="collaborator-card__topics">Text Analytics · Machine Learning</p>
-        </div>
-      </div>
-
-      <div class="collaborator-card">
-        <div class="collaborator-card__avatar">EI</div>
-        <div class="collaborator-card__info">
-          <h3>Ernest Ivanaj</h3>
-          <p class="collaborator-card__role">Researcher</p>
-          <p class="collaborator-card__topics">Simulation · Island Model</p>
+        <div class="network-detail-card__body">
+          <p id="card-inst" class="network-detail-card__inst">Scuola Superiore Sant'Anna · Pisa</p>
+          <div id="card-topics" class="network-detail-card__topics"></div>
+          <div id="card-papers" class="network-detail-card__papers"></div>
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script>
+(function() {
+  const people = [
+    { id: 'sb', name: 'Stefano Blando', initials: 'SB', role: 'PhD Candidate', cat: 'phd', inst: 'SSSA & UniPi', isCore: true, topics: ['Agent-Based Modeling', 'Statistical Model Checking', 'Agentic AI', 'Systemic Risk & Networks', 'Robust Statistics'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)', 'Robust Portfolio Optimization'] },
+    { id: 'gf', name: 'Giorgio Fagiolo', initials: 'GF', role: 'Full Professor', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
+    { id: 'av', name: 'Andrea Vandin', initials: 'AV', role: 'Associate Professor', cat: 'faculty', inst: 'DTU Denmark & SSSA', topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
+    { id: 'mn', name: 'Mauro Napoletano', initials: 'MN', role: 'Full Professor', cat: 'faculty', inst: 'Uni Côte d\'Azur & OFCE', topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
+    { id: 'tt', name: 'Tania Treibich', initials: 'TT', role: 'Associate Professor', cat: 'faculty', inst: 'Maastricht Univ. & OFCE', topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
+    { id: 'af', name: 'Alessio Farcomeni', initials: 'AF', role: 'Full Professor', cat: 'faculty', inst: 'Univ. Tor Vergata', topics: ['Robust Statistics'], papers: ['Robust Portfolio Optimization'] },
+    { id: 'mt', name: 'Max Tschaikowski', initials: 'MT', role: 'Professor', cat: 'faculty', inst: 'Co-author', topics: ['Statistical Model Checking', 'Agentic AI'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'dg', name: 'Daniele Giachini', initials: 'DG', role: 'Researcher', cat: 'researchers', inst: 'Scuola Superiore Sant\'Anna', topics: ['Agent-Based Modeling', 'Macroeconomics'], papers: ['Island Model SMC (MARS 2026)'] },
+    { id: 'gs', name: 'Giuseppe Squillace', initials: 'GS', role: 'Researcher', cat: 'researchers', inst: 'IMT Lucca & SSSA', topics: ['Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'rp', name: 'Riccardo Porcedda', initials: 'RP', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', topics: ['Agentic AI', 'Software Engineering'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'eg', name: 'Emmanuele Guerrazzi', initials: 'EG', role: 'Data Engineer', cat: 'researchers', inst: 'Scuola Superiore Sant\'Anna', topics: ['Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'le', name: 'Lorenzo Emer', initials: 'LE', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', topics: ['Systemic Risk & Networks', 'Agent-Based Modeling'], papers: ['COMPASS 2026 Workshop'] },
+    { id: 'st', name: 'Simone Tonini', initials: 'ST', role: 'Research Fellow', cat: 'researchers', inst: 'Scuola Superiore Sant\'Anna', topics: ['Macroeconomics', 'Systemic Risk & Networks'], papers: ['EMbeDS Research'] },
+    { id: 'fc', name: 'Francesca Chiaromonte', initials: 'FC', role: 'Full Professor', cat: 'faculty', inst: 'Penn State & SSSA', topics: ['Robust Statistics', 'High-Dimensional Data'], papers: ['EMbeDS Coordination'] },
+    { id: 'fi', name: 'D. Fioredistella Iezzi', initials: 'FI', role: 'Full Professor', cat: 'faculty', inst: 'Univ. Tor Vergata', topics: ['Robust Statistics', 'Text Analytics'], papers: ['Multilingual Text Analytics (VADISTAT 2026)'] },
+    { id: 'ei', name: 'Ernest Ivanaj', initials: 'EI', role: 'Researcher', cat: 'researchers', inst: 'Co-author', topics: ['Agent-Based Modeling', 'Statistical Model Checking'], papers: ['Island Model SMC (MARS 2026)'] }
+  ];
+
+  const catColors = {
+    faculty: '#38bdf8',
+    researchers: '#818cf8',
+    phd: '#34d399'
+  };
+
+  let currentCat = 'all';
+  let activePerson = null;
+
+  function initNetwork() {
+    const container = document.getElementById('collaborators-d3-container');
+    if (!container || typeof d3 === 'undefined') return;
+
+    container.innerHTML = '';
+    const width = container.clientWidth || 800;
+    const height = Math.min(width * 0.72, 600);
+    const cx = width / 2;
+    const cy = height / 2;
+    const outerR = Math.min(width, height) * 0.38;
+    const innerR = Math.min(width, height) * 0.19;
+
+    const svg = d3.select(container).append('svg')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('viewBox', `0 0 ${width} ${height}`);
+
+    const gLines = svg.append('g').attr('class', 'g-lines');
+    const gTopics = svg.append('g').attr('class', 'g-topics');
+    const gNodes = svg.append('g').attr('class', 'g-nodes');
+
+    // Extract unique topics
+    const allTopicsSet = new Set();
+    people.forEach(p => p.topics.forEach(t => allTopicsSet.add(t)));
+    const topicsArr = Array.from(allTopicsSet);
+
+    // Filter people
+    const filteredPeople = currentCat === 'all' ? people : people.filter(p => p.cat === currentCat || p.isCore);
+    const outerPeople = filteredPeople.filter(p => !p.isCore);
+    const corePerson = people.find(p => p.isCore);
+
+    // Place Outer Ring People
+    const peoplePos = [];
+    outerPeople.forEach((p, i) => {
+      const angle = (i / outerPeople.length) * 2 * Math.PI - Math.PI / 2;
+      peoplePos.push({
+        ...p,
+        x: cx + outerR * Math.cos(angle),
+        y: cy + outerR * Math.sin(angle),
+        angle
+      });
+    });
+
+    // Place Center Core Person
+    if (corePerson) {
+      peoplePos.push({
+        ...corePerson,
+        x: cx,
+        y: cy,
+        angle: 0
+      });
+    }
+
+    // Place Inner Ring Topics
+    const topicPos = {};
+    topicsArr.forEach((t, i) => {
+      const angle = (i / topicsArr.length) * 2 * Math.PI - Math.PI / 2;
+      topicPos[t] = {
+        label: t,
+        x: cx + innerR * Math.cos(angle),
+        y: cy + innerR * Math.sin(angle)
+      };
+    });
+
+    // Draw Bezier Curve Links
+    const links = [];
+    peoplePos.forEach(p => {
+      p.topics.forEach(t => {
+        if (topicPos[t]) {
+          links.push({
+            id: `${p.id}-${t}`,
+            p,
+            t: topicPos[t],
+            cat: p.cat
+          });
+        }
+      });
+    });
+
+    // Curved Q Path towards center
+    function qPath(x1, y1, x2, y2) {
+      const mx = (x1 + x2) / 2;
+      const my = (y1 + y2) / 2;
+      return `M${x1},${y1} Q${cx + (mx - cx) * 0.4},${cy + (my - cy) * 0.4} ${x2},${y2}`;
+    }
+
+    const pathSel = gLines.selectAll('.net-line')
+      .data(links, d => d.id)
+      .join('path')
+      .attr('class', 'net-line')
+      .attr('d', d => qPath(d.p.x, d.p.y, d.t.x, d.t.y))
+      .attr('stroke', d => catColors[d.cat] || '#38bdf8')
+      .attr('stroke-width', d => d.p.isCore ? 1.6 : 1)
+      .attr('stroke-opacity', d => d.p.isCore ? 0.45 : 0.2)
+      .attr('fill', 'none');
+
+    // Draw Topic Pills
+    const topicGroup = gTopics.selectAll('.net-topic')
+      .data(topicsArr)
+      .join('g')
+      .attr('class', 'net-topic')
+      .attr('transform', t => `translate(${topicPos[t].x}, ${topicPos[t].y})`)
+      .style('cursor', 'pointer');
+
+    topicGroup.append('rect')
+      .attr('rx', 12)
+      .attr('ry', 12)
+      .attr('x', -55)
+      .attr('y', -11)
+      .attr('width', 110)
+      .attr('height', 22)
+      .attr('fill', 'rgba(12, 17, 27, 0.9)')
+      .attr('stroke', 'rgba(56, 189, 248, 0.3)')
+      .attr('stroke-width', 1);
+
+    topicGroup.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .attr('fill', '#e2e8f0')
+      .attr('font-size', '9.5px')
+      .attr('font-weight', '600')
+      .text(d => d.length > 18 ? d.substring(0, 16) + '...' : d);
+
+    // Draw Person Nodes
+    const nodeGroup = gNodes.selectAll('.net-node')
+      .data(peoplePos, d => d.id)
+      .join('g')
+      .attr('class', d => `net-node ${d.isCore ? 'net-node--core' : ''}`)
+      .attr('transform', d => `translate(${d.x}, ${d.y})`)
+      .style('cursor', 'pointer');
+
+    // Core pulsing ring
+    nodeGroup.filter(d => d.isCore).append('circle')
+      .attr('r', 26)
+      .attr('fill', 'none')
+      .attr('stroke', 'rgba(56, 189, 248, 0.5)')
+      .attr('stroke-width', 2)
+      .attr('class', 'net-node-pulse');
+
+    nodeGroup.append('circle')
+      .attr('r', d => d.isCore ? 20 : 16)
+      .attr('fill', d => d.isCore ? 'url(#core-grad)' : 'rgba(16, 22, 33, 0.95)')
+      .attr('stroke', d => d.isCore ? '#38bdf8' : (catColors[d.cat] || '#38bdf8'))
+      .attr('stroke-width', d => d.isCore ? 2.5 : 1.5);
+
+    nodeGroup.append('text')
+      .attr('text-anchor', 'middle')
+      .attr('dominant-baseline', 'middle')
+      .attr('fill', '#ffffff')
+      .attr('font-size', d => d.isCore ? '12px' : '10px')
+      .attr('font-weight', '700')
+      .text(d => d.initials);
+
+    // Labels under outer nodes
+    nodeGroup.append('text')
+      .attr('y', d => d.isCore ? 34 : 26)
+      .attr('text-anchor', 'middle')
+      .attr('fill', '#94a3b8')
+      .attr('font-size', '10px')
+      .attr('font-weight', '600')
+      .text(d => d.name.split(' ')[1] || d.name);
+
+    // SVG Gradients
+    const defs = svg.append('defs');
+    const grad = defs.append('linearGradient')
+      .attr('id', 'core-grad')
+      .attr('x1', '0%').attr('y1', '0%')
+      .attr('x2', '100%').attr('y2', '100%');
+    grad.append('stop').attr('offset', '0%').attr('stop-color', '#0284c7');
+    grad.append('stop').attr('offset', '100%').attr('stop-color', '#4f46e5');
+
+    // Hover & Click Interactions
+    nodeGroup.on('mouseenter', (ev, d) => {
+      pathSel.attr('stroke-opacity', l => (l.p.id === d.id ? 0.85 : 0.08))
+        .attr('stroke-width', l => (l.p.id === d.id ? 2.2 : 0.8));
+    }).on('mouseleave', () => {
+      if (!activePerson) {
+        pathSel.attr('stroke-opacity', d => d.p.isCore ? 0.45 : 0.2)
+          .attr('stroke-width', d => d.p.isCore ? 1.6 : 1);
+      }
+    }).on('click', (ev, d) => {
+      ev.stopPropagation();
+      activePerson = d;
+      showCard(d);
+    });
+
+    svg.on('click', () => {
+      activePerson = null;
+      hideCard();
+      pathSel.attr('stroke-opacity', d => d.p.isCore ? 0.45 : 0.2)
+        .attr('stroke-width', d => d.p.isCore ? 1.6 : 1);
+    });
+  }
+
+  function showCard(p) {
+    const card = document.getElementById('network-detail-card');
+    if (!card) return;
+    document.getElementById('card-avatar').innerText = p.initials;
+    document.getElementById('card-name').innerText = p.name;
+    document.getElementById('card-role').innerText = `${p.role} · ${p.cat.toUpperCase()}`;
+    document.getElementById('card-inst').innerText = p.inst;
+
+    const topicsEl = document.getElementById('card-topics');
+    topicsEl.innerHTML = p.topics.map(t => `<span class="network-chip">${t}</span>`).join('');
+
+    const papersEl = document.getElementById('card-papers');
+    papersEl.innerHTML = p.papers ? `<h4>Co-authored Works:</h4><ul>${p.papers.map(paper => `<li>${paper}</li>`).join('')}</ul>` : '';
+
+    card.classList.remove('hidden');
+    card.setAttribute('aria-hidden', 'false');
+  }
+
+  function hideCard() {
+    const card = document.getElementById('network-detail-card');
+    if (card) {
+      card.classList.add('hidden');
+      card.setAttribute('aria-hidden', 'true');
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    initNetwork();
+
+    // Tab Filter Listener
+    document.querySelectorAll('.network-tab').forEach(tab => {
+      tab.addEventListener('click', (e) => {
+        document.querySelectorAll('.network-tab').forEach(t => t.classList.remove('active'));
+        e.target.classList.add('active');
+        currentCat = e.target.getAttribute('data-cat');
+        initNetwork();
+      });
+    });
+
+    // Close Card Listener
+    const closeBtn = document.querySelector('.network-detail-card__close');
+    if (closeBtn) closeBtn.addEventListener('click', hideCard);
+
+    // Search Filter
+    const searchInput = document.getElementById('network-search-input');
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+        d3.selectAll('.net-node').style('opacity', d => (d.name.toLowerCase().includes(query) || d.isCore ? 1 : 0.15));
+      });
+    }
+
+    window.addEventListener('resize', initNetwork);
+  });
+})();
+</script>
