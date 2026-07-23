@@ -5,15 +5,15 @@
       <div>
         <p class="portfolio-eyebrow">{{ $block.content.eyebrow | default "Research Network" }}</p>
         <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & L'EMbeDS Lab Network" }}</h2>
-        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive circular visualization connecting researchers, L'EMbeDS lab members, and research topics." }}</p>
+        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive circular visualization connecting researchers, PhD supervisors, lab colleagues, and research topics." }}</p>
       </div>
 
       <div class="network-controls">
         <div class="network-tabs" role="tablist">
           <button class="cat-tab active" data-cat="all">All (15)</button>
           <button class="cat-tab" data-cat="faculty">Faculty (8)</button>
-          <button class="cat-tab" data-cat="postdoc">PostDoc & Staff (5)</button>
-          <button class="cat-tab" data-cat="phd">PhD Students (2)</button>
+          <button class="cat-tab" data-cat="postdoc">PostDoc & Staff (4)</button>
+          <button class="cat-tab" data-cat="phd">PhD Candidates (3)</button>
         </div>
         <div class="network-search">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -33,7 +33,7 @@
           <div class="network-detail-card__avatar" id="card-avatar">GF</div>
           <div>
             <h3 id="card-name">Giorgio Fagiolo</h3>
-            <p id="card-role" class="network-detail-card__role">Full Professor</p>
+            <p id="card-role" class="network-detail-card__role">Full Professor (PhD Supervisor)</p>
           </div>
         </div>
         <div class="network-detail-card__body">
@@ -50,20 +50,20 @@
 <script>
 (function() {
   const people = [
-    { id: 'gf', name: 'Giorgio Fagiolo', role: 'Full Professor', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
-    { id: 'av', name: 'Andrea Vandin', role: 'Associate Professor', cat: 'faculty', inst: 'DTU Denmark & SSSA', extInst: 'dtu', topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
+    { id: 'gf', name: 'Giorgio Fagiolo', role: 'Full Professor (PhD Supervisor)', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
+    { id: 'av', name: 'Andrea Vandin', role: 'Associate Professor (PhD Supervisor)', cat: 'faculty', inst: 'DTU Denmark & SSSA', extInst: 'dtu', topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
+    { id: 'dg', name: 'Daniele Giachini', role: 'Assistant Professor (PhD Supervisor)', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agent-Based Modeling', 'Macroeconomics'], papers: ['Island Model SMC (MARS 2026)'] },
     { id: 'mn', name: 'Mauro Napoletano', role: 'Full Professor', cat: 'faculty', inst: 'Uni Côte d\'Azur & OFCE', extInst: 'cotedazur', topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
     { id: 'tt', name: 'Tania Treibich', role: 'Associate Professor', cat: 'faculty', inst: 'Maastricht Univ. & OFCE', extInst: 'maastricht', topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
     { id: 'gs', name: 'Giuseppe Squillace', role: 'Researcher', cat: 'postdoc', inst: 'CentraleSupélec & SSSA', extInst: 'centralesupelec', topics: ['Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
-    { id: 'af', name: 'Alessio Farcomeni', role: 'Full Professor', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: 'torvergata', topics: ['Robust Statistics', 'Portfolio Optimization'], papers: ['Robust Portfolio Optimization'] },
+    { id: 'af', name: 'Alessio Farcomeni', role: 'Full Professor (MSc Supervisor)', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: 'torvergata', topics: ['Robust Statistics', 'Portfolio Optimization'], papers: ['Robust Portfolio Optimization'] },
     { id: 'mt', name: 'Max Tschaikowski', role: 'Professor', cat: 'faculty', inst: 'Co-author', extInst: null, topics: ['Statistical Model Checking', 'Agentic AI'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
-    { id: 'dg', name: 'Daniele Giachini', role: 'Researcher', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agent-Based Modeling', 'Macroeconomics'], papers: ['Island Model SMC (MARS 2026)'] },
-    { id: 'rp', name: 'Riccardo Porcedda', role: 'PhD Student', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agentic AI', 'Software Engineering'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
+    { id: 'rp', name: 'Riccardo Porcedda', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agentic AI', 'Software Engineering'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
     { id: 'eg', name: 'Emmanuele Guerrazzi', role: 'Data Engineer', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
     { id: 'fi', name: 'D. Fioredistella Iezzi', role: 'Full Professor', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: 'torvergata', topics: ['Robust Statistics', 'Text Analytics'], papers: ['Multilingual Text Analytics (VADISTAT Award 2026)'] },
     { id: 'ei', name: 'Ernest Ivanaj', role: 'Researcher', cat: 'postdoc', inst: 'Co-author', extInst: null, topics: ['Agent-Based Modeling', 'Statistical Model Checking'], papers: ['Island Model SMC (MARS 2026)'] },
     { id: 'fc', name: 'Francesca Chiaromonte', role: 'Full Professor (L\'EMbeDS Coord.)', cat: 'faculty', inst: 'Penn State & SSSA', extInst: 'pennstate', topics: ['Robust Statistics', 'High-Dimensional Data'], papers: [] },
-    { id: 'le', name: 'Lorenzo Emer', role: 'PhD Student', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Systemic Risk & Networks', 'COMPASS Workshop'], papers: [] },
+    { id: 'le', name: 'Lorenzo Emer', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Complex Systems', 'Economic Modeling'], papers: [] },
     { id: 'st', name: 'Simone Tonini', role: 'Research Fellow', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Macroeconomics', 'Systemic Risk & Networks'], papers: [] }
   ];
 
@@ -383,7 +383,7 @@
     const papersEl = document.getElementById('card-papers');
     papersEl.innerHTML = (p.papers && p.papers.length > 0)
       ? `<h4>Co-authored Works (${p.papers.length}):</h4><ul>${p.papers.map(paper => `<li>${paper}</li>`).join('')}</ul>`
-      : `<h4>Academic Collaboration:</h4><p class="network-card-note">L'EMbeDS Lab & Scientific Event Collaborator</p>`;
+      : `<h4>Academic Collaboration:</h4><p class="network-card-note">L'EMbeDS Lab & Research Collaborator</p>`;
 
     card.classList.remove('hidden');
     card.setAttribute('aria-hidden', 'false');
