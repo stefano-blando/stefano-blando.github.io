@@ -85,6 +85,7 @@ class HomepageContractTests(unittest.TestCase):
             "featured-projects",
             "featured-publications",
             "resume-experience",
+            "collaborators-network",
             "featured-news",
             "portfolio-contact",
         ]
