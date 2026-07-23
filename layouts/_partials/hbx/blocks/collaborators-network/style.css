@@ -105,7 +105,7 @@
   position: absolute;
   top: 1.5rem;
   right: 1.5rem;
-  width: min(320px, calc(100% - 3rem));
+  width: min(330px, calc(100% - 3rem));
   background: rgba(12, 17, 27, 0.92);
   border: 1px solid rgba(56, 189, 248, 0.35);
   border-radius: 18px;
@@ -147,8 +147,8 @@
 .network-detail-card__avatar {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   background: linear-gradient(135deg, #0284c7, #4f46e5);
   color: #ffffff;
@@ -169,10 +169,27 @@
   font-weight: 600;
 }
 
-.network-detail-card__inst {
-  margin: 0 0 0.75rem;
-  font-size: 0.78rem;
-  color: var(--portfolio-muted);
+.network-detail-card__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.network-badge {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 6px;
+  background: rgba(56, 189, 248, 0.1);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  color: #7dd3fc;
+  font-weight: 600;
+}
+
+.network-badge--dual {
+  background: rgba(129, 140, 248, 0.15);
+  border-color: rgba(129, 140, 248, 0.35);
+  color: #c084fc;
 }
 
 .network-detail-card__topics {
@@ -186,9 +203,9 @@
   font-size: 0.72rem;
   padding: 0.15rem 0.55rem;
   border-radius: 6px;
-  background: rgba(56, 189, 248, 0.1);
-  border: 1px solid rgba(56, 189, 248, 0.25);
-  color: #7dd3fc;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(158, 183, 219, 0.18);
+  color: #cbd5e1;
   font-weight: 500;
 }
 
