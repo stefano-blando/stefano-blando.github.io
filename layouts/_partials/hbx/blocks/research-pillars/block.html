@@ -9,7 +9,6 @@
         {{ $drawerId := printf "pillar-drawer-%d" $index }}
         <li class="research-list__row" data-reveal>
           <button class="research-list__trigger" type="button" aria-expanded="false" aria-controls="{{ $drawerId }}">
-            <span class="research-list__numeral" aria-hidden="true">{{ printf "%02d" (add $index 1) }}</span>
             <div class="research-list__body">
               <h3>{{ $item.name }}</h3>
               <p>{{ $item.description }}</p>

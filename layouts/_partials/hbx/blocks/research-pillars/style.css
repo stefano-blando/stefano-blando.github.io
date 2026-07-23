@@ -35,7 +35,7 @@
   color: inherit;
   font: inherit;
   display: grid;
-  grid-template-columns: 3.5rem minmax(0, 1fr) 220px;
+  grid-template-columns: minmax(0, 1fr) auto;
   gap: 1.5rem;
   align-items: start;
 }
@@ -201,10 +201,9 @@
 
 @media (max-width: 800px) {
   .research-list__trigger {
-    grid-template-columns: 2.5rem minmax(0, 1fr);
+    grid-template-columns: 1fr;
   }
   .research-list__meta {
-    grid-column: 2;
     align-items: flex-start;
     text-align: left;
   }

@@ -44,7 +44,7 @@ class HomepageContractTests(unittest.TestCase):
         template = ROOT / "layouts/_partials/hbx/blocks/research-pillars/block.html"
         self.assertTrue(template.exists())
         source = template.read_text(encoding="utf-8")
-        self.assertIn("research-list__numeral", source)
+        self.assertNotIn("research-list__numeral", source)
         self.assertIn("research-list__topics", source)
         self.assertNotIn("media/icons", source)
         self.assertNotIn("interest_groups", source)
