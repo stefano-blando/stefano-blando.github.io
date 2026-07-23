@@ -10,6 +10,6 @@ sections:
   - block: collaborators-network
     content:
       eyebrow: Rete di Ricerca
-      title: Collaboratori e Co-autori
-      text: Visualizzazione interattiva della rete di co-autori, supervisori e ricercatori.
+      title: Collaboratori e Rete L'EMbeDS
+      text: Visualizzazione circolare interattiva della rete di co-autori, supervisori e ricercatori del laboratorio L'EMbeDS.
 ---

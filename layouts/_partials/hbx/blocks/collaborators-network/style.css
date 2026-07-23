@@ -91,11 +91,7 @@
 }
 
 .pnode, .tgrp, .igrp, .tline, .iline {
-  transition: opacity 250ms ease, transform 250ms ease;
-}
-
-.pnode:hover {
-  transform: scale(1.08);
+  transition: opacity 250ms ease;
 }
 
 /* Floating Glassmorphism Detail Card */

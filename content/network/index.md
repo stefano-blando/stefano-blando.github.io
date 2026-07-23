@@ -10,6 +10,6 @@ sections:
   - block: collaborators-network
     content:
       eyebrow: Research Network
-      title: Co-authors & Academic Network
-      text: Interactive visualization of academic co-authors, supervisors, and research lab collaborators.
+      title: Co-authors & L'EMbeDS Lab Network
+      text: Interactive circular visualization connecting researchers, L'EMbeDS lab members, and research topics.
 ---

@@ -10,10 +10,10 @@
 
       <div class="network-controls">
         <div class="network-tabs" role="tablist">
-          <button class="cat-tab active" data-cat="all">All (16)</button>
-          <button class="cat-tab" data-cat="faculty">Faculty</button>
-          <button class="cat-tab" data-cat="postdoc">PostDoc & Staff</button>
-          <button class="cat-tab" data-cat="phd">PhD Students</button>
+          <button class="cat-tab active" data-cat="all">All (15)</button>
+          <button class="cat-tab" data-cat="faculty">Faculty (8)</button>
+          <button class="cat-tab" data-cat="postdoc">PostDoc & Staff (5)</button>
+          <button class="cat-tab" data-cat="phd">PhD Students (2)</button>
         </div>
         <div class="network-search">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
@@ -30,14 +30,14 @@
       <div id="network-detail-card" class="network-detail-card hidden" aria-hidden="true">
         <button class="network-detail-card__close" aria-label="Close card">&times;</button>
         <div class="network-detail-card__header">
-          <div class="network-detail-card__avatar" id="card-avatar">SB</div>
+          <div class="network-detail-card__avatar" id="card-avatar">GF</div>
           <div>
-            <h3 id="card-name">Stefano Blando</h3>
-            <p id="card-role" class="network-detail-card__role">PhD Candidate · SSSA & UniPi</p>
+            <h3 id="card-name">Giorgio Fagiolo</h3>
+            <p id="card-role" class="network-detail-card__role">Full Professor</p>
           </div>
         </div>
         <div class="network-detail-card__body">
-          <div id="card-inst" class="network-detail-card__inst"></div>
+          <div id="card-inst" class="network-detail-card__inst">Scuola Superiore Sant'Anna</div>
           <div id="card-topics" class="network-detail-card__topics"></div>
           <div id="card-papers" class="network-detail-card__papers"></div>
         </div>
@@ -50,7 +50,6 @@
 <script>
 (function() {
   const people = [
-    { id: 'sb', name: 'Stefano Blando', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna & UniPi', extInst: 'unipi', isCore: true, topics: ['Agent-Based Modeling', 'Statistical Model Checking', 'Agentic AI', 'Systemic Risk & Networks', 'Robust Statistics'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)', 'Robust Portfolio Optimization'] },
     { id: 'gf', name: 'Giorgio Fagiolo', role: 'Full Professor', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
     { id: 'av', name: 'Andrea Vandin', role: 'Associate Professor', cat: 'faculty', inst: 'DTU Denmark & SSSA', extInst: 'dtu', topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
     { id: 'mn', name: 'Mauro Napoletano', role: 'Full Professor', cat: 'faculty', inst: 'Uni Côte d\'Azur & OFCE', extInst: 'cotedazur', topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
@@ -93,11 +92,11 @@
     const container = document.getElementById('collaborators-d3-container');
     if (!container) return;
     W = container.clientWidth || 840;
-    H = Math.min(W * 0.72, 620);
+    H = Math.min(W * 0.74, 620);
     cx = W / 2;
     cy = H / 2;
     R = Math.min(W, H) * 0.34;
-    NR = Math.max(18, Math.min(26, R * 0.08));
+    NR = Math.max(18, Math.min(25, R * 0.08));
   }
 
   function placePeople(list) {
@@ -162,7 +161,7 @@
     activeTopic = null;
     hideCard();
 
-    const filtered = cat === 'all' ? people : people.filter(p => p.cat === cat || p.isCore);
+    const filtered = cat === 'all' ? people : people.filter(p => p.cat === cat);
     placed = placePeople(filtered);
     topics = topicPositions(placed);
     insts = instPositions(placed);
@@ -189,8 +188,8 @@
     sel.enter().append('path')
       .attr('class', 'tline')
       .attr('fill', 'none')
-      .attr('stroke', d => d.p.isCore ? '#38bdf8' : (roleColors[d.p.cat] || '#818cf8'))
-      .attr('stroke-width', d => d.p.isCore ? 1.6 : 1)
+      .attr('stroke', d => roleColors[d.p.cat] || '#818cf8')
+      .attr('stroke-width', 1.2)
       .attr('stroke-opacity', 0.25)
       .attr('d', d => qPath(d.p.x, d.p.y, d.tp.x, d.tp.y));
 
@@ -302,21 +301,34 @@
       .attr('class', 'pnode')
       .attr('transform', d => `translate(${d.x}, ${d.y})`)
       .style('cursor', 'pointer')
-      .on('mouseenter', (ev, d) => { if (!activePerson && !activeTopic) hlPerson(d); })
-      .on('mouseleave', () => { if (!activePerson && !activeTopic) reset(); })
-      .on('click', (ev, d) => { ev.stopPropagation(); activePerson = d; hlPerson(d); showCard(d); });
+      .on('mouseenter', (ev, d) => {
+        d3.select(ev.currentTarget).select('.pnode-circle').transition().duration(180).attr('r', NR * 1.2);
+        hlPerson(d);
+        showCard(d);
+      })
+      .on('mouseleave', (ev, d) => {
+        d3.select(ev.currentTarget).select('.pnode-circle').transition().duration(180).attr('r', NR);
+        if (!activePerson && !activeTopic) reset();
+      })
+      .on('click', (ev, d) => {
+        ev.stopPropagation();
+        activePerson = d;
+        hlPerson(d);
+        showCard(d);
+      });
 
     ent.append('circle')
-      .attr('r', d => d.isCore ? NR + 3 : NR)
-      .attr('fill', d => d.isCore ? 'url(#core-grad)' : 'rgba(12, 17, 27, 0.95)')
-      .attr('stroke', d => d.isCore ? '#38bdf8' : (roleColors[d.cat] || '#38bdf8'))
-      .attr('stroke-width', d => d.isCore ? 2.8 : 1.8);
+      .attr('class', 'pnode-circle')
+      .attr('r', NR)
+      .attr('fill', 'rgba(12, 17, 27, 0.95)')
+      .attr('stroke', d => roleColors[d.cat] || '#38bdf8')
+      .attr('stroke-width', 2);
 
     const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
     ent.append('text')
       .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
       .attr('fill', '#ffffff')
-      .style('font-size', d => d.isCore ? '12px' : '10px')
+      .style('font-size', '10px')
       .style('font-weight', '700')
       .text(d => ini(d.name));
 
@@ -324,9 +336,9 @@
       .attr('class', 'pnode-name')
       .attr('y', NR + 14)
       .attr('text-anchor', 'middle')
-      .attr('fill', d => d.isCore ? '#38bdf8' : '#94a3b8')
+      .attr('fill', '#94a3b8')
       .style('font-size', '10px').style('font-weight', '600')
-      .text(d => d.isCore ? 'Stefano Blando (Me)' : (d.name.split(' ')[1] || d.name));
+      .text(d => d.name.split(' ')[1] || d.name);
 
     sel.attr('transform', d => `translate(${d.x}, ${d.y})`);
     sel.exit().remove();
@@ -350,7 +362,7 @@
   }
 
   function reset() {
-    gLines.selectAll('.tline').attr('stroke-opacity', 0.25).attr('stroke-width', d => d.p.isCore ? 1.6 : 1);
+    gLines.selectAll('.tline').attr('stroke-opacity', 0.25).attr('stroke-width', 1.2);
     gNodes.selectAll('.pnode').style('opacity', 1);
     gTopics.selectAll('.tgrp').style('opacity', 1);
     gInst.selectAll('.igrp').style('opacity', 1);
@@ -361,7 +373,7 @@
     if (!card) return;
     const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
     document.getElementById('card-avatar').innerText = ini(p.name);
-    document.getElementById('card-name').innerText = p.name + (p.isCore ? ' (Me)' : '');
+    document.getElementById('card-name').innerText = p.name;
     document.getElementById('card-role').innerText = p.role;
     document.getElementById('card-inst').innerText = p.inst;
 
@@ -406,12 +418,6 @@
 
     guideCirc = gGuide.append('circle').attr('fill', 'none');
 
-    const grad = defs.append('linearGradient')
-      .attr('id', 'core-grad')
-      .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
-    grad.append('stop').attr('offset', '0%').attr('stop-color', '#0284c7');
-    grad.append('stop').attr('offset', '100%').attr('stop-color', '#6366f1');
-
     draw(currentCat);
 
     svg.on('click', () => {
@@ -441,7 +447,7 @@
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
-        gNodes.selectAll('.pnode').style('opacity', d => (d.name.toLowerCase().includes(query) || d.isCore ? 1 : 0.15));
+        gNodes.selectAll('.pnode').style('opacity', d => (d.name.toLowerCase().includes(query) ? 1 : 0.15));
       });
     }
 
