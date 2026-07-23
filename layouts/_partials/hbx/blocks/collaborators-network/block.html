@@ -4,8 +4,8 @@
     <div class="collaborators-header">
       <div>
         <p class="portfolio-eyebrow">{{ $block.content.eyebrow | default "Research Network" }}</p>
-        <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & Collaborators" }}</h2>
-        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive constellation network of co-authors, supervisors, and research lab collaborators." }}</p>
+        <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & Collaborators Network" }}</h2>
+        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive constellation network of co-authors, supervisors, and research lab collaborators around my research." }}</p>
       </div>
 
       <div class="network-controls">
@@ -51,7 +51,7 @@
 <script>
 (function() {
   const people = [
-    { id: 'sb', name: 'Stefano Blando', initials: 'SB', role: 'PhD Candidate', cat: 'phd', insts: ['SSSA Pisa', 'UniPi'], cluster: 'sssa', dual: true, paperCount: 4, isCore: true, topics: ['Agent-Based Modeling', 'Statistical Model Checking', 'Agentic AI', 'Systemic Risk & Networks', 'Robust Statistics'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)', 'Robust Portfolio Optimization'] },
+    { id: 'sb', name: 'Stefano Blando (Me)', initials: 'SB', role: 'PhD Candidate (Central Researcher)', cat: 'phd', insts: ['SSSA Pisa', 'UniPi'], cluster: 'sssa', dual: true, paperCount: 4, isCore: true, topics: ['Agent-Based Modeling', 'Statistical Model Checking', 'Agentic AI', 'Systemic Risk & Networks', 'Robust Statistics'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)', 'Robust Portfolio Optimization'] },
     { id: 'gf', name: 'Giorgio Fagiolo', initials: 'GF', role: 'Full Professor', cat: 'faculty', insts: ['SSSA Pisa'], cluster: 'sssa', dual: false, paperCount: 2, topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
     { id: 'av', name: 'Andrea Vandin', initials: 'AV', role: 'Associate Professor', cat: 'faculty', insts: ['DTU Denmark', 'SSSA Pisa'], cluster: 'international', dual: true, paperCount: 3, topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
     { id: 'mn', name: 'Mauro Napoletano', initials: 'MN', role: 'Full Professor', cat: 'faculty', insts: ['Uni Côte d\'Azur', 'OFCE France'], cluster: 'france', dual: true, paperCount: 1, topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
@@ -78,7 +78,7 @@
 
     container.innerHTML = '';
     const width = container.clientWidth || 840;
-    const height = Math.min(width * 0.7, 620);
+    const height = Math.min(width * 0.72, 640);
     const cx = width / 2;
     const cy = height / 2;
 
@@ -87,24 +87,39 @@
       .attr('height', height)
       .attr('viewBox', `0 0 ${width} ${height}`);
 
+    // SVG Gradients
+    const defs = svg.append('defs');
+    const grad = defs.append('linearGradient')
+      .attr('id', 'core-grad')
+      .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
+    grad.append('stop').attr('offset', '0%').attr('stop-color', '#0284c7');
+    grad.append('stop').attr('offset', '100%').attr('stop-color', '#6366f1');
+
+    const dualGrad = defs.append('linearGradient')
+      .attr('id', 'dual-line-grad')
+      .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
+    dualGrad.append('stop').attr('offset', '0%').attr('stop-color', '#38bdf8');
+    dualGrad.append('stop').attr('offset', '100%').attr('stop-color', '#a855f7');
+
     // Filter people by cluster or all
     const filteredPeople = people.filter(p => p.isCore || activeFilter === 'all' || p.cluster === activeFilter);
-
-    // Compute cluster angles
-    const clusters = {
-      sssa: { label: 'SSSA Pisa Hub', angle: -Math.PI / 2, r: Math.min(width, height) * 0.38 },
-      france: { label: 'France & NL Hub', angle: 0, r: Math.min(width, height) * 0.38 },
-      international: { label: 'DTU & USA Hub', angle: Math.PI / 2, r: Math.min(width, height) * 0.38 },
-      torvergata: { label: 'Tor Vergata Hub', angle: Math.PI, r: Math.min(width, height) * 0.38 }
-    };
-
-    // Calculate node coordinates
     const outerPeople = filteredPeople.filter(p => !p.isCore);
+    const rawCore = people.find(p => p.isCore);
+
     const peoplePos = [];
 
+    // Core Center Node
+    const coreNodePos = {
+      ...rawCore,
+      x: cx,
+      y: cy
+    };
+    peoplePos.push(coreNodePos);
+
+    // Place Outer Nodes in Orbit
     outerPeople.forEach((p, i) => {
       const angle = (i / outerPeople.length) * 2 * Math.PI - Math.PI / 2;
-      const dist = Math.min(width, height) * (p.dual ? 0.34 : 0.39);
+      const dist = Math.min(width, height) * (p.dual ? 0.35 : 0.40);
       peoplePos.push({
         ...p,
         x: cx + dist * Math.cos(angle),
@@ -112,22 +127,13 @@
       });
     });
 
-    const corePerson = people.find(p => p.isCore);
-    if (corePerson) {
-      peoplePos.push({
-        ...corePerson,
-        x: cx,
-        y: cy
-      });
-    }
-
-    // Bezier links from core to co-authors
+    // Generate Links from Core Node to Outer Nodes
     const links = [];
     peoplePos.forEach(p => {
       if (!p.isCore) {
         links.push({
           id: `core-${p.id}`,
-          source: corePerson,
+          source: coreNodePos, // Correctly references coreNodePos with x: cx, y: cy!
           target: p,
           paperCount: p.paperCount,
           dual: p.dual
@@ -135,16 +141,20 @@
       }
     });
 
-    // Draw links with stroke-width scaled by paper count
+    // Draw Links (Bezier Curves)
     const gLines = svg.append('g').attr('class', 'g-lines');
     const pathSel = gLines.selectAll('.const-line')
       .data(links, d => d.id)
       .join('path')
       .attr('class', 'const-line')
-      .attr('d', d => `M${d.source.x},${d.source.y} Q${cx + (d.target.x - cx) * 0.45},${cy + (d.target.y - cy) * 0.45} ${d.target.x},${d.target.y}`)
-      .attr('stroke', d => d.dual ? 'url(#dual-line-grad)' : 'rgba(56, 189, 248, 0.4)')
-      .attr('stroke-width', d => d.paperCount >= 3 ? 2.8 : (d.paperCount >= 1 ? 1.8 : 1.1))
-      .attr('stroke-opacity', d => d.paperCount >= 1 ? 0.6 : 0.25)
+      .attr('d', d => {
+        const mx = (d.source.x + d.target.x) / 2;
+        const my = (d.source.y + d.target.y) / 2;
+        return `M${d.source.x},${d.source.y} Q${cx + (mx - cx) * 0.4},${cy + (my - cy) * 0.4} ${d.target.x},${d.target.y}`;
+      })
+      .attr('stroke', d => d.dual ? 'url(#dual-line-grad)' : 'rgba(56, 189, 248, 0.65)')
+      .attr('stroke-width', d => d.paperCount >= 3 ? 3.2 : (d.paperCount >= 1 ? 2.2 : 1.4))
+      .attr('stroke-opacity', d => d.paperCount >= 1 ? 0.75 : 0.35)
       .attr('fill', 'none');
 
     // Draw Nodes
@@ -156,61 +166,47 @@
       .attr('transform', d => `translate(${d.x}, ${d.y})`)
       .style('cursor', 'pointer');
 
-    // Pulse ring for Core Node & Dual Nodes
+    // Pulsing halo around Core Node
     nodeGroup.filter(d => d.isCore).append('circle')
-      .attr('r', 28)
+      .attr('r', 32)
       .attr('fill', 'none')
-      .attr('stroke', 'rgba(56, 189, 248, 0.6)')
+      .attr('stroke', 'rgba(56, 189, 248, 0.65)')
       .attr('stroke-width', 2)
       .attr('class', 'net-node-pulse');
 
-    // Outer circle
+    // Outer circle for each node
     nodeGroup.append('circle')
-      .attr('r', d => d.isCore ? 21 : (d.dual ? 17 : 15))
-      .attr('fill', d => d.isCore ? 'url(#core-grad)' : (d.dual ? 'rgba(20, 30, 50, 0.95)' : 'rgba(12, 17, 27, 0.95)'))
-      .attr('stroke', d => d.isCore ? '#38bdf8' : (d.dual ? '#818cf8' : '#38bdf8'))
-      .attr('stroke-width', d => d.isCore ? 2.5 : (d.dual ? 2 : 1.5));
+      .attr('r', d => d.isCore ? 23 : (d.dual ? 18 : 16))
+      .attr('fill', d => d.isCore ? 'url(#core-grad)' : (d.dual ? 'rgba(24, 32, 52, 0.95)' : 'rgba(12, 17, 27, 0.95)'))
+      .attr('stroke', d => d.isCore ? '#38bdf8' : (d.dual ? '#a855f7' : '#38bdf8'))
+      .attr('stroke-width', d => d.isCore ? 3 : (d.dual ? 2.2 : 1.6));
 
     // Initials Text
     nodeGroup.append('text')
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'middle')
       .attr('fill', '#ffffff')
-      .attr('font-size', d => d.isCore ? '12px' : '9.5px')
+      .attr('font-size', d => d.isCore ? '13px' : '10px')
       .attr('font-weight', '700')
       .text(d => d.initials);
 
     // Name label
     nodeGroup.append('text')
-      .attr('y', d => d.isCore ? 36 : 27)
+      .attr('y', d => d.isCore ? 40 : 30)
       .attr('text-anchor', 'middle')
-      .attr('fill', d => d.isCore ? '#7dd3fc' : '#94a3b8')
-      .attr('font-size', '10px')
-      .attr('font-weight', '600')
-      .text(d => d.name.split(' ')[1] || d.name);
+      .attr('fill', d => d.isCore ? '#38bdf8' : '#cbd5e1')
+      .attr('font-size', d => d.isCore ? '11px' : '10px')
+      .attr('font-weight', d => d.isCore ? '700' : '600')
+      .text(d => d.isCore ? 'Stefano Blando (Me)' : (d.name.split(' ')[1] || d.name));
 
-    // Gradients
-    const defs = svg.append('defs');
-    const grad = defs.append('linearGradient')
-      .attr('id', 'core-grad')
-      .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
-    grad.append('stop').attr('offset', '0%').attr('stop-color', '#0284c7');
-    grad.append('stop').attr('offset', '100%').attr('stop-color', '#4f46e5');
-
-    const dualGrad = defs.append('linearGradient')
-      .attr('id', 'dual-line-grad')
-      .attr('x1', '0%').attr('y1', '0%').attr('x2', '100%').attr('y2', '100%');
-    dualGrad.append('stop').attr('offset', '0%').attr('stop-color', '#38bdf8');
-    dualGrad.append('stop').attr('offset', '100%').attr('stop-color', '#818cf8');
-
-    // Interactivity
+    // Hover & Click Interactions
     nodeGroup.on('mouseenter', (ev, d) => {
-      pathSel.attr('stroke-opacity', l => (l.target.id === d.id || d.isCore ? 0.9 : 0.08))
-        .attr('stroke-width', l => (l.target.id === d.id ? 3.2 : 1));
+      pathSel.attr('stroke-opacity', l => (l.target.id === d.id || d.isCore ? 0.95 : 0.1))
+        .attr('stroke-width', l => (l.target.id === d.id ? 3.8 : 1.2));
     }).on('mouseleave', () => {
       if (!activePerson) {
-        pathSel.attr('stroke-opacity', d => d.paperCount >= 1 ? 0.6 : 0.25)
-          .attr('stroke-width', d => d.paperCount >= 3 ? 2.8 : (d.paperCount >= 1 ? 1.8 : 1.1));
+        pathSel.attr('stroke-opacity', d => d.paperCount >= 1 ? 0.75 : 0.35)
+          .attr('stroke-width', d => d.paperCount >= 3 ? 3.2 : (d.paperCount >= 1 ? 2.2 : 1.4));
       }
     }).on('click', (ev, d) => {
       ev.stopPropagation();
@@ -221,8 +217,8 @@
     svg.on('click', () => {
       activePerson = null;
       hideCard();
-      pathSel.attr('stroke-opacity', d => d.paperCount >= 1 ? 0.6 : 0.25)
-        .attr('stroke-width', d => d.paperCount >= 3 ? 2.8 : (d.paperCount >= 1 ? 1.8 : 1.1));
+      pathSel.attr('stroke-opacity', d => d.paperCount >= 1 ? 0.75 : 0.35)
+        .attr('stroke-width', d => d.paperCount >= 3 ? 3.2 : (d.paperCount >= 1 ? 2.2 : 1.4));
     });
   }
 
@@ -231,7 +227,7 @@
     if (!card) return;
     document.getElementById('card-avatar').innerText = p.initials;
     document.getElementById('card-name').innerText = p.name;
-    document.getElementById('card-role').innerText = `${p.role}`;
+    document.getElementById('card-role').innerText = p.role;
 
     const badgesEl = document.getElementById('card-badges');
     badgesEl.innerHTML = p.insts.map(inst => `<span class="network-badge ${p.dual ? 'network-badge--dual' : ''}">${inst}</span>`).join('');
