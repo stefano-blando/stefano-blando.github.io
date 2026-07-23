@@ -8,7 +8,10 @@
   <canvas id="research-network-canvas" class="research-network-canvas" aria-hidden="true"></canvas>
   <div class="portfolio-hero__inner">
     <div class="portfolio-hero__copy">
-      <p class="portfolio-eyebrow" data-stagger>{{ $block.content.eyebrow }}</p>
+      <div class="portfolio-hero__badge" data-stagger>
+        <span class="portfolio-hero__badge-dot"></span>
+        <span class="portfolio-hero__badge-text">{{ $block.content.eyebrow }}</span>
+      </div>
       <h1 id="portfolio-hero-title" data-stagger>{{ $block.content.headline | markdownify }}</h1>
       <div class="portfolio-hero__summary" data-stagger>{{ $block.content.summary | markdownify }}</div>
       <div class="portfolio-actions" data-stagger>
