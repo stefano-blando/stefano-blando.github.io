@@ -1,6 +1,6 @@
 ---
 title: 'Research Network'
-date: 2026-07-24
+date: 2023-10-24
 type: landing
 
 design:
@@ -11,5 +11,5 @@ sections:
     content:
       eyebrow: Research Network
       title: Co-authors & L'EMbeDS Lab Network
-      text: Interactive circular visualization connecting researchers, L'EMbeDS lab members, and research topics.
+      text: Interactive circular visualization connecting researchers, PhD supervisors, lab colleagues, and research topics.
 ---

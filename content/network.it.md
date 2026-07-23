@@ -1,6 +1,6 @@
 ---
 title: 'Rete di Ricerca'
-date: 2026-07-24
+date: 2023-10-24
 type: landing
 
 design:
