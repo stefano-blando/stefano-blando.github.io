@@ -78,6 +78,14 @@ sections:
       date_format: 'January 2006'
       is_education_first: true
 
+  - block: featured-news
+    content:
+      eyebrow: Ultimi aggiornamenti
+      title: News e Riconoscimenti
+      text: Notizie recenti, accettazioni a conferenze, premi e resoconti di presentazioni.
+      view_all: Esplora tutte le news
+      read_more: Leggi articolo
+
   - block: portfolio-contact
     content:
       eyebrow: Contatti

@@ -76,6 +76,7 @@ class HomepageContractTests(unittest.TestCase):
         self.assertIn("projects/", menu)
         self.assertIn("experience/", menu)
         self.assertIn("publications/", menu)
+        self.assertIn("blog/", menu)
 
     def test_homepage_block_order_and_copy_are_synchronized(self):
         expected = [
@@ -84,6 +85,7 @@ class HomepageContractTests(unittest.TestCase):
             "featured-projects",
             "featured-publications",
             "resume-experience",
+            "featured-news",
             "portfolio-contact",
         ]
         for relative in ("content/_index.md", "content/_index.it.md"):

@@ -84,6 +84,14 @@ sections:
       date_format: 'January 2006'
       is_education_first: true
 
+  - block: featured-news
+    content:
+      eyebrow: Latest updates
+      title: News & Recognition
+      text: Recent announcements, conference acceptances, awards, and presentation recaps.
+      view_all: Explore all news
+      read_more: Read article
+
   - block: portfolio-contact
     content:
       eyebrow: Contact

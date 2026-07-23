@@ -75,6 +75,10 @@ TODO.md
 # Local Git worktrees
 .worktrees/
 
+# Python cache
+__pycache__/
+*.pyc
+
 # Visual brainstorming artifacts
 .superpowers/
 
