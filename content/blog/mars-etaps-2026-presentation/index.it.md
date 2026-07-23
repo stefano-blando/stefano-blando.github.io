@@ -1,7 +1,7 @@
 ---
 title: "Presentazione a MARS @ ETAPS 2026"
 date: 2026-04-14
-summary: "Ho presentato il nostro paper sull'Island Model a MARS @ ETAPS 2026 a Torino. E stata la prima presentazione del mio primo paper di PhD e anche la mia prima conferenza internazionale."
+summary: "Presentato l'articolo sull'Island Model a MARS @ ETAPS 2026 a Torino. Prima presentazione della ricerca di dottorato ad una conferenza internazionale."
 authors:
   - me-it
 tags:
@@ -16,14 +16,12 @@ image:
   caption: 'Presentazione a MARS @ ETAPS 2026, Torino'
 ---
 
-La scorsa settimana ho presentato il nostro paper, **"Statistical model checking of the Island Model: an established economic agent-based model of endogenous growth"**, a **MARS @ ETAPS 2026** a **Torino**.
+Ho presentato il nostro lavoro, **"Statistical model checking of the Island Model: an established economic agent-based model of endogenous growth"**, a **MARS @ ETAPS 2026** a **Torino**.
 
-Per me e stato un momento particolarmente importante: era la prima presentazione del mio primo paper di PhD, ed era anche la mia prima conferenza internazionale.
+La presentazione ha rappresentato una tappa significativa nel mio percorso di dottorato, consentendo di condividere i risultati metodologici sulla verifica statistica dei modelli agent-based con la comunità scientifica internazionale.
 
-Sono contento che la presentazione sia andata bene. Al di la del talk in se, ho apprezzato molto la possibilita di discutere il lavoro con professori e ricercatori del settore e di passare alcuni giorni in un contesto che ho trovato aperto, stimolante e molto piacevole.
+L'articolo è scritto in collaborazione con **Giorgio Fagiolo**, **Daniele Giachini**, **Andrea Vandin** ed **Ernest Ivanaj**, e approfondisce l'uso di **MultiVeStA** per la verifica automatizzata di specifiche su simulazioni stocastiche.
 
-Il paper e co-firmato con **Giorgio Fagiolo**, **Daniele Giachini**, **Andrea Vandin** ed **Ernest Ivanaj**, e mostra come lo **statistical model checking**, e in particolare **MultiVeStA**, possa supportare un'analisi piu rigorosa dell'Island Model.
-
-📄 **[Leggi la versione nei proceedings](https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?MARS2026.2)**  
-👉 **[Vai alla pagina della pubblicazione]({{< relref "/publications/island-model-smc/index.it.md" >}})**  
-📰 **[Vedi il post di accettazione]({{< relref "/blog/mars-etaps-2026-acceptance/index.it.md" >}})**
+- [Leggi la versione negli atti ufficiali](https://cgi.cse.unsw.edu.au/~eptcs/paper.cgi?MARS2026.2)  
+- [Vedi la scheda della pubblicazione]({{< relref "/publications/island-model-smc/index.it.md" >}})  
+- [Vedi l'annuncio di accettazione]({{< relref "/blog/mars-etaps-2026-acceptance/index.it.md" >}})

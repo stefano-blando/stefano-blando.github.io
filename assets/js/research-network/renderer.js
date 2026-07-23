@@ -114,14 +114,14 @@ export class ResearchNetworkRenderer {
       const source = this.nodesById.get(edge.source);
       const target = this.nodesById.get(edge.target);
       const active = this.highlighted.has(source.id) && this.highlighted.has(target.id);
-      const alpha = active ? 0.55 : Math.min(source.opacity, target.opacity) * 0.35;
+      const alpha = active ? 0.75 : Math.min(source.opacity, target.opacity) * 0.4;
       this.context.beginPath();
       this.context.moveTo(source.x * this.width, source.y * this.height);
       this.context.lineTo(target.x * this.width, target.y * this.height);
       this.context.strokeStyle = active
-        ? `rgba(146, 190, 232, ${alpha})`
-        : `rgba(126, 151, 184, ${alpha})`;
-      this.context.lineWidth = active ? 1.2 : 0.8;
+        ? `rgba(56, 189, 248, ${alpha})`
+        : `rgba(99, 130, 180, ${alpha})`;
+      this.context.lineWidth = active ? 1.6 : 0.85;
       this.context.stroke();
     }
     for (const node of this.graph.nodes) {
@@ -130,14 +130,20 @@ export class ResearchNetworkRenderer {
       this.context.arc(
         node.x * this.width,
         node.y * this.height,
-        node.radius + (active ? 1 : 0),
+        node.radius + (active ? 2 : 0),
         0,
         Math.PI * 2,
       );
-      this.context.fillStyle = active
-        ? 'rgba(181, 210, 239, 0.95)'
-        : `rgba(126, 158, 199, ${node.opacity})`;
+      if (active) {
+        this.context.shadowColor = 'rgba(56, 189, 248, 0.9)';
+        this.context.shadowBlur = 14;
+        this.context.fillStyle = 'rgba(125, 211, 252, 1)';
+      } else {
+        this.context.shadowBlur = 0;
+        this.context.fillStyle = `rgba(99, 150, 215, ${node.opacity})`;
+      }
       this.context.fill();
+      this.context.shadowBlur = 0;
     }
   }
 

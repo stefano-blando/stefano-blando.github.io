@@ -1,7 +1,7 @@
 ---
-title: "Conseguimento del Master"
+title: "Conseguimento Master CESMA"
 date: 2026-01-23
-summary: "Conseguimento del master all'Universita di Roma Tor Vergata con voto finale 110/110 con lode. Tesi sulla previsione del rischio sistemico con topologia di rete e machine learning."
+summary: "Conseguito il Master di II livello presso l'Università di Roma Tor Vergata con votazione 110/110 e lode. Tesi sulla predizione del rischio sistemico tramite topologia di rete e machine learning."
 authors:
   - me-it
 tags:
@@ -11,18 +11,18 @@ tags:
   - Tor Vergata
 image:
   placement: 1
-  caption: 'Conseguimento del Master CESMA all''Universita di Roma Tor Vergata'
+  caption: 'CESMA Master Graduation at University of Rome Tor Vergata'
 ---
 
-Sono felice di condividere che il **lunedì 2 febbraio 2026** ho conseguito il **Master di II livello in Customer Experience, Statistics, Machine Learning and Artificial Intelligence (CESMA)** presso la **University of Rome Tor Vergata**, con **voto finale 110/110 con lode**.
+Lunedì **2 Febbraio 2026**, ho conseguito il **Master di II Livello in Customer Experience, Statistics, Machine Learning e Intelligenza Artificiale (CESMA)** presso l'**Università degli Studi di Roma Tor Vergata**, con votazione di **110/110 e lode**.
 
-### La tesi
+### Tesi e Metodologia
 
-La mia tesi, intitolata **"Network Topology Analysis and Machine Learning Techniques for Systemic Risk Prediction in U.S. Equity Markets"**, esplora l'applicazione delle Graph Neural Networks e della teoria delle reti complesse per individuare segnali di early warning nei mercati finanziari.
+La mia tesi, intitolata **"Network Topology Analysis and Machine Learning Techniques for Systemic Risk Prediction in U.S. Equity Markets"**, applica Graph Neural Networks e la teoria delle reti complesse per identificare indicatori precoci di contagio e instabilità nei mercati finanziari.
 
-Questo lavoro e direttamente collegato alla mia ricerca in corso. Puoi esplorarne i dettagli tecnici e il codice nelle sezioni dedicate del portfolio:
+Questo lavoro si integra direttamente nella mia attività di ricerca. I dettagli metodologici sono approfonditi nelle sezioni dedicate:
 
-- 👉 **[Vedi il progetto di ricerca]({{< relref "/projects/network-crash-prediction/index.it.md" >}})**
-- 📄 **[Leggi il paper collegato]({{< relref "/publications/network crash prediction/index.it.md" >}})**
+- [Vedi il progetto di ricerca]({{< relref "/projects/network-crash-prediction/index.it.md" >}})
+- [Leggi la pubblicazione correlata]({{< relref "/publications/network crash prediction/index.it.md" >}})
 
-Il master mi ha dato una base solida in metodi statistici avanzati e AI, che oggi sto applicando nella mia ricerca di dottorato alla Scuola Superiore Sant'Anna.
+Il corso di Master ha consolidato competenze avanzate nell'analisi statistica e nei modelli di apprendimento automatico, che costituiscono la base della mia ricerca di dottorato presso la Scuola Superiore Sant'Anna.

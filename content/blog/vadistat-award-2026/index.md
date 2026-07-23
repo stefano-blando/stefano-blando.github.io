@@ -1,7 +1,7 @@
 ---
 title: "VADISTAT Award for Best Scientific Contribution at JADT 2026"
 date: 2026-07-16
-summary: "I received the VADISTAT Award for young researchers at the JADT 2026 international conference in Palermo, for our research on the reliability of text analytics algorithms."
+summary: "Received the VADISTAT Award for young researchers at JADT 2026 in Palermo for research on multi-method validation frameworks in text analytics."
 authors:
   - me
 tags:
@@ -15,15 +15,15 @@ image:
   caption: 'VADISTAT Award received at JADT 2026, Palermo'
 ---
 
-I am honored to share that I received the **"2026 Associazione VADISTAT - Per Simona Balbi"** award, presented to me on July 10th in Palermo during the **18th International Conference JADT 2026** (*Journées internationales d'Analyse statistique des Données Textuelles*).
+I received the **"2026 Associazione VADISTAT - Per Simona Balbi"** award during the **18th International Conference JADT 2026** (*Journées internationales d'Analyse statistique des Données Textuelles*) held in Palermo.
 
-The prize, awarded for the best scientific contribution presented by young researchers under 35 in the field of statistical analysis of textual data, was given for the paper **"A Multi-Method Validation Framework for Large-Scale Multilingual Text Analytics"**, developed together with Professor **D. Fioredistella Iezzi** (Director of the Data Science Master at the University of Rome Tor Vergata).
+The prize, awarded for the best scientific contribution presented by researchers under 35 in statistical textual data analysis, recognized the paper **"A Multi-Method Validation Framework for Large-Scale Multilingual Text Analytics"**, developed with Professor **D. Fioredistella Iezzi** (Director of the Data Science Master at the University of Rome Tor Vergata).
 
-Our research addresses a crucial question for text analytics and Artificial Intelligence: how reliable are the results produced by algorithms, really?
+### Research Summary
 
-To answer this question, we developed an innovative validation framework, tested on over 999,000 multilingual reviews, which compares the results obtained with different analysis methodologies. Our findings show that over 95% of the variability depends on the content of the texts, while less than 3% is attributable to the methodology used. This demonstrates that truly robust results emerge regardless of the computational approach adopted, and that traditional models can achieve performance comparable to more complex models, but with significantly lower computational costs.
+The study presents a validation framework tested on over 999,000 multilingual reviews to evaluate model consistency across methodologies. The empirical results show that over 95% of output variance is driven by text content, whereas less than 3% is attributable to algorithmic variation, demonstrating that robust analytical conclusions remain consistent across computational approaches.
 
-The research was carried out using a large corpus of reviews made available by Professor **Massimo Regoli**, to whose memory we dedicate our heartfelt thanks.
+The research evaluated corpus data made available by Professor **Massimo Regoli**, to whose memory the paper is dedicated.
 
-👉 **[Go to the project page]({{< relref "/projects/nlp-semantic-network-analysis/index.md" >}})**  
-📄 **[Go to the publication page]({{< relref "/publications/multi-method-validation-framework/index.md" >}})**
+- [Go to the project page]({{< relref "/projects/nlp-semantic-network-analysis/index.md" >}})  
+- [Go to the publication page]({{< relref "/publications/multi-method-validation-framework/index.md" >}})

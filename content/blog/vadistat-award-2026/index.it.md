@@ -1,7 +1,7 @@
 ---
-title: "Premio VADISTAT per il miglior contributo scientifico a JADT 2026"
+title: "Premio VADISTAT per il Miglior Contributo Scientifico a JADT 2026"
 date: 2026-07-16
-summary: "Ho ricevuto il Premio VADISTAT per giovani ricercatori alla conferenza internazionale JADT 2026 a Palermo, per la ricerca sull'affidabilità degli algoritmi di text analytics."
+summary: "Ricevuto il Premio VADISTAT per giovani ricercatori alla conferenza internazionale JADT 2026 a Palermo per la ricerca sui framework di validazione nei modelli di text analytics."
 authors:
   - me-it
 tags:
@@ -12,18 +12,18 @@ tags:
   - Machine Learning
 image:
   placement: 1
-  caption: 'Premio VADISTAT ricevuto a JADT 2026, Palermo'
+  caption: 'VADISTAT Award received at JADT 2026, Palermo'
 ---
 
-Sono onorato di condividere di aver ricevuto il premio **"2026 Associazione VADISTAT - Per Simona Balbi"**, conferitomi lo scorso 10 luglio a Palermo durante la **18ª Conferenza Internazionale JADT 2026** (*Journées internationales d'Analyse statistique des Données Textuelles*).
+Ho ricevuto il premio **"2026 Associazione VADISTAT - Per Simona Balbi"** in occasione della **18ª Conferenza Internazionale JADT 2026** (*Journées internationales d'Analyse statistique des Données Textuelles*) svoltasi a Palermo.
 
-Il premio, assegnato al miglior contributo scientifico presentato da giovani ricercatori under 35 nel campo dell'analisi statistica dei dati testuali, è stato conferito per il paper **"A Multi-Method Validation Framework for Large-Scale Multilingual Text Analytics"**, sviluppato insieme alla professoressa **D. Fioredistella Iezzi** (Direttrice del Master Data Science dell'Università degli Studi di Roma Tor Vergata).
+Il riconoscimento, conferito al miglior contributo scientifico presentato da giovani ricercatori under 35 nell'ambito dell'analisi statistica dei dati testuali, è stato assegnato per il lavoro **"A Multi-Method Validation Framework for Large-Scale Multilingual Text Analytics"**, sviluppato con la Professoressa **D. Fioredistella Iezzi** (Direttrice del Master in Data Science presso l'Università degli Studi di Roma Tor Vergata).
 
-La nostra ricerca affronta una domanda cruciale per la *text analytics* e l'Intelligenza Artificiale: quanto sono realmente affidabili i risultati prodotti dagli algoritmi?
+### Sintesi della Ricerca
 
-Per rispondere a questo interrogativo, abbiamo sviluppato un innovativo framework di validazione, testato su oltre 999.000 recensioni multilingue, che confronta i risultati ottenuti con differenti metodologie di analisi. I nostri risultati mostrano che oltre il 95% della variabilità dipende dal contenuto dei testi, mentre meno del 3% è attribuibile alla metodologia utilizzata. Questo dimostra che i risultati realmente robusti emergono indipendentemente dall'approccio computazionale adottato, e che i modelli tradizionali possono raggiungere prestazioni comparabili a quelle di modelli più complessi, ma con costi computazionali significativamente inferiori.
+Lo studio propone un framework di validazione testato su oltre 999.000 recensioni multilingue per valutare la coerenza dei risultati tra differenti metodologie. I risultati empirici evidenziano che oltre il 95% della variabilità dipende dal contenuto testuale, mentre meno del 3% è attribuibile al metodo impiegato, dimostrando la stabilità delle evidenze rispetto al modello computazionale adottato.
 
-La ricerca è stata realizzata utilizzando un ampio corpus di recensioni messo a disposizione dal professor **Massimo Regoli**, alla cui memoria dedichiamo un sentito ringraziamento.
+La ricerca si è avvalsa del corpus di dati reso disponibile dal Professor **Massimo Regoli**, alla cui memoria il lavoro è dedicato.
 
-👉 **[Vai alla pagina del progetto]({{< relref "/projects/nlp-semantic-network-analysis/index.it.md" >}})**  
-📄 **[Vai alla pagina della pubblicazione]({{< relref "/publications/multi-method-validation-framework/index.it.md" >}})**
+- [Vedi la scheda del progetto]({{< relref "/projects/nlp-semantic-network-analysis/index.it.md" >}})  
+- [Vedi la scheda della pubblicazione]({{< relref "/publications/multi-method-validation-framework/index.it.md" >}})
