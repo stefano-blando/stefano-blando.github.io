@@ -96,15 +96,15 @@
     let selectNode = null, currentCat = 'all';
 
     function dim() {
-      W = container.clientWidth || 920;
-      H = Math.max(680, Math.min(W * 0.8, 780));
+      W = container.clientWidth || 960;
+      H = Math.max(720, Math.min(W * 0.85, 820));
       cx = W / 2;
       cy = H / 2;
 
       const viewSize = Math.min(W, H);
-      r_a = viewSize * 0.13;
-      r_b = viewSize * 0.35;
-      r_c = viewSize * 0.47;
+      r_a = viewSize * 0.12;
+      r_b = viewSize * 0.33;
+      r_c = viewSize * 0.44;
       NR = Math.max(20, Math.min(26, viewSize * 0.038));
     }
 
@@ -114,11 +114,13 @@
       return `M${x1},${y1} Q${cx + (mx - cx) * pull},${cy + (my - cy) * pull} ${x2},${y2}`;
     }
 
-    // Outer Perimeter Arc Path: Expands 26px OUTSIDE all nodes so arcs NEVER intersect any nodes!
+    // Outer Perimeter Arc Path: Travels at outerR = r_c + 45px (completely outside all university nodes)
     function instPath(x1, y1, x2, y2, angle1, angle2) {
-      const outerR = r_c + 26;
-      const x_outer_start = cx + outerR * Math.cos(angle1);
-      const y_outer_start = cy + outerR * Math.sin(angle1);
+      const outerR = r_c + 45;
+      const x_outer1 = cx + outerR * Math.cos(angle1);
+      const y_outer1 = cy + outerR * Math.sin(angle1);
+      const x_outer2 = cx + outerR * Math.cos(angle2);
+      const y_outer2 = cy + outerR * Math.sin(angle2);
 
       let a1 = angle1;
       let a2 = angle2;
@@ -129,7 +131,11 @@
       if (diff > Math.PI) diff -= Math.PI * 2;
       const sweep = diff > 0 ? 1 : 0;
 
-      return `M${x1},${y1} L${x_outer_start},${y_outer_start} A ${outerR} ${outerR} 0 0,${sweep} ${x2},${y2}`;
+      // Outer rim edge target at university node
+      const targetEdgeX = cx + (r_c + 28) * Math.cos(angle2);
+      const targetEdgeY = cy + (r_c + 28) * Math.sin(angle2);
+
+      return `M${x1},${y1} L${x_outer1},${y_outer1} A ${outerR} ${outerR} 0 0,${sweep} ${x_outer2},${y_outer2} L${targetEdgeX},${targetEdgeY}`;
     }
 
     function setupNetwork(cat) {
