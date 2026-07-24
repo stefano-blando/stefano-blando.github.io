@@ -58,13 +58,13 @@
     { id: 'gs', name: 'Giuseppe Squillace', role: 'Researcher', cat: 'postdoc', inst: 'CentraleSupélec & SSSA', extInst: ['centralesupelec', 'sssa'], topics: ['Agentic AI', 'Agent-Based Modeling', 'Complex Systems'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/gs.svg' },
     { id: 'af', name: 'Alessio Farcomeni', role: 'Full Professor (MSc Supervisor)', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: ['torvergata'], topics: ['Robust Statistics', 'High-Dimensional Data', 'Portfolio Optimization'], papers: ['Robust Portfolio Optimization'], avatar: '/images/people/af.svg' },
     { id: 'mt', name: 'Max Tschaikowski', role: 'Professor', cat: 'faculty', inst: 'Co-author', extInst: [], topics: ['Statistical Model Checking', 'Agentic AI', 'Formal Verification'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/mt.svg' },
-    { id: 'rp', name: 'Riccardo Porcedda', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: ['sssa'], topics: ['Agentic AI', 'Complex Networks', 'Graph Neural Networks'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/rp.svg' },
+    { id: 'rp', name: 'Riccardo Porcedda', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna & UniPi', extInst: ['sssa', 'unipi'], topics: ['Agentic AI', 'Complex Networks', 'Graph Neural Networks'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/rp.svg' },
     { id: 'eg', name: 'Emmanuele Guerrazzi', role: 'Data Engineer', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: ['sssa'], topics: ['Agentic AI', 'Agent-Based Modeling', 'Data Engineering'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/eg.svg' },
     { id: 'fi', name: 'D. Fioredistella Iezzi', role: 'Full Professor', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: ['torvergata'], topics: ['Robust Statistics', 'Text Analytics', 'Data Science'], papers: ['Multilingual Text Analytics (VADISTAT Award 2026)'], avatar: '/images/people/fi.svg' },
     { id: 'ei', name: 'Ernest Ivanaj', role: 'Researcher', cat: 'postdoc', inst: 'Co-author', extInst: [], topics: ['Agent-Based Modeling', 'Statistical Model Checking'], papers: ['Island Model SMC (MARS 2026)'], avatar: '/images/people/ei.svg' },
     { id: 'fc', name: 'Francesca Chiaromonte', role: 'Full Professor (L\'EMbeDS Coord.)', cat: 'faculty', inst: 'Penn State & SSSA', extInst: ['pennstate', 'sssa'], topics: ['Robust Statistics', 'High-Dimensional Data', 'Biostatistics'], papers: [], avatar: '/images/people/fc.svg' },
-    { id: 'le', name: 'Lorenzo Emer', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: ['sssa'], topics: ['Complex Systems', 'Economic Modeling', 'Systemic Risk & Networks'], papers: [], avatar: '/images/people/le.svg' },
-    { id: 'st', name: 'Simone Tonini', role: 'Research Fellow', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: ['sssa', 'unipi'], topics: ['Macroeconomics', 'Systemic Risk & Networks', 'Agent-Based Modeling'], papers: [], avatar: '/images/people/st.svg' }
+    { id: 'le', name: 'Lorenzo Emer', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna & UniPi', extInst: ['sssa', 'unipi'], topics: ['Complex Systems', 'Economic Modeling', 'Systemic Risk & Networks'], papers: [], avatar: '/images/people/le.svg' },
+    { id: 'st', name: 'Simone Tonini', role: 'Research Fellow', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: ['sssa'], topics: ['Macroeconomics', 'Systemic Risk & Networks', 'Agent-Based Modeling'], papers: [], avatar: '/images/people/st.svg' }
   ];
 
   const institutions = {
@@ -256,7 +256,7 @@
       let defs = svg.select('defs');
       if (defs.empty()) defs = svg.append('defs');
 
-      // University Clips (r: 26)
+      // University Clips (r: 25)
       data_c.forEach(inst => {
         if (defs.select(`#clip-inst-${inst.id}`).empty()) {
           defs.append('clipPath')
@@ -361,6 +361,7 @@
 
       instEnt.append('image')
         .attr('href', d => d.logo)
+        .attr('xlink:href', d => d.logo)
         .attr('x', -24).attr('y', -24)
         .attr('width', 48).attr('height', 48)
         .attr('clip-path', d => `url(#clip-inst-${d.id})`);
@@ -399,6 +400,7 @@
 
       peopleEnt.append('image')
         .attr('href', d => d.avatar)
+        .attr('xlink:href', d => d.avatar)
         .attr('x', -NR + 2).attr('y', -NR + 2)
         .attr('width', (NR - 2) * 2).attr('height', (NR - 2) * 2)
         .attr('clip-path', d => `url(#clip-person-${d.id})`);

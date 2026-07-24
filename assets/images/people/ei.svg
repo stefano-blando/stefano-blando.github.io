@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120">
   <rect width="120" height="120" rx="60" fill="#0f172a"/>
-  <circle cx="60" cy="48" r="24" fill="#818cf8"/>
-  <path d="M24 102 C24 78, 40 70, 60 70 C80 70, 96 78, 96 102 Z" fill="#818cf8"/>
-  <text x="60" y="54" font-family="Inter, sans-serif" font-size="14" font-weight="800" text-anchor="middle" fill="#0f172a">EI</text>
+  <circle cx="60" cy="60" r="54" fill="#4f46e5" opacity="0.2"/>
+  <circle cx="60" cy="60" r="48" fill="none" stroke="#818cf8" stroke-width="3"/>
+  <text x="60" y="68" font-family="Inter, system-ui, sans-serif" font-size="32" font-weight="800" text-anchor="middle" fill="#818cf8">EI</text>
 </svg>
