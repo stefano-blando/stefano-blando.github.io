@@ -123,23 +123,10 @@
       const n_b = filteredPeople.length;
       data_b = filteredPeople.map((p, i) => {
         const angle = (i / n_b) * 2 * Math.PI - Math.PI / 2;
-        let deg = (angle * 180 / Math.PI);
-        let text_anchor = 'start';
-        let offset_x = NR + 8;
-
-        if (deg > 90 || deg < -90) {
-          deg = deg + 180;
-          text_anchor = 'end';
-          offset_x = -NR - 8;
-        }
-
         return {
           ...p,
           group: 'people',
           angle,
-          degree: deg,
-          text_anchor,
-          offset_x,
           x: cx + r_b * Math.cos(angle),
           y: cy + r_b * Math.sin(angle)
         };
@@ -210,6 +197,9 @@
           if (tp) {
             data_links.push({
               id: `${p.id}-${t}`,
+              personId: p.id,
+              topicId: t,
+              instId: null,
               source: p,
               target: tp,
               type: 'topic'
@@ -221,6 +211,9 @@
           if (inst) {
             data_links.push({
               id: `${p.id}-${inst.id}`,
+              personId: p.id,
+              topicId: null,
+              instId: inst.id,
               source: p,
               target: inst,
               type: 'inst'
@@ -289,17 +282,15 @@
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       topicGroup.exit().remove();
 
-      // CSH External Institution Badges (data_c)
+      // CSH External Institution Badges (data_c) - Hover Highlights All Institution Links!
       const instGroup = allnodes.selectAll('.csh-inst').data(data_c, d => d.id);
       const instEnt = instGroup.enter().append('g')
         .attr('class', 'csh-inst')
         .attr('transform', d => `translate(${d.x}, ${d.y})`)
         .style('cursor', 'pointer')
-        .on('mouseenter', (ev, d) => {
-          const p = data_b.find(person => person.id === d.personId);
-          if (p) hlPerson(p);
-        })
-        .on('mouseleave', () => { if (!selectNode) reset(); });
+        .on('mouseenter', (ev, d) => { if (!selectNode) hlInst(d); })
+        .on('mouseleave', () => { if (!selectNode) reset(); })
+        .on('click', (ev, d) => { ev.stopPropagation(); selectNode = d; hlInst(d); });
 
       instEnt.append('rect')
         .attr('rx', 8).attr('ry', 8)
@@ -324,7 +315,7 @@
       instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       instGroup.exit().remove();
 
-      // CSH People Nodes with Rotated Radial Text Labels (data_b)
+      // CSH Pristine People Nodes (data_b) - NO permanent text! Names only appear on hover!
       const peopleGroup = allnodes.selectAll('.csh-person').data(data_b, d => d.id);
       const peopleEnt = peopleGroup.enter().append('g')
         .attr('class', 'csh-person')
@@ -357,30 +348,20 @@
       peopleEnt.append('text')
         .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
         .attr('fill', '#ffffff')
-        .style('font-size', '10px')
+        .style('font-size', '10.5px')
         .style('font-weight', '700')
         .text(d => ini(d.name));
-
-      // CSH Vienna Rotated Radial Name Label
-      peopleEnt.append('text')
-        .attr('class', 'csh-node-name')
-        .attr('transform', d => `rotate(${d.degree})`)
-        .attr('x', d => d.offset_x)
-        .attr('y', 3)
-        .attr('text-anchor', d => d.text_anchor)
-        .attr('fill', '#cbd5e1')
-        .style('font-size', '10.5px').style('font-weight', '600')
-        .text(d => d.name);
 
       peopleGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       peopleGroup.exit().remove();
     }
 
+    // 1. Highlight Person: Lights up person's connected links to topics and institution!
     function hlPerson(p) {
       alllinks.selectAll('.csh-link')
         .transition().duration(250).ease(d3.easeCubicOut)
-        .attr('stroke-opacity', d => d.source.id === p.id ? 0.95 : 0.04)
-        .attr('stroke-width', d => d.source.id === p.id ? 2.8 : 0.8);
+        .attr('stroke-opacity', d => d.personId === p.id ? 0.95 : 0.04)
+        .attr('stroke-width', d => d.personId === p.id ? 2.8 : 0.8);
 
       allnodes.selectAll('.csh-person')
         .transition().duration(250).ease(d3.easeCubicOut)
@@ -395,13 +376,14 @@
         .style('opacity', d => d.personId === p.id ? 1 : 0.22);
     }
 
+    // 2. Highlight Topic: Lights up ALL links connecting that topic to every person in that topic!
     function hlTopic(topicItem) {
       const connectedPeople = data_b.filter(p => p.topics.includes(topicItem.id)).map(p => p.id);
 
       alllinks.selectAll('.csh-link')
         .transition().duration(250).ease(d3.easeCubicOut)
-        .attr('stroke-opacity', d => d.target.id === topicItem.id ? 0.95 : 0.04)
-        .attr('stroke-width', d => d.target.id === topicItem.id ? 2.8 : 0.8);
+        .attr('stroke-opacity', d => d.topicId === topicItem.id ? 0.95 : 0.04)
+        .attr('stroke-width', d => d.topicId === topicItem.id ? 2.8 : 0.8);
 
       allnodes.selectAll('.csh-person')
         .transition().duration(250).ease(d3.easeCubicOut)
@@ -414,6 +396,28 @@
       allnodes.selectAll('.csh-inst')
         .transition().duration(250).ease(d3.easeCubicOut)
         .style('opacity', d => connectedPeople.includes(d.personId) ? 1 : 0.22);
+    }
+
+    // 3. Highlight Institution: Lights up ALL links connecting that university to every person in that institution!
+    function hlInst(instItem) {
+      const connectedPeople = data_b.filter(p => p.extInst === instItem.id).map(p => p.id);
+
+      alllinks.selectAll('.csh-link')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .attr('stroke-opacity', d => d.instId === instItem.id || connectedPeople.includes(d.personId) ? 0.95 : 0.04)
+        .attr('stroke-width', d => d.instId === instItem.id || connectedPeople.includes(d.personId) ? 2.8 : 0.8);
+
+      allnodes.selectAll('.csh-person')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => connectedPeople.includes(d.id) ? 1 : 0.22);
+
+      allnodes.selectAll('.csh-topic')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => data_b.some(p => connectedPeople.includes(p.id) && p.topics.includes(d.id)) ? 1 : 0.18);
+
+      allnodes.selectAll('.csh-inst')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => d.id === instItem.id ? 1 : 0.22);
     }
 
     function reset() {
