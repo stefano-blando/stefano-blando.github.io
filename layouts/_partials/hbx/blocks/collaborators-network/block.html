@@ -31,7 +31,7 @@
         <button class="network-detail-card__close" aria-label="Close card">&times;</button>
         <div class="network-detail-card__header">
           <div class="network-detail-card__avatar card-avatar">GF</div>
-          <div>
+          <div class="card-header-text" style="flex:1; min-width:0;">
             <h3 class="card-name">Giorgio Fagiolo</h3>
             <p class="card-role network-detail-card__role">Full Professor (PhD Supervisor)</p>
           </div>
@@ -102,9 +102,9 @@
       cy = H / 2;
 
       const viewSize = Math.min(W, H);
-      r_a = viewSize * 0.18; // Spacious central topic cluster zone!
-      r_b = viewSize * 0.36; // People ring!
-      r_c = viewSize * 0.46; // External universities ring!
+      r_a = viewSize * 0.12; // Compact inner central topic zone!
+      r_b = viewSize * 0.35; // People ring!
+      r_c = viewSize * 0.45; // External universities ring!
       NR = Math.max(20, Math.min(26, viewSize * 0.038));
     }
 
@@ -158,7 +158,7 @@
         };
       });
 
-      // 2. Structured Non-Overlapping Central Topic Placement across 3 Staggered Concentric Orbits (data_a)
+      // 2. Structured Non-Overlapping Central Topic Placement (data_a) - Compact Inner Core
       const topicSet = new Set(data_b.flatMap(p => p.topics));
       const topicArray = Array.from(topicSet);
       const n_a = topicArray.length;
@@ -167,8 +167,7 @@
         const connected = data_b.filter(p => p.topics.includes(t));
         const meanAngle = d3.mean(connected, p => p.angle) || (i / n_a) * 2 * Math.PI - Math.PI / 2;
 
-        // 3 Staggered concentric orbits: 0.32, 0.65, 0.95
-        const orbitFactor = (i % 3 === 0) ? 0.32 : ((i % 3 === 1) ? 0.65 : 0.95);
+        const orbitFactor = (i % 3 === 0) ? 0.35 : ((i % 3 === 1) ? 0.65 : 0.95);
         const radius = r_a * orbitFactor;
 
         return {
@@ -183,19 +182,18 @@
         };
       });
 
-      // Large, bold, highly legible topic font size scale!
-      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([12.5, 15]);
+      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([12, 14.5]);
       data_a.forEach(d => { d.fontSize = size_a(d.value); });
 
-      // Robust Collision Physics: Generous physical bounding box around each topic pill
+      // Robust Collision Physics: Zero-overlap between topics
       const topicSim = d3.forceSimulation(data_a)
-        .force('collide', d3.forceCollide(d => Math.max(d.label.length * 4.8 + 22, 45)))
-        .force('r', d3.forceRadial(d => d.targetRadius, cx, cy).strength(0.85))
+        .force('collide', d3.forceCollide(d => Math.max(d.label.length * 4.6 + 20, 42)))
+        .force('r', d3.forceRadial(d => d.targetRadius, cx, cy).strength(0.88))
         .stop();
       for (let i = 0; i < 500; i++) topicSim.tick();
 
-      // Strict Inner Boundary Enforcement: Never penetrate into the people node ring!
-      const maxAllowedTopicR = r_b - NR - 24;
+      // Strict Inner Boundary Enforcement: Topics sit at least 35px inside the people ring!
+      const maxAllowedTopicR = r_b - NR - 35;
       data_a.forEach(n => {
         const d = Math.hypot(n.x - cx, n.y - cy);
         if (d > maxAllowedTopicR) {
@@ -343,8 +341,8 @@
         const g = d3.select(this);
         const bb = g.select('text').node().getBBox();
         g.select('rect')
-          .attr('x', bb.x - 11).attr('y', bb.y - 6)
-          .attr('width', bb.width + 22).attr('height', bb.height + 12);
+          .attr('x', bb.x - 10).attr('y', bb.y - 5)
+          .attr('width', bb.width + 20).attr('height', bb.height + 10);
       });
 
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
@@ -393,19 +391,19 @@
       instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       instGroup.exit().remove();
 
-      // CSH People Nodes with High-Res PNG Photo Avatars (data_b)
+      // CSH People Nodes with Fixed Non-Scaling Hit Target (Prevents Hover Flickering!)
       const peopleGroup = allnodes.selectAll('.csh-person').data(data_b, d => d.id);
       const peopleEnt = peopleGroup.enter().append('g')
         .attr('class', 'csh-person')
         .attr('transform', d => `translate(${d.x}, ${d.y})`)
         .style('cursor', 'pointer')
         .on('mouseenter', (ev, d) => {
-          d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR * 1.25);
+          d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(200).ease(d3.easeCubicOut).attr('r', NR * 1.25);
           hlPerson(d);
           showCard(d);
         })
         .on('mouseleave', (ev, d) => {
-          d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR);
+          d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(200).ease(d3.easeCubicOut).attr('r', NR);
           if (!selectNode) {
             reset();
             hideCard();
@@ -418,12 +416,20 @@
           showCard(d);
         });
 
+      // Fixed Invisible Hit Target Circle: Mouse hit test target NEVER resizes, eliminating hover flickering!
+      peopleEnt.append('circle')
+        .attr('class', 'csh-hit-area')
+        .attr('r', NR * 1.35)
+        .attr('fill', 'transparent')
+        .style('pointer-events', 'all');
+
       peopleEnt.append('circle')
         .attr('class', 'csh-node-circle')
         .attr('r', NR)
         .attr('fill', 'rgba(12, 17, 27, 0.96)')
         .attr('stroke', d => roleColors[d.cat] || '#38bdf8')
-        .attr('stroke-width', 2.2);
+        .attr('stroke-width', 2.2)
+        .style('pointer-events', 'none');
 
       peopleEnt.append('image')
         .attr('href', d => d.avatar)
@@ -431,7 +437,8 @@
         .attr('x', -NR + 2).attr('y', -NR + 2)
         .attr('width', (NR - 2) * 2).attr('height', (NR - 2) * 2)
         .attr('preserveAspectRatio', 'xMidYMid slice')
-        .attr('clip-path', d => `url(#clip-person-${d.id})`);
+        .attr('clip-path', d => `url(#clip-person-${d.id})`)
+        .style('pointer-events', 'none');
 
       peopleGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       peopleGroup.exit().remove();
@@ -541,7 +548,7 @@
 
     function showInstCard(inst) {
       if (!detailCard) return;
-      detailCard.querySelector('.card-avatar').innerHTML = `<div style="width:64px;height:64px;background:rgba(15,23,42,0.98);border:2px solid rgba(168,85,247,0.7);border-radius:14px;display:grid;place-items:center;padding:0;overflow:hidden;"><img src="${inst.logo}" width="64" height="64" style="border-radius:12px;object-fit:cover;width:100%;height:100%;" alt="${inst.abbr}"></div>`;
+      detailCard.querySelector('.card-avatar').innerHTML = `<div style="width:48px;height:48px;background:rgba(15,23,42,0.98);border:2px solid rgba(168,85,247,0.7);border-radius:50%;display:grid;place-items:center;padding:0;overflow:hidden;flex-shrink:0;"><img src="${inst.logo}" width="48" height="48" style="border-radius:50%;object-fit:cover;width:100%;height:100%;" alt="${inst.abbr}"></div>`;
       detailCard.querySelector('.card-name').innerText = inst.label;
       detailCard.querySelector('.card-role').innerText = 'Partner Institution';
       detailCard.querySelector('.card-inst').innerText = inst.info;
