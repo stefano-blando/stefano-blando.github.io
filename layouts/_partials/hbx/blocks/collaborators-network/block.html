@@ -5,7 +5,7 @@
       <div>
         <p class="portfolio-eyebrow">{{ $block.content.eyebrow | default "Research Network" }}</p>
         <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & L'EMbeDS Lab Network" }}</h2>
-        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive circular constellation connecting researchers, PhD supervisors, lab colleagues, and research topics." }}</p>
+        <p class="portfolio-section__intro">{{ $block.content.text | default "Faithful CSH Vienna network visualization connecting researchers, supervisors, lab colleagues, and research topics." }}</p>
       </div>
 
       <div class="network-controls">
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <!-- D3 Interactive Circular Network Viz -->
+    <!-- D3 Exact CSH Vienna Network Visualization Container -->
     <div class="network-viz-wrapper" data-reveal>
       <div id="collaborators-d3-container" class="collaborators-d3-container"></div>
 
@@ -49,6 +49,7 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script>
 (function() {
+  // CSH Vienna Exact Data Structure
   const people = [
     { id: 'gf', name: 'Giorgio Fagiolo', role: 'Full Professor (PhD Supervisor)', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
     { id: 'av', name: 'Andrea Vandin', role: 'Associate Professor (PhD Supervisor)', cat: 'faculty', inst: 'DTU Denmark & SSSA', extInst: 'dtu', topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
@@ -78,173 +79,178 @@
   };
 
   const roleColors = {
-    faculty: '#38bdf8',  // Cyan/Zaffiro
+    faculty: '#38bdf8',  // Cyan / Zaffiro
     postdoc: '#818cf8',  // Indaco
     phd: '#34d399'      // Smeraldo
   };
 
-  let W, H, cx, cy, R, NR;
-  let svg, gGuide, gInstL, gLines, gTopics, gInst, gNodes, guideCirc;
-  let placed = [], topics = {}, insts = {};
-  let activePerson = null, activeTopic = null, currentCat = 'all';
+  let W, H, cx, cy, r_a, r_b, r_c, NR;
+  let svg, landscape, alllinks, allnodes, guideCirc;
+  let data_a = [], data_b = [], data_c = [], data_links = [];
+  let hoverNode = null, selectNode = null, currentCat = 'all';
 
   function dim() {
     const container = document.getElementById('collaborators-d3-container');
     if (!container) return;
     W = container.clientWidth || 840;
-    H = Math.min(W * 0.74, 620);
+    H = Math.min(W * 0.74, 640);
     cx = W / 2;
     cy = H / 2;
-    R = Math.min(W, H) * 0.34;
-    NR = Math.max(18, Math.min(25, R * 0.08));
+
+    const viewSize = Math.min(W, H);
+    r_a = viewSize * 0.15; // Inner Topic Circle Radius (CSH Vienna r_a)
+    r_b = viewSize * 0.34; // Middle People Ring Radius (CSH Vienna r_b)
+    r_c = viewSize * 0.46; // Outer Institution Ring Radius (CSH Vienna r_c)
+    NR = Math.max(18, Math.min(24, viewSize * 0.038));
   }
 
-  function placePeople(list) {
-    const n = list.length;
-    return list.map((p, i) => {
-      const a = (i / n) * 2 * Math.PI - Math.PI / 2;
-      return { ...p, x: cx + R * Math.cos(a), y: cy + R * Math.sin(a), angle: a };
-    });
-  }
-
-  function topicPositions(placedPeople) {
-    const set = new Set(placedPeople.flatMap(p => p.topics));
-    const pos = {};
-    set.forEach(t => {
-      const c = placedPeople.filter(p => p.topics.includes(t));
-      pos[t] = { label: t, x: cx + (d3.mean(c, d => d.x) - cx) * 0.35, y: cy + (d3.mean(c, d => d.y) - cy) * 0.35 };
-    });
-    const nodes = Object.values(pos);
-    const sim = d3.forceSimulation(nodes)
-      .force('collide', d3.forceCollide(62))
-      .force('x', d3.forceX(cx).strength(0.06))
-      .force('y', d3.forceY(cy).strength(0.06))
-      .stop();
-    for (let i = 0; i < 180; i++) sim.tick();
-    nodes.forEach(n => {
-      const d = Math.hypot(n.x - cx, n.y - cy);
-      const mr = R * 0.65;
-      if (d > mr) { n.x = cx + ((n.x - cx) / d) * mr; n.y = cy + ((n.y - cy) / d) * mr; }
-    });
-    return pos;
-  }
-
-  function instPositions(placedPeople) {
-    const result = {};
-    const instR = R + NR + 36;
-    const pad = 24;
-    placedPeople.forEach(p => {
-      if (!p.extInst || !institutions[p.extInst]) return;
-      const rawX = cx + instR * Math.cos(p.angle);
-      const rawY = cy + instR * Math.sin(p.angle);
-      result[p.extInst] = {
-        id: p.extInst,
-        x: Math.max(pad, Math.min(W - pad, rawX)),
-        y: Math.max(pad, Math.min(H - pad, rawY)),
-        angle: p.angle,
-        personId: p.id,
-        ...institutions[p.extInst]
-      };
-    });
-    return result;
-  }
-
-  function qPath(x1, y1, x2, y2, pull = 0.38) {
+  // CSH Vienna Bezier Curve Function (qPath)
+  function qPath(x1, y1, x2, y2, pull = 0.35) {
     const mx = (x1 + x2) / 2;
     const my = (y1 + y2) / 2;
     return `M${x1},${y1} Q${cx + (mx - cx) * pull},${cy + (my - cy) * pull} ${x2},${y2}`;
   }
 
-  function draw(cat) {
+  function setupCSHNetwork(cat) {
     currentCat = cat;
-    activePerson = null;
-    activeTopic = null;
+    hoverNode = null;
+    selectNode = null;
     hideCard();
 
-    const filtered = cat === 'all' ? people : people.filter(p => p.cat === cat);
-    placed = placePeople(filtered);
-    topics = topicPositions(placed);
-    insts = instPositions(placed);
+    const filteredPeople = cat === 'all' ? people : people.filter(p => p.cat === cat);
 
-    guideCirc.attr('cx', cx).attr('cy', cy).attr('r', R)
+    // 1. Compute People Positions (data_b)
+    const n_b = filteredPeople.length;
+    data_b = filteredPeople.map((p, i) => {
+      const angle = (i / n_b) * 2 * Math.PI - Math.PI / 2;
+      return {
+        ...p,
+        group: 'people',
+        angle,
+        x: cx + r_b * Math.cos(angle),
+        y: cy + r_b * Math.sin(angle)
+      };
+    });
+
+    // 2. Compute Topic Positions in Inner Circle (data_a) - CSH Vienna Centroid Placement
+    const topicSet = new Set(data_b.flatMap(p => p.topics));
+    data_a = Array.from(topicSet).map(t => {
+      const connected = data_b.filter(p => p.topics.includes(t));
+      const meanX = d3.mean(connected, d => d.x) || cx;
+      const meanY = d3.mean(connected, d => d.y) || cy;
+      const dist = Math.hypot(meanX - cx, meanY - cy);
+      const targetDist = Math.min(dist * 0.45, r_a);
+      const angle = Math.atan2(meanY - cy, meanX - cx);
+
+      return {
+        id: t,
+        label: t,
+        group: 'topics',
+        x: cx + targetDist * Math.cos(angle),
+        y: cy + targetDist * Math.sin(angle),
+        value: connected.length
+      };
+    });
+
+    // CSH Vienna Topic Force Relaxation
+    const topicSim = d3.forceSimulation(data_a)
+      .force('collide', d3.forceCollide(64))
+      .force('center', d3.forceCenter(cx, cy).strength(0.08))
+      .stop();
+    for (let i = 0; i < 150; i++) topicSim.tick();
+
+    // 3. Compute External Institution Positions (data_c)
+    data_c = [];
+    data_b.forEach(p => {
+      if (p.extInst && institutions[p.extInst]) {
+        const rawX = cx + r_c * Math.cos(p.angle);
+        const rawY = cy + r_c * Math.sin(p.angle);
+        data_c.push({
+          id: p.extInst,
+          group: 'institutions',
+          personId: p.id,
+          x: Math.max(24, Math.min(W - 24, rawX)),
+          y: Math.max(24, Math.min(H - 24, rawY)),
+          ...institutions[p.extInst]
+        });
+      }
+    });
+
+    // 4. Build Links (data_links)
+    data_links = [];
+    data_b.forEach(p => {
+      p.topics.forEach(t => {
+        const tp = data_a.find(item => item.id === t);
+        if (tp) {
+          data_links.push({
+            id: `${p.id}-${t}`,
+            source: p,
+            target: tp,
+            type: 'topic'
+          });
+        }
+      });
+      if (p.extInst) {
+        const inst = data_c.find(item => item.personId === p.id);
+        if (inst) {
+          data_links.push({
+            id: `${p.id}-${inst.id}`,
+            source: p,
+            target: inst,
+            type: 'inst'
+          });
+        }
+      }
+    });
+
+    renderCSHNetwork();
+  }
+
+  function renderCSHNetwork() {
+    // Guide Circle (CSH Vienna r_b orbit)
+    guideCirc.attr('cx', cx).attr('cy', cy).attr('r', r_b)
+      .attr('fill', 'none')
       .attr('stroke', 'rgba(56, 189, 248, 0.12)')
       .attr('stroke-dasharray', '4 4');
 
-    drawTopicLines();
-    drawInstLines();
-    drawTopics();
-    drawInsts();
-    drawNodes();
-  }
-
-  function drawTopicLines() {
-    const data = [];
-    placed.forEach(p => p.topics.forEach(t => {
-      const tp = topics[t];
-      if (tp) data.push({ key: p.id + '|' + t, p, t, tp });
-    }));
-
-    const sel = gLines.selectAll('.tline').data(data, d => d.key);
-    sel.enter().append('path')
-      .attr('class', 'tline')
+    // Render Links
+    const linkSel = alllinks.selectAll('.csh-link').data(data_links, d => d.id);
+    linkSel.enter().append('path')
+      .attr('class', 'csh-link')
       .attr('fill', 'none')
-      .attr('stroke', d => roleColors[d.p.cat] || '#818cf8')
-      .attr('stroke-width', 1.3)
+      .attr('stroke', d => d.type === 'inst' ? '#a855f7' : (roleColors[d.source.cat] || '#38bdf8'))
+      .attr('stroke-dasharray', d => d.type === 'inst' ? '4 3' : 'none')
+      .attr('stroke-width', d => d.type === 'inst' ? 1.2 : 1.3)
       .attr('stroke-opacity', 0.22)
-      .attr('d', d => qPath(d.p.x, d.p.y, d.tp.x, d.tp.y));
+      .attr('d', d => qPath(d.source.x, d.source.y, d.target.x, d.target.y));
 
-    sel.attr('d', d => qPath(d.p.x, d.p.y, d.tp.x, d.tp.y))
+    linkSel.attr('d', d => qPath(d.source.x, d.source.y, d.target.x, d.target.y))
       .attr('stroke-opacity', 0.22);
+    linkSel.exit().remove();
 
-    sel.exit().remove();
-  }
-
-  function drawInstLines() {
-    const data = placed.filter(p => p.extInst && insts[p.extInst]).map(p => ({
-      key: p.id + '|inst', p, inst: insts[p.extInst]
-    }));
-
-    const sel = gInstL.selectAll('.iline').data(data, d => d.key);
-    sel.enter().append('path')
-      .attr('class', 'iline')
-      .attr('fill', 'none')
-      .attr('stroke', '#a855f7')
-      .attr('stroke-width', 1.2)
-      .attr('stroke-dasharray', '4 3')
-      .attr('stroke-opacity', 0.4)
-      .attr('d', d => qPath(d.p.x, d.p.y, d.inst.x, d.inst.y, 0.6));
-
-    sel.attr('d', d => qPath(d.p.x, d.p.y, d.inst.x, d.inst.y, 0.6))
-      .attr('stroke-opacity', 0.4);
-
-    sel.exit().remove();
-  }
-
-  function drawTopics() {
-    const arr = Object.values(topics);
-    const sel = gTopics.selectAll('.tgrp').data(arr, d => d.label);
-
-    const ent = sel.enter().append('g')
-      .attr('class', 'tgrp')
+    // Render Topics (data_a)
+    const topicGroup = allnodes.selectAll('.csh-topic').data(data_a, d => d.id);
+    const topicEnt = topicGroup.enter().append('g')
+      .attr('class', 'csh-topic')
       .attr('transform', d => `translate(${d.x}, ${d.y})`)
       .style('cursor', 'pointer')
-      .on('mouseenter', (ev, d) => { if (!activePerson && !activeTopic) hlTopic(d.label); })
-      .on('mouseleave', () => { if (!activeTopic && !activePerson) reset(); })
-      .on('click', (ev, d) => { ev.stopPropagation(); hlTopic(d.label); activeTopic = d.label; });
+      .on('mouseenter', (ev, d) => { if (!selectNode) hlCSHTopic(d); })
+      .on('mouseleave', () => { if (!selectNode) resetCSH(); })
+      .on('click', (ev, d) => { ev.stopPropagation(); selectNode = d; hlCSHTopic(d); });
 
-    ent.append('rect')
+    topicEnt.append('rect')
       .attr('rx', 12).attr('ry', 12)
       .attr('fill', 'rgba(12, 17, 27, 0.94)')
       .attr('stroke', 'rgba(56, 189, 248, 0.35)')
       .attr('stroke-width', 1);
 
-    ent.append('text')
+    topicEnt.append('text')
       .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
       .attr('fill', '#e2e8f0')
       .style('font-size', '10px').style('font-weight', '600')
       .text(d => d.label);
 
-    ent.each(function() {
+    topicEnt.each(function() {
       const g = d3.select(this);
       const bb = g.select('text').node().getBBox();
       g.select('rect')
@@ -252,37 +258,34 @@
         .attr('width', bb.width + 20).attr('height', bb.height + 10);
     });
 
-    sel.attr('transform', d => `translate(${d.x}, ${d.y})`);
-    sel.exit().remove();
-  }
+    topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
+    topicGroup.exit().remove();
 
-  function drawInsts() {
-    const arr = Object.values(insts);
-    const sel = gInst.selectAll('.igrp').data(arr, d => d.id);
-
-    const ent = sel.enter().append('g')
-      .attr('class', 'igrp')
+    // Render Institutions (data_c)
+    const instGroup = allnodes.selectAll('.csh-inst').data(data_c, d => d.id);
+    const instEnt = instGroup.enter().append('g')
+      .attr('class', 'csh-inst')
       .attr('transform', d => `translate(${d.x}, ${d.y})`)
       .style('cursor', 'pointer')
       .on('mouseenter', (ev, d) => {
-        const p = placed.find(person => person.id === d.personId);
-        if (p) hlPerson(p);
+        const p = data_b.find(person => person.id === d.personId);
+        if (p) hlCSHPerson(p);
       })
-      .on('mouseleave', () => { if (!activePerson && !activeTopic) reset(); });
+      .on('mouseleave', () => { if (!selectNode) resetCSH(); });
 
-    ent.append('rect')
+    instEnt.append('rect')
       .attr('rx', 8).attr('ry', 8)
       .attr('fill', 'rgba(168, 85, 247, 0.15)')
       .attr('stroke', 'rgba(168, 85, 247, 0.5)')
       .attr('stroke-width', 1.2);
 
-    ent.append('text')
+    instEnt.append('text')
       .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
       .attr('fill', '#c084fc')
       .style('font-size', '9.5px').style('font-weight', '700')
       .text(d => d.abbr);
 
-    ent.each(function() {
+    instEnt.each(function() {
       const g = d3.select(this);
       const bb = g.select('text').node().getBBox();
       g.select('rect')
@@ -290,115 +293,113 @@
         .attr('width', bb.width + 14).attr('height', bb.height + 6);
     });
 
-    sel.attr('transform', d => `translate(${d.x}, ${d.y})`);
-    sel.exit().remove();
-  }
+    instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
+    instGroup.exit().remove();
 
-  function drawNodes() {
-    const sel = gNodes.selectAll('.pnode').data(placed, d => d.id);
-
-    const ent = sel.enter().append('g')
-      .attr('class', 'pnode')
+    // Render People Nodes (data_b)
+    const peopleGroup = allnodes.selectAll('.csh-person').data(data_b, d => d.id);
+    const peopleEnt = peopleGroup.enter().append('g')
+      .attr('class', 'csh-person')
       .attr('transform', d => `translate(${d.x}, ${d.y})`)
       .style('cursor', 'pointer')
       .on('mouseenter', (ev, d) => {
-        d3.select(ev.currentTarget).select('.pnode-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR * 1.22);
-        hlPerson(d);
+        d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR * 1.22);
+        hlCSHPerson(d);
         showCard(d);
       })
       .on('mouseleave', (ev, d) => {
-        d3.select(ev.currentTarget).select('.pnode-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR);
-        if (!activePerson && !activeTopic) reset();
+        d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR);
+        if (!selectNode) resetCSH();
       })
       .on('click', (ev, d) => {
         ev.stopPropagation();
-        activePerson = d;
-        hlPerson(d);
+        selectNode = d;
+        hlCSHPerson(d);
         showCard(d);
       });
 
-    ent.append('circle')
-      .attr('class', 'pnode-circle')
+    peopleEnt.append('circle')
+      .attr('class', 'csh-node-circle')
       .attr('r', NR)
       .attr('fill', 'rgba(12, 17, 27, 0.95)')
       .attr('stroke', d => roleColors[d.cat] || '#38bdf8')
       .attr('stroke-width', 2);
 
     const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
-    ent.append('text')
+    peopleEnt.append('text')
       .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
       .attr('fill', '#ffffff')
       .style('font-size', '10px')
       .style('font-weight', '700')
       .text(d => ini(d.name));
 
-    ent.append('text')
-      .attr('class', 'pnode-name')
+    peopleEnt.append('text')
+      .attr('class', 'csh-node-name')
       .attr('y', NR + 14)
       .attr('text-anchor', 'middle')
       .attr('fill', '#94a3b8')
       .style('font-size', '10px').style('font-weight', '600')
       .text(d => d.name.split(' ')[1] || d.name);
 
-    sel.attr('transform', d => `translate(${d.x}, ${d.y})`);
-    sel.exit().remove();
+    peopleGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
+    peopleGroup.exit().remove();
   }
 
-  function hlPerson(p) {
-    gLines.selectAll('.tline')
+  function hlCSHPerson(p) {
+    alllinks.selectAll('.csh-link')
       .transition().duration(250).ease(d3.easeCubicOut)
-      .attr('stroke-opacity', d => d.p.id === p.id ? 0.9 : 0.04)
-      .attr('stroke-width', d => d.p.id === p.id ? 2.6 : 0.8);
+      .attr('stroke-opacity', d => d.source.id === p.id ? 0.9 : 0.04)
+      .attr('stroke-width', d => d.source.id === p.id ? 2.6 : 0.8);
 
-    gNodes.selectAll('.pnode')
+    allnodes.selectAll('.csh-person')
       .transition().duration(250).ease(d3.easeCubicOut)
       .style('opacity', d => d.id === p.id ? 1 : 0.25);
 
-    gTopics.selectAll('.tgrp')
+    allnodes.selectAll('.csh-topic')
       .transition().duration(250).ease(d3.easeCubicOut)
-      .style('opacity', d => p.topics.includes(d.label) ? 1 : 0.2);
+      .style('opacity', d => p.topics.includes(d.id) ? 1 : 0.2);
 
-    gInst.selectAll('.igrp')
+    allnodes.selectAll('.csh-inst')
       .transition().duration(250).ease(d3.easeCubicOut)
       .style('opacity', d => d.personId === p.id ? 1 : 0.25);
   }
 
-  function hlTopic(topicLabel) {
-    const connectedPeople = placed.filter(p => p.topics.includes(topicLabel)).map(p => p.id);
+  function hlCSHTopic(topicItem) {
+    const connectedPeople = data_b.filter(p => p.topics.includes(topicItem.id)).map(p => p.id);
 
-    gLines.selectAll('.tline')
+    alllinks.selectAll('.csh-link')
       .transition().duration(250).ease(d3.easeCubicOut)
-      .attr('stroke-opacity', d => d.t.label === topicLabel ? 0.9 : 0.04)
-      .attr('stroke-width', d => d.t.label === topicLabel ? 2.6 : 0.8);
+      .attr('stroke-opacity', d => d.target.id === topicItem.id ? 0.9 : 0.04)
+      .attr('stroke-width', d => d.target.id === topicItem.id ? 2.6 : 0.8);
 
-    gNodes.selectAll('.pnode')
+    allnodes.selectAll('.csh-person')
       .transition().duration(250).ease(d3.easeCubicOut)
       .style('opacity', d => connectedPeople.includes(d.id) ? 1 : 0.25);
 
-    gTopics.selectAll('.tgrp')
+    allnodes.selectAll('.csh-topic')
       .transition().duration(250).ease(d3.easeCubicOut)
-      .style('opacity', d => d.label === topicLabel ? 1 : 0.2);
+      .style('opacity', d => d.id === topicItem.id ? 1 : 0.2);
 
-    gInst.selectAll('.igrp')
+    allnodes.selectAll('.csh-inst')
       .transition().duration(250).ease(d3.easeCubicOut)
       .style('opacity', d => connectedPeople.includes(d.personId) ? 1 : 0.2);
   }
 
-  function reset() {
-    gLines.selectAll('.tline')
+  function resetCSH() {
+    alllinks.selectAll('.csh-link')
       .transition().duration(280).ease(d3.easeCubicOut)
       .attr('stroke-opacity', 0.22)
       .attr('stroke-width', 1.3);
 
-    gNodes.selectAll('.pnode')
+    allnodes.selectAll('.csh-person')
       .transition().duration(280).ease(d3.easeCubicOut)
       .style('opacity', 1);
 
-    gTopics.selectAll('.tgrp')
+    allnodes.selectAll('.csh-topic')
       .transition().duration(280).ease(d3.easeCubicOut)
       .style('opacity', 1);
 
-    gInst.selectAll('.igrp')
+    allnodes.selectAll('.csh-inst')
       .transition().duration(280).ease(d3.easeCubicOut)
       .style('opacity', 1);
   }
@@ -432,7 +433,7 @@
     }
   }
 
-  function initViz() {
+  function initCSHViz() {
     const container = document.getElementById('collaborators-d3-container');
     if (!container || typeof d3 === 'undefined') return;
 
@@ -443,35 +444,29 @@
       .attr('width', W).attr('height', H)
       .attr('viewBox', `0 0 ${W} ${H}`);
 
-    defs = svg.append('defs');
-    gGuide = svg.append('g');
-    gInstL = svg.append('g');
-    gLines = svg.append('g');
-    gTopics = svg.append('g');
-    gInst = svg.append('g');
-    gNodes = svg.append('g');
+    landscape = svg.append('g').attr('class', 'landscape');
+    guideCirc = landscape.append('circle').attr('class', 'guide-circ');
+    alllinks = landscape.append('g').attr('class', 'alllinks');
+    allnodes = landscape.append('g').attr('class', 'allnodes');
 
-    guideCirc = gGuide.append('circle').attr('fill', 'none');
-
-    draw(currentCat);
+    setupCSHNetwork(currentCat);
 
     svg.on('click', () => {
-      activePerson = null;
-      activeTopic = null;
-      reset();
+      selectNode = null;
+      resetCSH();
       hideCard();
     });
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    initViz();
+    initCSHViz();
 
     document.querySelectorAll('.cat-tab').forEach(tab => {
       tab.addEventListener('click', (e) => {
         document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
         e.target.classList.add('active');
         currentCat = e.target.getAttribute('data-cat');
-        draw(currentCat);
+        setupCSHNetwork(currentCat);
       });
     });
 
@@ -482,11 +477,11 @@
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
-        gNodes.selectAll('.pnode').style('opacity', d => (d.name.toLowerCase().includes(query) ? 1 : 0.15));
+        allnodes.selectAll('.csh-person').style('opacity', d => (d.name.toLowerCase().includes(query) ? 1 : 0.15));
       });
     }
 
-    window.addEventListener('resize', initViz);
+    window.addEventListener('resize', initCSHViz);
   });
 })();
 </script>
