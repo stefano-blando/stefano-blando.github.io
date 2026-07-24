@@ -97,14 +97,14 @@
 
     function dim() {
       W = container.clientWidth || 960;
-      H = Math.max(740, Math.min(W * 0.85, 840));
+      H = Math.max(760, Math.min(W * 0.85, 860));
       cx = W / 2;
       cy = H / 2;
 
       const viewSize = Math.min(W, H);
-      r_a = viewSize * 0.10; // Compact central topic cluster radius!
-      r_b = viewSize * 0.35; // People ring!
-      r_c = viewSize * 0.45; // External universities ring!
+      r_a = viewSize * 0.18; // Spacious central topic cluster zone!
+      r_b = viewSize * 0.36; // People ring!
+      r_c = viewSize * 0.46; // External universities ring!
       NR = Math.max(20, Math.min(26, viewSize * 0.038));
     }
 
@@ -158,7 +158,7 @@
         };
       });
 
-      // 2. Compact Central Topic Placement (data_a) - Legible Font Sizes!
+      // 2. Structured Non-Overlapping Central Topic Placement across 3 Staggered Concentric Orbits (data_a)
       const topicSet = new Set(data_b.flatMap(p => p.topics));
       const topicArray = Array.from(topicSet);
       const n_a = topicArray.length;
@@ -167,30 +167,35 @@
         const connected = data_b.filter(p => p.topics.includes(t));
         const meanAngle = d3.mean(connected, p => p.angle) || (i / n_a) * 2 * Math.PI - Math.PI / 2;
 
+        // 3 Staggered concentric orbits: 0.32, 0.65, 0.95
+        const orbitFactor = (i % 3 === 0) ? 0.32 : ((i % 3 === 1) ? 0.65 : 0.95);
+        const radius = r_a * orbitFactor;
+
         return {
           id: t,
           label: t,
           group: 'topics',
           angle: meanAngle,
-          targetRadius: r_a * (i % 2 === 0 ? 0.45 : 0.85),
-          x: cx + (r_a * (i % 2 === 0 ? 0.45 : 0.85)) * Math.cos(meanAngle),
-          y: cy + (r_a * (i % 2 === 0 ? 0.45 : 0.85)) * Math.sin(meanAngle),
+          targetRadius: radius,
+          x: cx + radius * Math.cos(meanAngle),
+          y: cy + radius * Math.sin(meanAngle),
           value: connected.length
         };
       });
 
-      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([11.5, 14]);
+      // Large, bold, highly legible topic font size scale!
+      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([12.5, 15]);
       data_a.forEach(d => { d.fontSize = size_a(d.value); });
 
-      // Staggered Inner Radial Collision Physics
+      // Robust Collision Physics: Generous physical bounding box around each topic pill
       const topicSim = d3.forceSimulation(data_a)
-        .force('collide', d3.forceCollide(d => d.label.length * 4.6 + 18))
-        .force('r', d3.forceRadial(d => d.targetRadius, cx, cy).strength(0.9))
+        .force('collide', d3.forceCollide(d => Math.max(d.label.length * 4.8 + 22, 45)))
+        .force('r', d3.forceRadial(d => d.targetRadius, cx, cy).strength(0.85))
         .stop();
-      for (let i = 0; i < 350; i++) topicSim.tick();
+      for (let i = 0; i < 500; i++) topicSim.tick();
 
-      // Strict Inner Core Boundary Enforcement: Topics cannot exceed 50% of the distance to the people ring!
-      const maxAllowedTopicR = r_b * 0.50;
+      // Strict Inner Boundary Enforcement: Never penetrate into the people node ring!
+      const maxAllowedTopicR = r_b - NR - 24;
       data_a.forEach(n => {
         const d = Math.hypot(n.x - cx, n.y - cy);
         if (d > maxAllowedTopicR) {
@@ -305,7 +310,7 @@
         .attr('stroke-opacity', 0.25);
       linkSel.exit().remove();
 
-      // CSH Topic Capsule Pills (data_a) - Enlarged Legible Fonts!
+      // CSH Topic Capsule Pills (data_a) - Large, Crisp, Non-Overlapping!
       const topicGroup = allnodes.selectAll('.csh-topic').data(data_a, d => d.id);
       const topicEnt = topicGroup.enter().append('g')
         .attr('class', 'csh-topic')
@@ -323,23 +328,23 @@
       topicEnt.append('rect')
         .attr('rx', 99).attr('ry', 99)
         .attr('fill', 'rgba(12, 18, 30, 0.96)')
-        .attr('stroke', 'rgba(56, 189, 248, 0.45)')
-        .attr('stroke-width', 1.3);
+        .attr('stroke', 'rgba(56, 189, 248, 0.5)')
+        .attr('stroke-width', 1.4);
 
       topicEnt.append('text')
         .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
         .attr('fill', '#f8fafc')
-        .style('font-size', d => `${d.fontSize || 12}px`)
-        .style('font-weight', '600')
-        .style('letter-spacing', '0.25px')
+        .style('font-size', d => `${d.fontSize || 13}px`)
+        .style('font-weight', '700')
+        .style('letter-spacing', '0.3px')
         .text(d => d.label);
 
       topicEnt.each(function() {
         const g = d3.select(this);
         const bb = g.select('text').node().getBBox();
         g.select('rect')
-          .attr('x', bb.x - 10).attr('y', bb.y - 5)
-          .attr('width', bb.width + 20).attr('height', bb.height + 10);
+          .attr('x', bb.x - 11).attr('y', bb.y - 6)
+          .attr('width', bb.width + 22).attr('height', bb.height + 12);
       });
 
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
