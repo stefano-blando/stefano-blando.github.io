@@ -95,15 +95,15 @@
 
     function dim() {
       W = container.clientWidth || 920;
-      H = Math.max(620, Math.min(W * 0.72, 720)); // Expanded Grand Height
+      H = Math.max(640, Math.min(W * 0.74, 740));
       cx = W / 2;
       cy = H / 2;
 
       const viewSize = Math.min(W, H);
-      r_a = viewSize * 0.16; // Inner Topic Circle Radius
-      r_b = viewSize * 0.36; // Middle People Ring Radius (Expanded)
-      r_c = viewSize * 0.48; // Outer Institution Ring Radius (Expanded)
-      NR = Math.max(20, Math.min(26, viewSize * 0.039));
+      r_a = viewSize * 0.13; // Strict Inner Central Core Radius (Prevents overlap with person names)
+      r_b = viewSize * 0.38; // Outer People Ring Radius
+      r_c = viewSize * 0.49; // External Institution Ring Radius
+      NR = Math.max(19, Math.min(25, viewSize * 0.038));
     }
 
     function qPath(x1, y1, x2, y2, pull = 0.35) {
@@ -132,14 +132,14 @@
         };
       });
 
-      // 2. Topic Positions in Inner Circle (data_a) - CSH Vienna Centroid
+      // 2. Strict Central Core Topic Positions (data_a)
       const topicSet = new Set(data_b.flatMap(p => p.topics));
       data_a = Array.from(topicSet).map(t => {
         const connected = data_b.filter(p => p.topics.includes(t));
         const meanX = d3.mean(connected, d => d.x) || cx;
         const meanY = d3.mean(connected, d => d.y) || cy;
         const dist = Math.hypot(meanX - cx, meanY - cy);
-        const targetDist = Math.min(dist * 0.46, r_a);
+        const targetDist = Math.min(dist * 0.32, r_a);
         const angle = Math.atan2(meanY - cy, meanX - cx);
 
         return {
@@ -152,12 +152,22 @@
         };
       });
 
-      // Topic Force Relaxation
+      // Strict Inner Collision & Clamping Simulation
       const topicSim = d3.forceSimulation(data_a)
-        .force('collide', d3.forceCollide(68))
-        .force('center', d3.forceCenter(cx, cy).strength(0.08))
+        .force('collide', d3.forceCollide(50))
+        .force('center', d3.forceCenter(cx, cy).strength(0.12))
         .stop();
-      for (let i = 0; i < 160; i++) topicSim.tick();
+      for (let i = 0; i < 180; i++) topicSim.tick();
+
+      // Enforce Strict Radius Clamp to ensure Topics NEVER spill over person names
+      data_a.forEach(n => {
+        const d = Math.hypot(n.x - cx, n.y - cy);
+        const maxAllowed = r_a * 1.15;
+        if (d > maxAllowed) {
+          n.x = cx + ((n.x - cx) / d) * maxAllowed;
+          n.y = cy + ((n.y - cy) / d) * maxAllowed;
+        }
+      });
 
       // 3. External Institution Positions (data_c)
       data_c = [];
@@ -239,16 +249,15 @@
         .on('click', (ev, d) => { ev.stopPropagation(); selectNode = d; hlTopic(d); });
 
       topicEnt.append('rect')
-        .attr('rx', 99).attr('ry', 99) // Rounded Pill Caps
+        .attr('rx', 99).attr('ry', 99)
         .attr('fill', 'rgba(12, 18, 30, 0.96)')
         .attr('stroke', 'rgba(56, 189, 248, 0.4)')
-        .attr('stroke-width', 1.2)
-        .style('box-shadow', '0 0 15px rgba(56, 189, 248, 0.2)');
+        .attr('stroke-width', 1.2);
 
       topicEnt.append('text')
         .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
         .attr('fill', '#f1f5f9')
-        .style('font-size', '10.5px').style('font-weight', '600')
+        .style('font-size', '10px').style('font-weight', '600')
         .style('letter-spacing', '0.2px')
         .text(d => d.label);
 
@@ -256,8 +265,8 @@
         const g = d3.select(this);
         const bb = g.select('text').node().getBBox();
         g.select('rect')
-          .attr('x', bb.x - 12).attr('y', bb.y - 6)
-          .attr('width', bb.width + 24).attr('height', bb.height + 12);
+          .attr('x', bb.x - 10).attr('y', bb.y - 5)
+          .attr('width', bb.width + 20).attr('height', bb.height + 10);
       });
 
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
@@ -284,15 +293,15 @@
       instEnt.append('text')
         .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
         .attr('fill', '#e9d5ff')
-        .style('font-size', '10px').style('font-weight', '700')
+        .style('font-size', '9.5px').style('font-weight', '700')
         .text(d => d.abbr);
 
       instEnt.each(function() {
         const g = d3.select(this);
         const bb = g.select('text').node().getBBox();
         g.select('rect')
-          .attr('x', bb.x - 9).attr('y', bb.y - 4)
-          .attr('width', bb.width + 18).attr('height', bb.height + 8);
+          .attr('x', bb.x - 8).attr('y', bb.y - 4)
+          .attr('width', bb.width + 16).attr('height', bb.height + 8);
       });
 
       instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
