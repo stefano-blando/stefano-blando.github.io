@@ -5,7 +5,7 @@
       <div>
         <p class="portfolio-eyebrow">{{ $block.content.eyebrow | default "Research Network" }}</p>
         <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & L'EMbeDS Lab Network" }}</h2>
-        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive CSH Vienna circular network connecting co-authors, PhD supervisors, lab colleagues, and research topics." }}</p>
+        <p class="portfolio-section__intro">{{ $block.content.text | default "Faithful CSH Vienna radial network visualization connecting co-authors, PhD supervisors, lab colleagues, and research topics." }}</p>
       </div>
 
       <div class="network-controls">
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <!-- D3 Exact CSH Vienna Expanded Network Visualization Container -->
+    <!-- D3 Exact CSH Vienna Network Visualization Container -->
     <div class="network-viz-wrapper" data-reveal>
       <div class="collaborators-d3-container"></div>
 
@@ -95,15 +95,15 @@
 
     function dim() {
       W = container.clientWidth || 920;
-      H = Math.max(640, Math.min(W * 0.74, 740));
+      H = Math.max(650, Math.min(W * 0.76, 750));
       cx = W / 2;
       cy = H / 2;
 
       const viewSize = Math.min(W, H);
-      r_a = viewSize * 0.13; // Strict Inner Central Core Radius (Prevents overlap with person names)
-      r_b = viewSize * 0.38; // Outer People Ring Radius
-      r_c = viewSize * 0.49; // External Institution Ring Radius
-      NR = Math.max(19, Math.min(25, viewSize * 0.038));
+      r_a = viewSize * 0.14; // Strict Inner Central Core Radius (CSH Vienna r_a)
+      r_b = viewSize * 0.36; // Middle People Ring Radius (CSH Vienna r_b)
+      r_c = viewSize * 0.48; // Outer Institution Ring Radius (CSH Vienna r_c)
+      NR = Math.max(18, Math.min(24, viewSize * 0.036));
     }
 
     function qPath(x1, y1, x2, y2, pull = 0.35) {
@@ -119,27 +119,40 @@
 
       const filteredPeople = cat === 'all' ? people : people.filter(p => p.cat === cat);
 
-      // 1. People Positions (data_b)
+      // 1. CSH Vienna Radial People Placement (data_b)
       const n_b = filteredPeople.length;
       data_b = filteredPeople.map((p, i) => {
         const angle = (i / n_b) * 2 * Math.PI - Math.PI / 2;
+        let deg = (angle * 180 / Math.PI);
+        let text_anchor = 'start';
+        let offset_x = NR + 8;
+
+        if (deg > 90 || deg < -90) {
+          deg = deg + 180;
+          text_anchor = 'end';
+          offset_x = -NR - 8;
+        }
+
         return {
           ...p,
           group: 'people',
           angle,
+          degree: deg,
+          text_anchor,
+          offset_x,
           x: cx + r_b * Math.cos(angle),
           y: cy + r_b * Math.sin(angle)
         };
       });
 
-      // 2. Strict Central Core Topic Positions (data_a)
+      // 2. CSH Vienna Central Topic Calculations (data_a)
       const topicSet = new Set(data_b.flatMap(p => p.topics));
       data_a = Array.from(topicSet).map(t => {
         const connected = data_b.filter(p => p.topics.includes(t));
         const meanX = d3.mean(connected, d => d.x) || cx;
         const meanY = d3.mean(connected, d => d.y) || cy;
         const dist = Math.hypot(meanX - cx, meanY - cy);
-        const targetDist = Math.min(dist * 0.32, r_a);
+        const targetDist = Math.min(dist * 0.3, r_a);
         const angle = Math.atan2(meanY - cy, meanX - cx);
 
         return {
@@ -152,17 +165,20 @@
         };
       });
 
-      // Strict Inner Collision & Clamping Simulation
+      // Topic Sizing & Force Relaxation
+      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([10, 13]);
+      data_a.forEach(d => { d.fontSize = size_a(d.value); });
+
       const topicSim = d3.forceSimulation(data_a)
-        .force('collide', d3.forceCollide(50))
+        .force('collide', d3.forceCollide(d => d.label.length * 3.8 + 12))
         .force('center', d3.forceCenter(cx, cy).strength(0.12))
         .stop();
       for (let i = 0; i < 180; i++) topicSim.tick();
 
-      // Enforce Strict Radius Clamp to ensure Topics NEVER spill over person names
+      // Strict Inner Core Containment
       data_a.forEach(n => {
         const d = Math.hypot(n.x - cx, n.y - cy);
-        const maxAllowed = r_a * 1.15;
+        const maxAllowed = r_a * 1.1;
         if (d > maxAllowed) {
           n.x = cx + ((n.x - cx) / d) * maxAllowed;
           n.y = cy + ((n.y - cy) / d) * maxAllowed;
@@ -186,7 +202,7 @@
         }
       });
 
-      // 4. Build Links
+      // 4. Build CSH Links
       data_links = [];
       data_b.forEach(p => {
         p.topics.forEach(t => {
@@ -223,14 +239,14 @@
         .attr('stroke', 'rgba(56, 189, 248, 0.14)')
         .attr('stroke-dasharray', '4 4');
 
-      // Links
+      // Links (CSH Curved Bezier Lines)
       const linkSel = alllinks.selectAll('.csh-link').data(data_links, d => d.id);
       linkSel.enter().append('path')
         .attr('class', 'csh-link')
         .attr('fill', 'none')
         .attr('stroke', d => d.type === 'inst' ? '#a855f7' : (roleColors[d.source.cat] || '#38bdf8'))
         .attr('stroke-dasharray', d => d.type === 'inst' ? '4 3' : 'none')
-        .attr('stroke-width', d => d.type === 'inst' ? 1.3 : 1.4)
+        .attr('stroke-width', d => d.type === 'inst' ? 1.2 : 1.3)
         .attr('stroke-opacity', 0.22)
         .attr('d', d => qPath(d.source.x, d.source.y, d.target.x, d.target.y));
 
@@ -238,7 +254,7 @@
         .attr('stroke-opacity', 0.22);
       linkSel.exit().remove();
 
-      // Sleek Topic Capsule Pills (data_a)
+      // CSH Topic Capsule Pills (data_a)
       const topicGroup = allnodes.selectAll('.csh-topic').data(data_a, d => d.id);
       const topicEnt = topicGroup.enter().append('g')
         .attr('class', 'csh-topic')
@@ -257,7 +273,8 @@
       topicEnt.append('text')
         .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
         .attr('fill', '#f1f5f9')
-        .style('font-size', '10px').style('font-weight', '600')
+        .style('font-size', d => `${d.fontSize || 10.5}px`)
+        .style('font-weight', '600')
         .style('letter-spacing', '0.2px')
         .text(d => d.label);
 
@@ -272,7 +289,7 @@
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       topicGroup.exit().remove();
 
-      // Sleek University Badges (data_c)
+      // CSH External Institution Badges (data_c)
       const instGroup = allnodes.selectAll('.csh-inst').data(data_c, d => d.id);
       const instEnt = instGroup.enter().append('g')
         .attr('class', 'csh-inst')
@@ -285,7 +302,7 @@
         .on('mouseleave', () => { if (!selectNode) reset(); });
 
       instEnt.append('rect')
-        .attr('rx', 10).attr('ry', 10)
+        .attr('rx', 8).attr('ry', 8)
         .attr('fill', 'rgba(30, 20, 50, 0.94)')
         .attr('stroke', 'rgba(168, 85, 247, 0.6)')
         .attr('stroke-width', 1.3);
@@ -307,7 +324,7 @@
       instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       instGroup.exit().remove();
 
-      // People Nodes (data_b)
+      // CSH People Nodes with Rotated Radial Text Labels (data_b)
       const peopleGroup = allnodes.selectAll('.csh-person').data(data_b, d => d.id);
       const peopleEnt = peopleGroup.enter().append('g')
         .attr('class', 'csh-person')
@@ -340,17 +357,20 @@
       peopleEnt.append('text')
         .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
         .attr('fill', '#ffffff')
-        .style('font-size', '10.5px')
+        .style('font-size', '10px')
         .style('font-weight', '700')
         .text(d => ini(d.name));
 
+      // CSH Vienna Rotated Radial Name Label
       peopleEnt.append('text')
         .attr('class', 'csh-node-name')
-        .attr('y', NR + 15)
-        .attr('text-anchor', 'middle')
+        .attr('transform', d => `rotate(${d.degree})`)
+        .attr('x', d => d.offset_x)
+        .attr('y', 3)
+        .attr('text-anchor', d => d.text_anchor)
         .attr('fill', '#cbd5e1')
         .style('font-size', '10.5px').style('font-weight', '600')
-        .text(d => d.name.split(' ')[1] || d.name);
+        .text(d => d.name);
 
       peopleGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       peopleGroup.exit().remove();
