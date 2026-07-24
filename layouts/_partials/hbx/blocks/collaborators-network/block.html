@@ -64,7 +64,7 @@
     { id: 'ei', name: 'Ernest Ivanaj', role: 'Researcher', cat: 'postdoc', inst: 'Co-author', extInst: [], topics: ['Agent-Based Modeling', 'Statistical Model Checking'], papers: ['Island Model SMC (MARS 2026)'], avatar: '/images/people/ei.png' },
     { id: 'fc', name: 'Francesca Chiaromonte', role: 'Full Professor (L\'EMbeDS Coord.)', cat: 'faculty', inst: 'Penn State & SSSA', extInst: ['pennstate', 'sssa'], topics: ['Robust Statistics', 'High-Dimensional Data', 'Biostatistics'], papers: [], avatar: '/images/people/fc.png' },
     { id: 'le', name: 'Lorenzo Emer', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna & UniPi', extInst: ['sssa', 'unipi'], topics: ['Complex Systems', 'Economic Modeling', 'Systemic Risk & Networks'], papers: [], avatar: '/images/people/le.png' },
-    { id: 'st', name: 'Simone Tonini', role: 'Research Fellow', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: ['sssa'], topics: ['Macroeconomics', 'Systemic Risk & Networks', 'Agent-Based Modeling'], papers: [], avatar: '/images/people/st.png' }
+    { id: 'st', name: 'Simone Tonini', role: 'Research Fellow', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: ['sssa'], topics: ['Macroeconomics', 'Systemic Risk & Networks', 'Economic Modeling'], papers: [], avatar: '/images/people/st.png' }
   ];
 
   const institutions = {
@@ -97,14 +97,14 @@
 
     function dim() {
       W = container.clientWidth || 920;
-      H = Math.max(660, Math.min(W * 0.78, 760));
+      H = Math.max(680, Math.min(W * 0.8, 780));
       cx = W / 2;
       cy = H / 2;
 
       const viewSize = Math.min(W, H);
-      r_a = viewSize * 0.14;
-      r_b = viewSize * 0.36;
-      r_c = viewSize * 0.48;
+      r_a = viewSize * 0.13;
+      r_b = viewSize * 0.35;
+      r_c = viewSize * 0.47;
       NR = Math.max(20, Math.min(26, viewSize * 0.038));
     }
 
@@ -114,10 +114,11 @@
       return `M${x1},${y1} Q${cx + (mx - cx) * pull},${cy + (my - cy) * pull} ${x2},${y2}`;
     }
 
-    // Exact Circular Arc Path along Outer Perimeter
+    // Outer Perimeter Arc Path: Expands 26px OUTSIDE all nodes so arcs NEVER intersect any nodes!
     function instPath(x1, y1, x2, y2, angle1, angle2) {
-      const x_outer_start = cx + r_c * Math.cos(angle1);
-      const y_outer_start = cy + r_c * Math.sin(angle1);
+      const outerR = r_c + 26;
+      const x_outer_start = cx + outerR * Math.cos(angle1);
+      const y_outer_start = cy + outerR * Math.sin(angle1);
 
       let a1 = angle1;
       let a2 = angle2;
@@ -128,7 +129,7 @@
       if (diff > Math.PI) diff -= Math.PI * 2;
       const sweep = diff > 0 ? 1 : 0;
 
-      return `M${x1},${y1} L${x_outer_start},${y_outer_start} A ${r_c} ${r_c} 0 0,${sweep} ${x2},${y2}`;
+      return `M${x1},${y1} L${x_outer_start},${y_outer_start} A ${outerR} ${outerR} 0 0,${sweep} ${x2},${y2}`;
     }
 
     function setupNetwork(cat) {
@@ -151,14 +152,14 @@
         };
       });
 
-      // 2. Central Topic Calculations (data_a)
+      // 2. Non-Overlapping Central Topic Calculations (data_a)
       const topicSet = new Set(data_b.flatMap(p => p.topics));
       data_a = Array.from(topicSet).map(t => {
         const connected = data_b.filter(p => p.topics.includes(t));
         const meanX = d3.mean(connected, d => d.x) || cx;
         const meanY = d3.mean(connected, d => d.y) || cy;
         const dist = Math.hypot(meanX - cx, meanY - cy);
-        const targetDist = Math.min(dist * 0.3, r_a);
+        const targetDist = Math.min(dist * 0.28, r_a);
         const angle = Math.atan2(meanY - cy, meanX - cx);
 
         return {
@@ -171,18 +172,19 @@
         };
       });
 
-      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([10, 13]);
+      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([10, 12.5]);
       data_a.forEach(d => { d.fontSize = size_a(d.value); });
 
+      // Robust Non-Overlapping Collision Physics
       const topicSim = d3.forceSimulation(data_a)
-        .force('collide', d3.forceCollide(d => d.label.length * 3.8 + 12))
-        .force('center', d3.forceCenter(cx, cy).strength(0.12))
+        .force('collide', d3.forceCollide(d => d.label.length * 4.4 + 18))
+        .force('center', d3.forceCenter(cx, cy).strength(0.15))
         .stop();
-      for (let i = 0; i < 180; i++) topicSim.tick();
+      for (let i = 0; i < 300; i++) topicSim.tick();
 
       data_a.forEach(n => {
         const d = Math.hypot(n.x - cx, n.y - cy);
-        const maxAllowed = r_a * 1.1;
+        const maxAllowed = r_a * 1.05;
         if (d > maxAllowed) {
           n.x = cx + ((n.x - cx) / d) * maxAllowed;
           n.y = cy + ((n.y - cy) / d) * maxAllowed;
@@ -276,7 +278,7 @@
         }
       });
 
-      // Links (Harmonized Perimeter Arcs for Institutions, Inner Curves for Topics)
+      // Links (Outer Perimeter Arcs for Institutions, Inner Curves for Topics)
       const linkSel = alllinks.selectAll('.csh-link').data(data_links, d => d.id);
       linkSel.enter().append('path')
         .attr('class', 'csh-link')
@@ -330,7 +332,7 @@
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       topicGroup.exit().remove();
 
-      // CSH External Institution Full-Fill Logo Nodes (data_c) - Radius r: 28, Image: 56x56 Full Fill!
+      // CSH External Institution Full-Fill Logo Nodes (data_c)
       const instGroup = allnodes.selectAll('.csh-inst').data(data_c, d => d.id);
       const instEnt = instGroup.enter().append('g')
         .attr('class', 'csh-inst')
