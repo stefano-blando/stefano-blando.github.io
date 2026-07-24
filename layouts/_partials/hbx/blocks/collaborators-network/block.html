@@ -256,13 +256,13 @@
       let defs = svg.select('defs');
       if (defs.empty()) defs = svg.append('defs');
 
-      // University Clips (r: 25)
+      // University Clips (r: 28 Full Circle Fill!)
       data_c.forEach(inst => {
         if (defs.select(`#clip-inst-${inst.id}`).empty()) {
           defs.append('clipPath')
             .attr('id', `clip-inst-${inst.id}`)
             .append('circle')
-            .attr('r', 25);
+            .attr('r', 27);
         }
       });
 
@@ -330,19 +330,19 @@
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       topicGroup.exit().remove();
 
-      // CSH External Institution Official Logo Nodes (data_c)
+      // CSH External Institution Full-Fill Logo Nodes (data_c) - Radius r: 28, Image: 56x56 Full Fill!
       const instGroup = allnodes.selectAll('.csh-inst').data(data_c, d => d.id);
       const instEnt = instGroup.enter().append('g')
         .attr('class', 'csh-inst')
         .attr('transform', d => `translate(${d.x}, ${d.y})`)
         .style('cursor', 'pointer')
         .on('mouseenter', (ev, d) => {
-          d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 30);
+          d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 32);
           if (!selectNode) hlInst(d);
           showInstCard(d);
         })
         .on('mouseleave', (ev, d) => {
-          d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 26);
+          d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 28);
           if (!selectNode) reset();
         })
         .on('click', (ev, d) => {
@@ -354,22 +354,23 @@
 
       instEnt.append('circle')
         .attr('class', 'csh-inst-circle')
-        .attr('r', 26)
+        .attr('r', 28)
         .attr('fill', 'rgba(12, 17, 27, 0.96)')
         .attr('stroke', '#a855f7')
-        .attr('stroke-width', 2.4);
+        .attr('stroke-width', 2.6);
 
       instEnt.append('image')
         .attr('href', d => d.logo)
         .attr('xlink:href', d => d.logo)
-        .attr('x', -24).attr('y', -24)
-        .attr('width', 48).attr('height', 48)
+        .attr('x', -28).attr('y', -28)
+        .attr('width', 56).attr('height', 56)
+        .attr('preserveAspectRatio', 'xMidYMid slice')
         .attr('clip-path', d => `url(#clip-inst-${d.id})`);
 
       instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       instGroup.exit().remove();
 
-      // CSH People High-Res PNG Photo Avatar Nodes (data_b)
+      // CSH People Nodes with High-Res PNG Photo Avatars (data_b)
       const peopleGroup = allnodes.selectAll('.csh-person').data(data_b, d => d.id);
       const peopleEnt = peopleGroup.enter().append('g')
         .attr('class', 'csh-person')
@@ -403,6 +404,7 @@
         .attr('xlink:href', d => d.avatar)
         .attr('x', -NR + 2).attr('y', -NR + 2)
         .attr('width', (NR - 2) * 2).attr('height', (NR - 2) * 2)
+        .attr('preserveAspectRatio', 'xMidYMid slice')
         .attr('clip-path', d => `url(#clip-person-${d.id})`);
 
       peopleGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
@@ -494,7 +496,7 @@
 
     function showCard(p) {
       if (!detailCard) return;
-      detailCard.querySelector('.card-avatar').innerHTML = `<img src="${p.avatar}" width="44" height="44" style="border-radius:50%;border:2px solid ${roleColors[p.cat] || '#38bdf8'};" alt="${p.name}">`;
+      detailCard.querySelector('.card-avatar').innerHTML = `<img src="${p.avatar}" width="44" height="44" style="border-radius:50%;object-fit:cover;border:2px solid ${roleColors[p.cat] || '#38bdf8'};" alt="${p.name}">`;
       detailCard.querySelector('.card-name').innerText = p.name;
       detailCard.querySelector('.card-role').innerText = p.role;
       detailCard.querySelector('.card-inst').innerText = p.inst;
@@ -513,7 +515,7 @@
 
     function showInstCard(inst) {
       if (!detailCard) return;
-      detailCard.querySelector('.card-avatar').innerHTML = `<div style="width:60px;height:60px;background:rgba(15,23,42,0.95);border:1px solid rgba(168,85,247,0.6);border-radius:14px;display:grid;place-items:center;padding:4px;"><img src="${inst.logo}" width="50" height="50" style="border-radius:10px;object-fit:contain;" alt="${inst.abbr}"></div>`;
+      detailCard.querySelector('.card-avatar').innerHTML = `<div style="width:64px;height:64px;background:rgba(15,23,42,0.98);border:2px solid rgba(168,85,247,0.7);border-radius:14px;display:grid;place-items:center;padding:0;overflow:hidden;"><img src="${inst.logo}" width="64" height="64" style="border-radius:12px;object-fit:cover;width:100%;height:100%;" alt="${inst.abbr}"></div>`;
       detailCard.querySelector('.card-name').innerText = inst.label;
       detailCard.querySelector('.card-role').innerText = 'Partner Institution';
       detailCard.querySelector('.card-inst').innerText = inst.info;
