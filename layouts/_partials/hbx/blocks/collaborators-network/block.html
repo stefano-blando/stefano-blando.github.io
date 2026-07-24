@@ -1,11 +1,11 @@
 {{ $block := .wcBlock }}
-<section id="network" class="collaborators-network portfolio-section" aria-labelledby="collaborators-title">
+<section id="collaborators-network-section" class="collaborators-network portfolio-section" aria-labelledby="collaborators-title">
   <div class="portfolio-section__inner">
     <div class="collaborators-header">
       <div>
         <p class="portfolio-eyebrow">{{ $block.content.eyebrow | default "Research Network" }}</p>
         <h2 id="collaborators-title">{{ $block.content.title | default "Co-authors & L'EMbeDS Lab Network" }}</h2>
-        <p class="portfolio-section__intro">{{ $block.content.text | default "Faithful CSH Vienna network visualization connecting researchers, supervisors, lab colleagues, and research topics." }}</p>
+        <p class="portfolio-section__intro">{{ $block.content.text | default "Interactive CSH Vienna circular network connecting co-authors, PhD supervisors, lab colleagues, and research topics." }}</p>
       </div>
 
       <div class="network-controls">
@@ -17,29 +17,29 @@
         </div>
         <div class="network-search">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-          <input type="text" id="network-search-input" placeholder="Search collaborator..." aria-label="Search collaborator">
+          <input type="text" class="network-search-input" placeholder="Search collaborator..." aria-label="Search collaborator">
         </div>
       </div>
     </div>
 
-    <!-- D3 Exact CSH Vienna Network Visualization Container -->
+    <!-- D3 Exact CSH Vienna Expanded Network Visualization Container -->
     <div class="network-viz-wrapper" data-reveal>
-      <div id="collaborators-d3-container" class="collaborators-d3-container"></div>
+      <div class="collaborators-d3-container"></div>
 
       <!-- Floating Glassmorphism Detail Card -->
-      <div id="network-detail-card" class="network-detail-card hidden" aria-hidden="true">
+      <div class="network-detail-card hidden" aria-hidden="true">
         <button class="network-detail-card__close" aria-label="Close card">&times;</button>
         <div class="network-detail-card__header">
-          <div class="network-detail-card__avatar" id="card-avatar">GF</div>
+          <div class="network-detail-card__avatar card-avatar">GF</div>
           <div>
-            <h3 id="card-name">Giorgio Fagiolo</h3>
-            <p id="card-role" class="network-detail-card__role">Full Professor (PhD Supervisor)</p>
+            <h3 class="card-name">Giorgio Fagiolo</h3>
+            <p class="card-role network-detail-card__role">Full Professor (PhD Supervisor)</p>
           </div>
         </div>
         <div class="network-detail-card__body">
-          <div id="card-inst" class="network-detail-card__inst">Scuola Superiore Sant'Anna</div>
-          <div id="card-topics" class="network-detail-card__topics"></div>
-          <div id="card-papers" class="network-detail-card__papers"></div>
+          <div class="card-inst network-detail-card__inst">Scuola Superiore Sant'Anna</div>
+          <div class="card-topics network-detail-card__topics"></div>
+          <div class="card-papers network-detail-card__papers"></div>
         </div>
       </div>
     </div>
@@ -49,7 +49,6 @@
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script>
 (function() {
-  // CSH Vienna Exact Data Structure
   const people = [
     { id: 'gf', name: 'Giorgio Fagiolo', role: 'Full Professor (PhD Supervisor)', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: null, topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
     { id: 'av', name: 'Andrea Vandin', role: 'Associate Professor (PhD Supervisor)', cat: 'faculty', inst: 'DTU Denmark & SSSA', extInst: 'dtu', topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
@@ -69,411 +68,408 @@
   ];
 
   const institutions = {
-    dtu: { label: 'DTU Denmark', abbr: 'DTU' },
-    pennstate: { label: 'Penn State University', abbr: 'PSU' },
-    cotedazur: { label: 'Uni Côte d\'Azur / OFCE', abbr: 'UniCA' },
-    maastricht: { label: 'Maastricht University', abbr: 'UM' },
-    centralesupelec: { label: 'CentraleSupélec', abbr: 'CS' },
-    torvergata: { label: 'Univ. Tor Vergata', abbr: 'UTV' },
+    dtu: { label: 'DTU Denmark', abbr: 'DTU Denmark' },
+    pennstate: { label: 'Penn State University', abbr: 'Penn State' },
+    cotedazur: { label: 'Uni Côte d\'Azur / OFCE', abbr: 'UniCA / OFCE' },
+    maastricht: { label: 'Maastricht University', abbr: 'Maastricht' },
+    centralesupelec: { label: 'CentraleSupélec', abbr: 'CentraleSupélec' },
+    torvergata: { label: 'Univ. Tor Vergata', abbr: 'Tor Vergata' },
     unipi: { label: 'University of Pisa', abbr: 'UniPi' }
   };
 
   const roleColors = {
-    faculty: '#38bdf8',  // Cyan / Zaffiro
-    postdoc: '#818cf8',  // Indaco
-    phd: '#34d399'      // Smeraldo
+    faculty: '#38bdf8',  // Glowing Cyan / Zaffiro
+    postdoc: '#818cf8',  // Glowing Indaco
+    phd: '#34d399'      // Glowing Smeraldo
   };
 
-  let W, H, cx, cy, r_a, r_b, r_c, NR;
-  let svg, landscape, alllinks, allnodes, guideCirc;
-  let data_a = [], data_b = [], data_c = [], data_links = [];
-  let hoverNode = null, selectNode = null, currentCat = 'all';
-
-  function dim() {
-    const container = document.getElementById('collaborators-d3-container');
-    if (!container) return;
-    W = container.clientWidth || 840;
-    H = Math.min(W * 0.74, 640);
-    cx = W / 2;
-    cy = H / 2;
-
-    const viewSize = Math.min(W, H);
-    r_a = viewSize * 0.15; // Inner Topic Circle Radius (CSH Vienna r_a)
-    r_b = viewSize * 0.34; // Middle People Ring Radius (CSH Vienna r_b)
-    r_c = viewSize * 0.46; // Outer Institution Ring Radius (CSH Vienna r_c)
-    NR = Math.max(18, Math.min(24, viewSize * 0.038));
-  }
-
-  // CSH Vienna Bezier Curve Function (qPath)
-  function qPath(x1, y1, x2, y2, pull = 0.35) {
-    const mx = (x1 + x2) / 2;
-    const my = (y1 + y2) / 2;
-    return `M${x1},${y1} Q${cx + (mx - cx) * pull},${cy + (my - cy) * pull} ${x2},${y2}`;
-  }
-
-  function setupCSHNetwork(cat) {
-    currentCat = cat;
-    hoverNode = null;
-    selectNode = null;
-    hideCard();
-
-    const filteredPeople = cat === 'all' ? people : people.filter(p => p.cat === cat);
-
-    // 1. Compute People Positions (data_b)
-    const n_b = filteredPeople.length;
-    data_b = filteredPeople.map((p, i) => {
-      const angle = (i / n_b) * 2 * Math.PI - Math.PI / 2;
-      return {
-        ...p,
-        group: 'people',
-        angle,
-        x: cx + r_b * Math.cos(angle),
-        y: cy + r_b * Math.sin(angle)
-      };
-    });
-
-    // 2. Compute Topic Positions in Inner Circle (data_a) - CSH Vienna Centroid Placement
-    const topicSet = new Set(data_b.flatMap(p => p.topics));
-    data_a = Array.from(topicSet).map(t => {
-      const connected = data_b.filter(p => p.topics.includes(t));
-      const meanX = d3.mean(connected, d => d.x) || cx;
-      const meanY = d3.mean(connected, d => d.y) || cy;
-      const dist = Math.hypot(meanX - cx, meanY - cy);
-      const targetDist = Math.min(dist * 0.45, r_a);
-      const angle = Math.atan2(meanY - cy, meanX - cx);
-
-      return {
-        id: t,
-        label: t,
-        group: 'topics',
-        x: cx + targetDist * Math.cos(angle),
-        y: cy + targetDist * Math.sin(angle),
-        value: connected.length
-      };
-    });
-
-    // CSH Vienna Topic Force Relaxation
-    const topicSim = d3.forceSimulation(data_a)
-      .force('collide', d3.forceCollide(64))
-      .force('center', d3.forceCenter(cx, cy).strength(0.08))
-      .stop();
-    for (let i = 0; i < 150; i++) topicSim.tick();
-
-    // 3. Compute External Institution Positions (data_c)
-    data_c = [];
-    data_b.forEach(p => {
-      if (p.extInst && institutions[p.extInst]) {
-        const rawX = cx + r_c * Math.cos(p.angle);
-        const rawY = cy + r_c * Math.sin(p.angle);
-        data_c.push({
-          id: p.extInst,
-          group: 'institutions',
-          personId: p.id,
-          x: Math.max(24, Math.min(W - 24, rawX)),
-          y: Math.max(24, Math.min(H - 24, rawY)),
-          ...institutions[p.extInst]
-        });
-      }
-    });
-
-    // 4. Build Links (data_links)
-    data_links = [];
-    data_b.forEach(p => {
-      p.topics.forEach(t => {
-        const tp = data_a.find(item => item.id === t);
-        if (tp) {
-          data_links.push({
-            id: `${p.id}-${t}`,
-            source: p,
-            target: tp,
-            type: 'topic'
-          });
-        }
-      });
-      if (p.extInst) {
-        const inst = data_c.find(item => item.personId === p.id);
-        if (inst) {
-          data_links.push({
-            id: `${p.id}-${inst.id}`,
-            source: p,
-            target: inst,
-            type: 'inst'
-          });
-        }
-      }
-    });
-
-    renderCSHNetwork();
-  }
-
-  function renderCSHNetwork() {
-    // Guide Circle (CSH Vienna r_b orbit)
-    guideCirc.attr('cx', cx).attr('cy', cy).attr('r', r_b)
-      .attr('fill', 'none')
-      .attr('stroke', 'rgba(56, 189, 248, 0.12)')
-      .attr('stroke-dasharray', '4 4');
-
-    // Render Links
-    const linkSel = alllinks.selectAll('.csh-link').data(data_links, d => d.id);
-    linkSel.enter().append('path')
-      .attr('class', 'csh-link')
-      .attr('fill', 'none')
-      .attr('stroke', d => d.type === 'inst' ? '#a855f7' : (roleColors[d.source.cat] || '#38bdf8'))
-      .attr('stroke-dasharray', d => d.type === 'inst' ? '4 3' : 'none')
-      .attr('stroke-width', d => d.type === 'inst' ? 1.2 : 1.3)
-      .attr('stroke-opacity', 0.22)
-      .attr('d', d => qPath(d.source.x, d.source.y, d.target.x, d.target.y));
-
-    linkSel.attr('d', d => qPath(d.source.x, d.source.y, d.target.x, d.target.y))
-      .attr('stroke-opacity', 0.22);
-    linkSel.exit().remove();
-
-    // Render Topics (data_a)
-    const topicGroup = allnodes.selectAll('.csh-topic').data(data_a, d => d.id);
-    const topicEnt = topicGroup.enter().append('g')
-      .attr('class', 'csh-topic')
-      .attr('transform', d => `translate(${d.x}, ${d.y})`)
-      .style('cursor', 'pointer')
-      .on('mouseenter', (ev, d) => { if (!selectNode) hlCSHTopic(d); })
-      .on('mouseleave', () => { if (!selectNode) resetCSH(); })
-      .on('click', (ev, d) => { ev.stopPropagation(); selectNode = d; hlCSHTopic(d); });
-
-    topicEnt.append('rect')
-      .attr('rx', 12).attr('ry', 12)
-      .attr('fill', 'rgba(12, 17, 27, 0.94)')
-      .attr('stroke', 'rgba(56, 189, 248, 0.35)')
-      .attr('stroke-width', 1);
-
-    topicEnt.append('text')
-      .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
-      .attr('fill', '#e2e8f0')
-      .style('font-size', '10px').style('font-weight', '600')
-      .text(d => d.label);
-
-    topicEnt.each(function() {
-      const g = d3.select(this);
-      const bb = g.select('text').node().getBBox();
-      g.select('rect')
-        .attr('x', bb.x - 10).attr('y', bb.y - 5)
-        .attr('width', bb.width + 20).attr('height', bb.height + 10);
-    });
-
-    topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
-    topicGroup.exit().remove();
-
-    // Render Institutions (data_c)
-    const instGroup = allnodes.selectAll('.csh-inst').data(data_c, d => d.id);
-    const instEnt = instGroup.enter().append('g')
-      .attr('class', 'csh-inst')
-      .attr('transform', d => `translate(${d.x}, ${d.y})`)
-      .style('cursor', 'pointer')
-      .on('mouseenter', (ev, d) => {
-        const p = data_b.find(person => person.id === d.personId);
-        if (p) hlCSHPerson(p);
-      })
-      .on('mouseleave', () => { if (!selectNode) resetCSH(); });
-
-    instEnt.append('rect')
-      .attr('rx', 8).attr('ry', 8)
-      .attr('fill', 'rgba(168, 85, 247, 0.15)')
-      .attr('stroke', 'rgba(168, 85, 247, 0.5)')
-      .attr('stroke-width', 1.2);
-
-    instEnt.append('text')
-      .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
-      .attr('fill', '#c084fc')
-      .style('font-size', '9.5px').style('font-weight', '700')
-      .text(d => d.abbr);
-
-    instEnt.each(function() {
-      const g = d3.select(this);
-      const bb = g.select('text').node().getBBox();
-      g.select('rect')
-        .attr('x', bb.x - 7).attr('y', bb.y - 3)
-        .attr('width', bb.width + 14).attr('height', bb.height + 6);
-    });
-
-    instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
-    instGroup.exit().remove();
-
-    // Render People Nodes (data_b)
-    const peopleGroup = allnodes.selectAll('.csh-person').data(data_b, d => d.id);
-    const peopleEnt = peopleGroup.enter().append('g')
-      .attr('class', 'csh-person')
-      .attr('transform', d => `translate(${d.x}, ${d.y})`)
-      .style('cursor', 'pointer')
-      .on('mouseenter', (ev, d) => {
-        d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR * 1.22);
-        hlCSHPerson(d);
-        showCard(d);
-      })
-      .on('mouseleave', (ev, d) => {
-        d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR);
-        if (!selectNode) resetCSH();
-      })
-      .on('click', (ev, d) => {
-        ev.stopPropagation();
-        selectNode = d;
-        hlCSHPerson(d);
-        showCard(d);
-      });
-
-    peopleEnt.append('circle')
-      .attr('class', 'csh-node-circle')
-      .attr('r', NR)
-      .attr('fill', 'rgba(12, 17, 27, 0.95)')
-      .attr('stroke', d => roleColors[d.cat] || '#38bdf8')
-      .attr('stroke-width', 2);
-
-    const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
-    peopleEnt.append('text')
-      .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
-      .attr('fill', '#ffffff')
-      .style('font-size', '10px')
-      .style('font-weight', '700')
-      .text(d => ini(d.name));
-
-    peopleEnt.append('text')
-      .attr('class', 'csh-node-name')
-      .attr('y', NR + 14)
-      .attr('text-anchor', 'middle')
-      .attr('fill', '#94a3b8')
-      .style('font-size', '10px').style('font-weight', '600')
-      .text(d => d.name.split(' ')[1] || d.name);
-
-    peopleGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
-    peopleGroup.exit().remove();
-  }
-
-  function hlCSHPerson(p) {
-    alllinks.selectAll('.csh-link')
-      .transition().duration(250).ease(d3.easeCubicOut)
-      .attr('stroke-opacity', d => d.source.id === p.id ? 0.9 : 0.04)
-      .attr('stroke-width', d => d.source.id === p.id ? 2.6 : 0.8);
-
-    allnodes.selectAll('.csh-person')
-      .transition().duration(250).ease(d3.easeCubicOut)
-      .style('opacity', d => d.id === p.id ? 1 : 0.25);
-
-    allnodes.selectAll('.csh-topic')
-      .transition().duration(250).ease(d3.easeCubicOut)
-      .style('opacity', d => p.topics.includes(d.id) ? 1 : 0.2);
-
-    allnodes.selectAll('.csh-inst')
-      .transition().duration(250).ease(d3.easeCubicOut)
-      .style('opacity', d => d.personId === p.id ? 1 : 0.25);
-  }
-
-  function hlCSHTopic(topicItem) {
-    const connectedPeople = data_b.filter(p => p.topics.includes(topicItem.id)).map(p => p.id);
-
-    alllinks.selectAll('.csh-link')
-      .transition().duration(250).ease(d3.easeCubicOut)
-      .attr('stroke-opacity', d => d.target.id === topicItem.id ? 0.9 : 0.04)
-      .attr('stroke-width', d => d.target.id === topicItem.id ? 2.6 : 0.8);
-
-    allnodes.selectAll('.csh-person')
-      .transition().duration(250).ease(d3.easeCubicOut)
-      .style('opacity', d => connectedPeople.includes(d.id) ? 1 : 0.25);
-
-    allnodes.selectAll('.csh-topic')
-      .transition().duration(250).ease(d3.easeCubicOut)
-      .style('opacity', d => d.id === topicItem.id ? 1 : 0.2);
-
-    allnodes.selectAll('.csh-inst')
-      .transition().duration(250).ease(d3.easeCubicOut)
-      .style('opacity', d => connectedPeople.includes(d.personId) ? 1 : 0.2);
-  }
-
-  function resetCSH() {
-    alllinks.selectAll('.csh-link')
-      .transition().duration(280).ease(d3.easeCubicOut)
-      .attr('stroke-opacity', 0.22)
-      .attr('stroke-width', 1.3);
-
-    allnodes.selectAll('.csh-person')
-      .transition().duration(280).ease(d3.easeCubicOut)
-      .style('opacity', 1);
-
-    allnodes.selectAll('.csh-topic')
-      .transition().duration(280).ease(d3.easeCubicOut)
-      .style('opacity', 1);
-
-    allnodes.selectAll('.csh-inst')
-      .transition().duration(280).ease(d3.easeCubicOut)
-      .style('opacity', 1);
-  }
-
-  function showCard(p) {
-    const card = document.getElementById('network-detail-card');
-    if (!card) return;
-    const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
-    document.getElementById('card-avatar').innerText = ini(p.name);
-    document.getElementById('card-name').innerText = p.name;
-    document.getElementById('card-role').innerText = p.role;
-    document.getElementById('card-inst').innerText = p.inst;
-
-    const topicsEl = document.getElementById('card-topics');
-    topicsEl.innerHTML = p.topics.map(t => `<span class="network-chip">${t}</span>`).join('');
-
-    const papersEl = document.getElementById('card-papers');
-    papersEl.innerHTML = (p.papers && p.papers.length > 0)
-      ? `<h4>Co-authored Works (${p.papers.length}):</h4><ul>${p.papers.map(paper => `<li>${paper}</li>`).join('')}</ul>`
-      : `<h4>Academic Collaboration:</h4><p class="network-card-note">L'EMbeDS Lab & Research Collaborator</p>`;
-
-    card.classList.remove('hidden');
-    card.setAttribute('aria-hidden', 'false');
-  }
-
-  function hideCard() {
-    const card = document.getElementById('network-detail-card');
-    if (card) {
-      card.classList.add('hidden');
-      card.setAttribute('aria-hidden', 'true');
-    }
-  }
-
-  function initCSHViz() {
-    const container = document.getElementById('collaborators-d3-container');
+  function initCSHInstance(sectionEl) {
+    const container = sectionEl.querySelector('.collaborators-d3-container');
+    const detailCard = sectionEl.querySelector('.network-detail-card');
     if (!container || typeof d3 === 'undefined') return;
 
-    container.innerHTML = '';
-    dim();
+    let W, H, cx, cy, r_a, r_b, r_c, NR;
+    let svg, landscape, alllinks, allnodes, guideCirc;
+    let data_a = [], data_b = [], data_c = [], data_links = [];
+    let selectNode = null, currentCat = 'all';
 
-    svg = d3.select(container).append('svg')
-      .attr('width', W).attr('height', H)
-      .attr('viewBox', `0 0 ${W} ${H}`);
+    function dim() {
+      W = container.clientWidth || 920;
+      H = Math.max(620, Math.min(W * 0.72, 720)); // Expanded Grand Height
+      cx = W / 2;
+      cy = H / 2;
 
-    landscape = svg.append('g').attr('class', 'landscape');
-    guideCirc = landscape.append('circle').attr('class', 'guide-circ');
-    alllinks = landscape.append('g').attr('class', 'alllinks');
-    allnodes = landscape.append('g').attr('class', 'allnodes');
+      const viewSize = Math.min(W, H);
+      r_a = viewSize * 0.16; // Inner Topic Circle Radius
+      r_b = viewSize * 0.36; // Middle People Ring Radius (Expanded)
+      r_c = viewSize * 0.48; // Outer Institution Ring Radius (Expanded)
+      NR = Math.max(20, Math.min(26, viewSize * 0.039));
+    }
 
-    setupCSHNetwork(currentCat);
+    function qPath(x1, y1, x2, y2, pull = 0.35) {
+      const mx = (x1 + x2) / 2;
+      const my = (y1 + y2) / 2;
+      return `M${x1},${y1} Q${cx + (mx - cx) * pull},${cy + (my - cy) * pull} ${x2},${y2}`;
+    }
 
-    svg.on('click', () => {
+    function setupNetwork(cat) {
+      currentCat = cat;
       selectNode = null;
-      resetCSH();
       hideCard();
-    });
-  }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    initCSHViz();
+      const filteredPeople = cat === 'all' ? people : people.filter(p => p.cat === cat);
 
-    document.querySelectorAll('.cat-tab').forEach(tab => {
+      // 1. People Positions (data_b)
+      const n_b = filteredPeople.length;
+      data_b = filteredPeople.map((p, i) => {
+        const angle = (i / n_b) * 2 * Math.PI - Math.PI / 2;
+        return {
+          ...p,
+          group: 'people',
+          angle,
+          x: cx + r_b * Math.cos(angle),
+          y: cy + r_b * Math.sin(angle)
+        };
+      });
+
+      // 2. Topic Positions in Inner Circle (data_a) - CSH Vienna Centroid
+      const topicSet = new Set(data_b.flatMap(p => p.topics));
+      data_a = Array.from(topicSet).map(t => {
+        const connected = data_b.filter(p => p.topics.includes(t));
+        const meanX = d3.mean(connected, d => d.x) || cx;
+        const meanY = d3.mean(connected, d => d.y) || cy;
+        const dist = Math.hypot(meanX - cx, meanY - cy);
+        const targetDist = Math.min(dist * 0.46, r_a);
+        const angle = Math.atan2(meanY - cy, meanX - cx);
+
+        return {
+          id: t,
+          label: t,
+          group: 'topics',
+          x: cx + targetDist * Math.cos(angle),
+          y: cy + targetDist * Math.sin(angle),
+          value: connected.length
+        };
+      });
+
+      // Topic Force Relaxation
+      const topicSim = d3.forceSimulation(data_a)
+        .force('collide', d3.forceCollide(68))
+        .force('center', d3.forceCenter(cx, cy).strength(0.08))
+        .stop();
+      for (let i = 0; i < 160; i++) topicSim.tick();
+
+      // 3. External Institution Positions (data_c)
+      data_c = [];
+      data_b.forEach(p => {
+        if (p.extInst && institutions[p.extInst]) {
+          const rawX = cx + r_c * Math.cos(p.angle);
+          const rawY = cy + r_c * Math.sin(p.angle);
+          data_c.push({
+            id: p.extInst,
+            group: 'institutions',
+            personId: p.id,
+            x: Math.max(28, Math.min(W - 28, rawX)),
+            y: Math.max(28, Math.min(H - 28, rawY)),
+            ...institutions[p.extInst]
+          });
+        }
+      });
+
+      // 4. Build Links
+      data_links = [];
+      data_b.forEach(p => {
+        p.topics.forEach(t => {
+          const tp = data_a.find(item => item.id === t);
+          if (tp) {
+            data_links.push({
+              id: `${p.id}-${t}`,
+              source: p,
+              target: tp,
+              type: 'topic'
+            });
+          }
+        });
+        if (p.extInst) {
+          const inst = data_c.find(item => item.personId === p.id);
+          if (inst) {
+            data_links.push({
+              id: `${p.id}-${inst.id}`,
+              source: p,
+              target: inst,
+              type: 'inst'
+            });
+          }
+        }
+      });
+
+      renderNetwork();
+    }
+
+    function renderNetwork() {
+      // Guide Circle
+      guideCirc.attr('cx', cx).attr('cy', cy).attr('r', r_b)
+        .attr('fill', 'none')
+        .attr('stroke', 'rgba(56, 189, 248, 0.14)')
+        .attr('stroke-dasharray', '4 4');
+
+      // Links
+      const linkSel = alllinks.selectAll('.csh-link').data(data_links, d => d.id);
+      linkSel.enter().append('path')
+        .attr('class', 'csh-link')
+        .attr('fill', 'none')
+        .attr('stroke', d => d.type === 'inst' ? '#a855f7' : (roleColors[d.source.cat] || '#38bdf8'))
+        .attr('stroke-dasharray', d => d.type === 'inst' ? '4 3' : 'none')
+        .attr('stroke-width', d => d.type === 'inst' ? 1.3 : 1.4)
+        .attr('stroke-opacity', 0.22)
+        .attr('d', d => qPath(d.source.x, d.source.y, d.target.x, d.target.y));
+
+      linkSel.attr('d', d => qPath(d.source.x, d.source.y, d.target.x, d.target.y))
+        .attr('stroke-opacity', 0.22);
+      linkSel.exit().remove();
+
+      // Sleek Topic Capsule Pills (data_a)
+      const topicGroup = allnodes.selectAll('.csh-topic').data(data_a, d => d.id);
+      const topicEnt = topicGroup.enter().append('g')
+        .attr('class', 'csh-topic')
+        .attr('transform', d => `translate(${d.x}, ${d.y})`)
+        .style('cursor', 'pointer')
+        .on('mouseenter', (ev, d) => { if (!selectNode) hlTopic(d); })
+        .on('mouseleave', () => { if (!selectNode) reset(); })
+        .on('click', (ev, d) => { ev.stopPropagation(); selectNode = d; hlTopic(d); });
+
+      topicEnt.append('rect')
+        .attr('rx', 99).attr('ry', 99) // Rounded Pill Caps
+        .attr('fill', 'rgba(12, 18, 30, 0.96)')
+        .attr('stroke', 'rgba(56, 189, 248, 0.4)')
+        .attr('stroke-width', 1.2)
+        .style('box-shadow', '0 0 15px rgba(56, 189, 248, 0.2)');
+
+      topicEnt.append('text')
+        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('fill', '#f1f5f9')
+        .style('font-size', '10.5px').style('font-weight', '600')
+        .style('letter-spacing', '0.2px')
+        .text(d => d.label);
+
+      topicEnt.each(function() {
+        const g = d3.select(this);
+        const bb = g.select('text').node().getBBox();
+        g.select('rect')
+          .attr('x', bb.x - 12).attr('y', bb.y - 6)
+          .attr('width', bb.width + 24).attr('height', bb.height + 12);
+      });
+
+      topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
+      topicGroup.exit().remove();
+
+      // Sleek University Badges (data_c)
+      const instGroup = allnodes.selectAll('.csh-inst').data(data_c, d => d.id);
+      const instEnt = instGroup.enter().append('g')
+        .attr('class', 'csh-inst')
+        .attr('transform', d => `translate(${d.x}, ${d.y})`)
+        .style('cursor', 'pointer')
+        .on('mouseenter', (ev, d) => {
+          const p = data_b.find(person => person.id === d.personId);
+          if (p) hlPerson(p);
+        })
+        .on('mouseleave', () => { if (!selectNode) reset(); });
+
+      instEnt.append('rect')
+        .attr('rx', 10).attr('ry', 10)
+        .attr('fill', 'rgba(30, 20, 50, 0.94)')
+        .attr('stroke', 'rgba(168, 85, 247, 0.6)')
+        .attr('stroke-width', 1.3);
+
+      instEnt.append('text')
+        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('fill', '#e9d5ff')
+        .style('font-size', '10px').style('font-weight', '700')
+        .text(d => d.abbr);
+
+      instEnt.each(function() {
+        const g = d3.select(this);
+        const bb = g.select('text').node().getBBox();
+        g.select('rect')
+          .attr('x', bb.x - 9).attr('y', bb.y - 4)
+          .attr('width', bb.width + 18).attr('height', bb.height + 8);
+      });
+
+      instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
+      instGroup.exit().remove();
+
+      // People Nodes (data_b)
+      const peopleGroup = allnodes.selectAll('.csh-person').data(data_b, d => d.id);
+      const peopleEnt = peopleGroup.enter().append('g')
+        .attr('class', 'csh-person')
+        .attr('transform', d => `translate(${d.x}, ${d.y})`)
+        .style('cursor', 'pointer')
+        .on('mouseenter', (ev, d) => {
+          d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR * 1.25);
+          hlPerson(d);
+          showCard(d);
+        })
+        .on('mouseleave', (ev, d) => {
+          d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR);
+          if (!selectNode) reset();
+        })
+        .on('click', (ev, d) => {
+          ev.stopPropagation();
+          selectNode = d;
+          hlPerson(d);
+          showCard(d);
+        });
+
+      peopleEnt.append('circle')
+        .attr('class', 'csh-node-circle')
+        .attr('r', NR)
+        .attr('fill', 'rgba(12, 17, 27, 0.96)')
+        .attr('stroke', d => roleColors[d.cat] || '#38bdf8')
+        .attr('stroke-width', 2.2);
+
+      const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+      peopleEnt.append('text')
+        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
+        .attr('fill', '#ffffff')
+        .style('font-size', '10.5px')
+        .style('font-weight', '700')
+        .text(d => ini(d.name));
+
+      peopleEnt.append('text')
+        .attr('class', 'csh-node-name')
+        .attr('y', NR + 15)
+        .attr('text-anchor', 'middle')
+        .attr('fill', '#cbd5e1')
+        .style('font-size', '10.5px').style('font-weight', '600')
+        .text(d => d.name.split(' ')[1] || d.name);
+
+      peopleGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
+      peopleGroup.exit().remove();
+    }
+
+    function hlPerson(p) {
+      alllinks.selectAll('.csh-link')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .attr('stroke-opacity', d => d.source.id === p.id ? 0.95 : 0.04)
+        .attr('stroke-width', d => d.source.id === p.id ? 2.8 : 0.8);
+
+      allnodes.selectAll('.csh-person')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => d.id === p.id ? 1 : 0.22);
+
+      allnodes.selectAll('.csh-topic')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => p.topics.includes(d.id) ? 1 : 0.18);
+
+      allnodes.selectAll('.csh-inst')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => d.personId === p.id ? 1 : 0.22);
+    }
+
+    function hlTopic(topicItem) {
+      const connectedPeople = data_b.filter(p => p.topics.includes(topicItem.id)).map(p => p.id);
+
+      alllinks.selectAll('.csh-link')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .attr('stroke-opacity', d => d.target.id === topicItem.id ? 0.95 : 0.04)
+        .attr('stroke-width', d => d.target.id === topicItem.id ? 2.8 : 0.8);
+
+      allnodes.selectAll('.csh-person')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => connectedPeople.includes(d.id) ? 1 : 0.22);
+
+      allnodes.selectAll('.csh-topic')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => d.id === topicItem.id ? 1 : 0.18);
+
+      allnodes.selectAll('.csh-inst')
+        .transition().duration(250).ease(d3.easeCubicOut)
+        .style('opacity', d => connectedPeople.includes(d.personId) ? 1 : 0.22);
+    }
+
+    function reset() {
+      alllinks.selectAll('.csh-link')
+        .transition().duration(280).ease(d3.easeCubicOut)
+        .attr('stroke-opacity', 0.22)
+        .attr('stroke-width', 1.4);
+
+      allnodes.selectAll('.csh-person')
+        .transition().duration(280).ease(d3.easeCubicOut)
+        .style('opacity', 1);
+
+      allnodes.selectAll('.csh-topic')
+        .transition().duration(280).ease(d3.easeCubicOut)
+        .style('opacity', 1);
+
+      allnodes.selectAll('.csh-inst')
+        .transition().duration(280).ease(d3.easeCubicOut)
+        .style('opacity', 1);
+    }
+
+    function showCard(p) {
+      if (!detailCard) return;
+      const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+      detailCard.querySelector('.card-avatar').innerText = ini(p.name);
+      detailCard.querySelector('.card-name').innerText = p.name;
+      detailCard.querySelector('.card-role').innerText = p.role;
+      detailCard.querySelector('.card-inst').innerText = p.inst;
+
+      const topicsEl = detailCard.querySelector('.card-topics');
+      topicsEl.innerHTML = p.topics.map(t => `<span class="network-chip">${t}</span>`).join('');
+
+      const papersEl = detailCard.querySelector('.card-papers');
+      papersEl.innerHTML = (p.papers && p.papers.length > 0)
+        ? `<h4>Co-authored Works (${p.papers.length}):</h4><ul>${p.papers.map(paper => `<li>${paper}</li>`).join('')}</ul>`
+        : `<h4>Academic Collaboration:</h4><p class="network-card-note">L'EMbeDS Lab & Research Collaborator</p>`;
+
+      detailCard.classList.remove('hidden');
+      detailCard.setAttribute('aria-hidden', 'false');
+    }
+
+    function hideCard() {
+      if (detailCard) {
+        detailCard.classList.add('hidden');
+        detailCard.setAttribute('aria-hidden', 'true');
+      }
+    }
+
+    function init() {
+      container.innerHTML = '';
+      dim();
+
+      svg = d3.select(container).append('svg')
+        .attr('width', W).attr('height', H)
+        .attr('viewBox', `0 0 ${W} ${H}`);
+
+      landscape = svg.append('g').attr('class', 'landscape');
+      guideCirc = landscape.append('circle').attr('class', 'guide-circ');
+      alllinks = landscape.append('g').attr('class', 'alllinks');
+      allnodes = landscape.append('g').attr('class', 'allnodes');
+
+      setupNetwork(currentCat);
+
+      svg.on('click', () => {
+        selectNode = null;
+        reset();
+        hideCard();
+      });
+    }
+
+    init();
+
+    sectionEl.querySelectorAll('.cat-tab').forEach(tab => {
       tab.addEventListener('click', (e) => {
-        document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+        sectionEl.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
         e.target.classList.add('active');
         currentCat = e.target.getAttribute('data-cat');
-        setupCSHNetwork(currentCat);
+        setupNetwork(currentCat);
       });
     });
 
-    const closeBtn = document.querySelector('.network-detail-card__close');
+    const closeBtn = detailCard ? detailCard.querySelector('.network-detail-card__close') : null;
     if (closeBtn) closeBtn.addEventListener('click', hideCard);
 
-    const searchInput = document.getElementById('network-search-input');
+    const searchInput = sectionEl.querySelector('.network-search-input');
     if (searchInput) {
       searchInput.addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
@@ -481,7 +477,13 @@
       });
     }
 
-    window.addEventListener('resize', initCSHViz);
+    window.addEventListener('resize', init);
+  }
+
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.collaborators-network').forEach(sec => {
+      initCSHInstance(sec);
+    });
   });
 })();
 </script>

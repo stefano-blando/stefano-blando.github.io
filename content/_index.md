@@ -84,6 +84,12 @@ sections:
       date_format: 'January 2006'
       is_education_first: true
 
+  - block: collaborators-network
+    content:
+      eyebrow: Research Network
+      title: Collaborators & Co-authors
+      text: Academic collaborators, co-authors, and lab members across research institutions.
+
 
   - block: featured-news
     content:

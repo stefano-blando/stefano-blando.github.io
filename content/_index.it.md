@@ -78,6 +78,12 @@ sections:
       date_format: 'January 2006'
       is_education_first: true
 
+  - block: collaborators-network
+    content:
+      eyebrow: Rete di Ricerca
+      title: Collaboratori e Co-autori
+      text: Collaboratori accademici, co-autori e membri del laboratorio di ricerca.
+
 
   - block: featured-news
     content:
