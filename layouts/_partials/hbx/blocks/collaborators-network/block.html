@@ -68,15 +68,15 @@
   ];
 
   const institutions = {
-    sssa: { label: 'Scuola Superiore Sant\'Anna', abbr: 'SSSA', logo: '/images/universities/santanna.png', info: 'Public research university in Pisa specializing in applied sciences and L\'EMbeDS Lab.' },
-    unipi: { label: 'Università di Pisa', abbr: 'UniPi', logo: '/images/universities/unipi.png', info: 'Historic Italian university for computer science and complex systems.' },
-    dtu: { label: 'DTU - Technical University of Denmark', abbr: 'DTU Denmark', logo: '/images/universities/dtu.png', info: 'European leader in formal methods, model checking, and agentic systems.' },
-    pennstate: { label: 'Penn State University', abbr: 'Penn State', logo: '/images/universities/pennstate.png', info: 'Leading US research university for high-dimensional statistical methodology.' },
-    cotedazur: { label: 'Université Côte d\'Azur', abbr: 'UniCA', logo: '/images/universities/cotedazur.png', info: 'French university of excellence for macroeconomic dynamic modeling.' },
-    ofce: { label: 'OFCE - Sciences Po Paris', abbr: 'OFCE', logo: '/images/universities/ofce.jpg', info: 'French Economic Observatory at Sciences Po Paris.' },
-    maastricht: { label: 'Maastricht University', abbr: 'Maastricht', logo: '/images/universities/maastricht.jpg', info: 'Dutch research center for macroeconomics and structural innovation.' },
-    centralesupelec: { label: 'CentraleSupélec Paris', abbr: 'CentraleSupélec', logo: '/images/universities/centralesupelec.png', info: 'Grande école d\'ingénieurs at Université Paris-Saclay.' },
-    torvergata: { label: 'Università di Roma Tor Vergata', abbr: 'Tor Vergata', logo: '/images/universities/torvergata.png', info: 'Italian university excellence for robust statistics and text analytics.' }
+    sssa: { label: 'Scuola Superiore Sant\'Anna', abbr: 'SSSA', logo: '/images/universities/santanna.png', info: 'Public research university in Pisa specializing in applied sciences and L\'EMbeDS Lab.', isHost: true },
+    unipi: { label: 'Università di Pisa', abbr: 'UniPi', logo: '/images/universities/unipi.png', info: 'Historic Italian university for computer science and complex systems.', isHost: true },
+    dtu: { label: 'DTU - Technical University of Denmark', abbr: 'DTU Denmark', logo: '/images/universities/dtu.png', info: 'European leader in formal methods, model checking, and agentic systems.', isHost: false },
+    pennstate: { label: 'Penn State University', abbr: 'Penn State', logo: '/images/universities/pennstate.png', info: 'Leading US research university for high-dimensional statistical methodology.', isHost: false },
+    cotedazur: { label: 'Université Côte d\'Azur', abbr: 'UniCA', logo: '/images/universities/cotedazur.png', info: 'French university of excellence for macroeconomic dynamic modeling.', isHost: false },
+    ofce: { label: 'OFCE - Sciences Po Paris', abbr: 'OFCE', logo: '/images/universities/ofce.jpg', info: 'French Economic Observatory at Sciences Po Paris.', isHost: false },
+    maastricht: { label: 'Maastricht University', abbr: 'Maastricht', logo: '/images/universities/maastricht.jpg', info: 'Dutch research center for macroeconomics and structural innovation.', isHost: false },
+    centralesupelec: { label: 'CentraleSupélec Paris', abbr: 'CentraleSupélec', logo: '/images/universities/centralesupelec.png', info: 'Grande école d\'ingénieurs at Université Paris-Saclay.', isHost: false },
+    torvergata: { label: 'Università di Roma Tor Vergata', abbr: 'Tor Vergata', logo: '/images/universities/torvergata.png', info: 'Italian university excellence for robust statistics and text analytics.', isHost: false }
   };
 
   const roleColors = {
@@ -90,7 +90,7 @@
     const detailCard = sectionEl.querySelector('.network-detail-card');
     if (!container || typeof d3 === 'undefined') return;
 
-    let W, H, cx, cy, r_a, r_b, r_c, NR;
+    let W, H, cx, cy, r_b, r_c, NR;
     let svg, landscape, alllinks, allnodes, guideCirc;
     let data_a = [], data_b = [], data_c = [], data_links = [];
     let selectNode = null, currentCat = 'all';
@@ -102,9 +102,8 @@
       cy = H / 2;
 
       const viewSize = Math.min(W, H);
-      r_a = viewSize * 0.12; // Compact inner central topic zone!
-      r_b = viewSize * 0.35; // People ring!
-      r_c = viewSize * 0.45; // External universities ring!
+      r_b = viewSize * 0.36; // People ring!
+      r_c = viewSize * 0.46; // External universities ring!
       NR = Math.max(20, Math.min(26, viewSize * 0.038));
     }
 
@@ -158,42 +157,56 @@
         };
       });
 
-      // 2. Structured Non-Overlapping Central Topic Placement (data_a) - Compact Inner Core
+      // 2. Structured Multi-Ring Polar Layout for Topics (data_a) - Zero Overlap & Deep Center Clearance
       const topicSet = new Set(data_b.flatMap(p => p.topics));
       const topicArray = Array.from(topicSet);
       const n_a = topicArray.length;
 
+      // Define 3 clean concentric rings strictly bounded within [0.16 * r_b, 0.52 * r_b]
       data_a = topicArray.map((t, i) => {
         const connected = data_b.filter(p => p.topics.includes(t));
         const meanAngle = d3.mean(connected, p => p.angle) || (i / n_a) * 2 * Math.PI - Math.PI / 2;
 
-        const orbitFactor = (i % 3 === 0) ? 0.35 : ((i % 3 === 1) ? 0.65 : 0.95);
-        const radius = r_a * orbitFactor;
+        let r_factor, angle_offset;
+        if (i % 3 === 0) {
+          r_factor = 0.18; // Inner ring
+          angle_offset = (i / 3) * (2 * Math.PI / 6);
+        } else if (i % 3 === 1) {
+          r_factor = 0.36; // Middle ring
+          angle_offset = (i / 3) * (2 * Math.PI / 6) + Math.PI / 6;
+        } else {
+          r_factor = 0.52; // Outer topic ring (max 52% of distance to people!)
+          angle_offset = (i / 3) * (2 * Math.PI / 6) + Math.PI / 12;
+        }
+
+        const targetRadius = r_b * r_factor;
+        const targetAngle = meanAngle * 0.6 + angle_offset * 0.4;
 
         return {
           id: t,
           label: t,
           group: 'topics',
-          angle: meanAngle,
-          targetRadius: radius,
-          x: cx + radius * Math.cos(meanAngle),
-          y: cy + radius * Math.sin(meanAngle),
+          angle: targetAngle,
+          targetRadius: targetRadius,
+          x: cx + targetRadius * Math.cos(targetAngle),
+          y: cy + targetRadius * Math.sin(targetAngle),
           value: connected.length
         };
       });
 
-      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([12, 14.5]);
+      // Large, bold, highly legible topic font size scale!
+      const size_a = d3.scaleLog().domain(d3.extent(data_a, d => d.value) || [1, 5]).range([13, 15.5]);
       data_a.forEach(d => { d.fontSize = size_a(d.value); });
 
-      // Robust Collision Physics: Zero-overlap between topics
+      // Robust Collision Physics: Prevents any capsule overlap while preserving polar ring structure
       const topicSim = d3.forceSimulation(data_a)
-        .force('collide', d3.forceCollide(d => Math.max(d.label.length * 4.6 + 20, 42)))
-        .force('r', d3.forceRadial(d => d.targetRadius, cx, cy).strength(0.88))
+        .force('collide', d3.forceCollide(d => Math.max(d.label.length * 4.8 + 22, 46)).strength(1.0))
+        .force('r', d3.forceRadial(d => d.targetRadius, cx, cy).strength(0.85))
         .stop();
       for (let i = 0; i < 500; i++) topicSim.tick();
 
-      // Strict Inner Boundary Enforcement: Topics sit at least 35px inside the people ring!
-      const maxAllowedTopicR = r_b - NR - 35;
+      // Strict Max Radius Cap: Topic pills can NEVER exceed 54% of radius to people ring!
+      const maxAllowedTopicR = r_b * 0.54;
       data_a.forEach(n => {
         const d = Math.hypot(n.x - cx, n.y - cy);
         if (d > maxAllowedTopicR) {
@@ -325,14 +338,14 @@
 
       topicEnt.append('rect')
         .attr('rx', 99).attr('ry', 99)
-        .attr('fill', 'rgba(12, 18, 30, 0.96)')
-        .attr('stroke', 'rgba(56, 189, 248, 0.5)')
+        .attr('fill', 'rgba(12, 18, 32, 0.96)')
+        .attr('stroke', 'rgba(56, 189, 248, 0.55)')
         .attr('stroke-width', 1.4);
 
       topicEnt.append('text')
         .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
         .attr('fill', '#f8fafc')
-        .style('font-size', d => `${d.fontSize || 13}px`)
+        .style('font-size', d => `${d.fontSize || 13.5}px`)
         .style('font-weight', '700')
         .style('letter-spacing', '0.3px')
         .text(d => d.label);
@@ -341,8 +354,8 @@
         const g = d3.select(this);
         const bb = g.select('text').node().getBBox();
         g.select('rect')
-          .attr('x', bb.x - 10).attr('y', bb.y - 5)
-          .attr('width', bb.width + 20).attr('height', bb.height + 10);
+          .attr('x', bb.x - 11).attr('y', bb.y - 6)
+          .attr('width', bb.width + 22).attr('height', bb.height + 12);
       });
 
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
@@ -550,11 +563,13 @@
       if (!detailCard) return;
       detailCard.querySelector('.card-avatar').innerHTML = `<div style="width:48px;height:48px;background:rgba(15,23,42,0.98);border:2px solid rgba(168,85,247,0.7);border-radius:50%;display:grid;place-items:center;padding:0;overflow:hidden;flex-shrink:0;"><img src="${inst.logo}" width="48" height="48" style="border-radius:50%;object-fit:cover;width:100%;height:100%;" alt="${inst.abbr}"></div>`;
       detailCard.querySelector('.card-name').innerText = inst.label;
-      detailCard.querySelector('.card-role').innerText = 'Partner Institution';
+
+      const roleText = inst.isHost ? 'Host University' : 'Partner Institution';
+      detailCard.querySelector('.card-role').innerText = roleText;
       detailCard.querySelector('.card-inst').innerText = inst.info;
 
       const topicsEl = detailCard.querySelector('.card-topics');
-      topicsEl.innerHTML = `<span class="network-chip" style="border-color:#a855f7;color:#c084fc;">${inst.abbr}</span>`;
+      topicsEl.innerHTML = `<span class="network-chip" style="border-color:${inst.isHost ? '#38bdf8' : '#a855f7'};color:${inst.isHost ? '#7dd3fc' : '#c084fc'};">${inst.abbr}</span>`;
 
       const papersEl = detailCard.querySelector('.card-papers');
       papersEl.innerHTML = `<h4>Affiliated Collaborators:</h4><ul>${inst.connectedPeople.map(person => `<li>${person}</li>`).join('')}</ul>`;
