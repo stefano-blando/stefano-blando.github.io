@@ -50,21 +50,21 @@
 <script>
 (function() {
   const people = [
-    { id: 'gf', name: 'Giorgio Fagiolo', role: 'Full Professor (PhD Supervisor)', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'] },
-    { id: 'av', name: 'Andrea Vandin', role: 'Associate Professor (PhD Supervisor)', cat: 'faculty', inst: 'DTU Denmark & SSSA', extInst: ['dtu'], topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'] },
-    { id: 'dg', name: 'Daniele Giachini', role: 'Assistant Professor (PhD Supervisor)', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Agent-Based Modeling', 'Macroeconomics'], papers: ['Island Model SMC (MARS 2026)'] },
-    { id: 'mn', name: 'Mauro Napoletano', role: 'Full Professor', cat: 'faculty', inst: 'Uni Côte d\'Azur & OFCE', extInst: ['cotedazur', 'ofce'], topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
-    { id: 'tt', name: 'Tania Treibich', role: 'Associate Professor', cat: 'faculty', inst: 'Maastricht Univ. & OFCE', extInst: ['maastricht', 'ofce'], topics: ['Macroeconomics', 'Agent-Based Modeling'], papers: ['K+S Model SMC (arXiv:2606)'] },
-    { id: 'gs', name: 'Giuseppe Squillace', role: 'Researcher', cat: 'postdoc', inst: 'CentraleSupélec & SSSA', extInst: ['centralesupelec'], topics: ['Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
-    { id: 'af', name: 'Alessio Farcomeni', role: 'Full Professor (MSc Supervisor)', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: ['torvergata'], topics: ['Robust Statistics', 'Portfolio Optimization'], papers: ['Robust Portfolio Optimization'] },
-    { id: 'mt', name: 'Max Tschaikowski', role: 'Professor', cat: 'faculty', inst: 'Co-author', extInst: [], topics: ['Statistical Model Checking', 'Agentic AI'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
-    { id: 'rp', name: 'Riccardo Porcedda', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Agentic AI', 'Software Engineering'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
-    { id: 'eg', name: 'Emmanuele Guerrazzi', role: 'Data Engineer', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'] },
-    { id: 'fi', name: 'D. Fioredistella Iezzi', role: 'Full Professor', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: ['torvergata'], topics: ['Robust Statistics', 'Text Analytics'], papers: ['Multilingual Text Analytics (VADISTAT Award 2026)'] },
-    { id: 'ei', name: 'Ernest Ivanaj', role: 'Researcher', cat: 'postdoc', inst: 'Co-author', extInst: [], topics: ['Agent-Based Modeling', 'Statistical Model Checking'], papers: ['Island Model SMC (MARS 2026)'] },
-    { id: 'fc', name: 'Francesca Chiaromonte', role: 'Full Professor (L\'EMbeDS Coord.)', cat: 'faculty', inst: 'Penn State & SSSA', extInst: ['pennstate'], topics: ['Robust Statistics', 'High-Dimensional Data'], papers: [] },
-    { id: 'le', name: 'Lorenzo Emer', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Complex Systems', 'Economic Modeling'], papers: [] },
-    { id: 'st', name: 'Simone Tonini', role: 'Research Fellow', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Macroeconomics', 'Systemic Risk & Networks'], papers: [] }
+    { id: 'gf', name: 'Giorgio Fagiolo', role: 'Full Professor (PhD Supervisor)', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Agent-Based Modeling', 'Macroeconomics', 'Systemic Risk & Networks'], papers: ['Island Model SMC (MARS 2026)', 'K+S Model SMC (arXiv:2606)'], avatar: '/images/people/gf.svg' },
+    { id: 'av', name: 'Andrea Vandin', role: 'Associate Professor (PhD Supervisor)', cat: 'faculty', inst: 'DTU Denmark & SSSA', extInst: ['dtu'], topics: ['Statistical Model Checking', 'Agentic AI', 'Agent-Based Modeling'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)', 'K+S Model SMC (arXiv:2606)', 'Island Model SMC (MARS 2026)'], avatar: '/images/people/av.svg' },
+    { id: 'dg', name: 'Daniele Giachini', role: 'Assistant Professor (PhD Supervisor)', cat: 'faculty', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Agent-Based Modeling', 'Macroeconomics', 'Complex Systems'], papers: ['Island Model SMC (MARS 2026)'], avatar: '/images/people/dg.svg' },
+    { id: 'mn', name: 'Mauro Napoletano', role: 'Full Professor', cat: 'faculty', inst: 'Uni Côte d\'Azur & OFCE', extInst: ['cotedazur', 'ofce'], topics: ['Macroeconomics', 'Agent-Based Modeling', 'Systemic Risk & Networks'], papers: ['K+S Model SMC (arXiv:2606)'], avatar: '/images/people/mn.svg' },
+    { id: 'tt', name: 'Tania Treibich', role: 'Associate Professor', cat: 'faculty', inst: 'Maastricht Univ. & OFCE', extInst: ['maastricht', 'ofce'], topics: ['Macroeconomics', 'Agent-Based Modeling', 'Economic Dynamics'], papers: ['K+S Model SMC (arXiv:2606)'], avatar: '/images/people/tt.svg' },
+    { id: 'gs', name: 'Giuseppe Squillace', role: 'Researcher', cat: 'postdoc', inst: 'CentraleSupélec & SSSA', extInst: ['centralesupelec'], topics: ['Agentic AI', 'Agent-Based Modeling', 'Complex Systems'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/gs.svg' },
+    { id: 'af', name: 'Alessio Farcomeni', role: 'Full Professor (MSc Supervisor)', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: ['torvergata'], topics: ['Robust Statistics', 'High-Dimensional Data', 'Portfolio Optimization'], papers: ['Robust Portfolio Optimization'], avatar: '/images/people/af.svg' },
+    { id: 'mt', name: 'Max Tschaikowski', role: 'Professor', cat: 'faculty', inst: 'Co-author', extInst: [], topics: ['Statistical Model Checking', 'Agentic AI', 'Formal Verification'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/mt.svg' },
+    { id: 'rp', name: 'Riccardo Porcedda', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Agentic AI', 'Complex Networks', 'Graph Neural Networks'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/rp.svg' },
+    { id: 'eg', name: 'Emmanuele Guerrazzi', role: 'Data Engineer', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Agentic AI', 'Agent-Based Modeling', 'Data Engineering'], papers: ['Towards Agentic ABMs (arXiv:2607.17948)'], avatar: '/images/people/eg.svg' },
+    { id: 'fi', name: 'D. Fioredistella Iezzi', role: 'Full Professor', cat: 'faculty', inst: 'Univ. Tor Vergata', extInst: ['torvergata'], topics: ['Robust Statistics', 'Text Analytics', 'Data Science'], papers: ['Multilingual Text Analytics (VADISTAT Award 2026)'], avatar: '/images/people/fi.svg' },
+    { id: 'ei', name: 'Ernest Ivanaj', role: 'Researcher', cat: 'postdoc', inst: 'Co-author', extInst: [], topics: ['Agent-Based Modeling', 'Statistical Model Checking'], papers: ['Island Model SMC (MARS 2026)'], avatar: '/images/people/ei.svg' },
+    { id: 'fc', name: 'Francesca Chiaromonte', role: 'Full Professor (L\'EMbeDS Coord.)', cat: 'faculty', inst: 'Penn State & SSSA', extInst: ['pennstate'], topics: ['Robust Statistics', 'High-Dimensional Data', 'Biostatistics'], papers: [], avatar: '/images/people/fc.svg' },
+    { id: 'le', name: 'Lorenzo Emer', role: 'PhD Candidate', cat: 'phd', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Complex Systems', 'Economic Modeling', 'Systemic Risk & Networks'], papers: [], avatar: '/images/people/le.svg' },
+    { id: 'st', name: 'Simone Tonini', role: 'Research Fellow', cat: 'postdoc', inst: 'Scuola Superiore Sant\'Anna', extInst: [], topics: ['Macroeconomics', 'Systemic Risk & Networks', 'Agent-Based Modeling'], papers: [], avatar: '/images/people/st.svg' }
   ];
 
   const institutions = {
@@ -96,7 +96,7 @@
 
     function dim() {
       W = container.clientWidth || 920;
-      H = Math.max(650, Math.min(W * 0.76, 750));
+      H = Math.max(660, Math.min(W * 0.78, 760));
       cx = W / 2;
       cy = H / 2;
 
@@ -104,7 +104,7 @@
       r_a = viewSize * 0.14;
       r_b = viewSize * 0.36;
       r_c = viewSize * 0.48;
-      NR = Math.max(18, Math.min(24, viewSize * 0.036));
+      NR = Math.max(20, Math.min(26, viewSize * 0.038));
     }
 
     function topicPath(x1, y1, x2, y2, pull = 0.35) {
@@ -242,16 +242,27 @@
         .attr('stroke', 'rgba(56, 189, 248, 0.14)')
         .attr('stroke-dasharray', '4 4');
 
-      // SVG Clip Paths for University Logos
+      // SVG Clip Paths for University & People Logos
       let defs = svg.select('defs');
       if (defs.empty()) defs = svg.append('defs');
 
+      // University Clips (Enlarged to r: 26)
       data_c.forEach(inst => {
         if (defs.select(`#clip-inst-${inst.id}`).empty()) {
           defs.append('clipPath')
             .attr('id', `clip-inst-${inst.id}`)
             .append('circle')
-            .attr('r', 18);
+            .attr('r', 25);
+        }
+      });
+
+      // People Clips
+      data_b.forEach(p => {
+        if (defs.select(`#clip-person-${p.id}`).empty()) {
+          defs.append('clipPath')
+            .attr('id', `clip-person-${p.id}`)
+            .append('circle')
+            .attr('r', NR - 2);
         }
       });
 
@@ -309,19 +320,19 @@
       topicGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       topicGroup.exit().remove();
 
-      // CSH External Institution Logo Image Nodes (data_c) - Image Logo Node with Card Popup!
+      // CSH External Institution Enlarged Logo Nodes (data_c) - Radius r: 26, Image: 48x48
       const instGroup = allnodes.selectAll('.csh-inst').data(data_c, d => d.id);
       const instEnt = instGroup.enter().append('g')
         .attr('class', 'csh-inst')
         .attr('transform', d => `translate(${d.x}, ${d.y})`)
         .style('cursor', 'pointer')
         .on('mouseenter', (ev, d) => {
-          d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 22);
+          d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 30);
           if (!selectNode) hlInst(d);
           showInstCard(d);
         })
         .on('mouseleave', (ev, d) => {
-          d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 19);
+          d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 26);
           if (!selectNode) reset();
         })
         .on('click', (ev, d) => {
@@ -333,21 +344,21 @@
 
       instEnt.append('circle')
         .attr('class', 'csh-inst-circle')
-        .attr('r', 19)
+        .attr('r', 26)
         .attr('fill', 'rgba(12, 17, 27, 0.96)')
         .attr('stroke', '#a855f7')
-        .attr('stroke-width', 2);
+        .attr('stroke-width', 2.4);
 
       instEnt.append('image')
         .attr('href', d => d.logo)
-        .attr('x', -16).attr('y', -16)
-        .attr('width', 32).attr('height', 32)
+        .attr('x', -24).attr('y', -24)
+        .attr('width', 48).attr('height', 48)
         .attr('clip-path', d => `url(#clip-inst-${d.id})`);
 
       instGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       instGroup.exit().remove();
 
-      // CSH Pristine People Nodes (data_b)
+      // CSH People Nodes with Photo / Avatar Images (data_b)
       const peopleGroup = allnodes.selectAll('.csh-person').data(data_b, d => d.id);
       const peopleEnt = peopleGroup.enter().append('g')
         .attr('class', 'csh-person')
@@ -376,13 +387,11 @@
         .attr('stroke', d => roleColors[d.cat] || '#38bdf8')
         .attr('stroke-width', 2.2);
 
-      const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
-      peopleEnt.append('text')
-        .attr('text-anchor', 'middle').attr('dominant-baseline', 'middle')
-        .attr('fill', '#ffffff')
-        .style('font-size', '10.5px')
-        .style('font-weight', '700')
-        .text(d => ini(d.name));
+      peopleEnt.append('image')
+        .attr('href', d => d.avatar)
+        .attr('x', -NR + 2).attr('y', -NR + 2)
+        .attr('width', (NR - 2) * 2).attr('height', (NR - 2) * 2)
+        .attr('clip-path', d => `url(#clip-person-${d.id})`);
 
       peopleGroup.attr('transform', d => `translate(${d.x}, ${d.y})`);
       peopleGroup.exit().remove();
@@ -473,8 +482,7 @@
 
     function showCard(p) {
       if (!detailCard) return;
-      const ini = n => n.split(' ').filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
-      detailCard.querySelector('.card-avatar').innerText = ini(p.name);
+      detailCard.querySelector('.card-avatar').innerHTML = `<img src="${p.avatar}" width="44" height="44" style="border-radius:50%;border:2px solid ${roleColors[p.cat] || '#38bdf8'};" alt="${p.name}">`;
       detailCard.querySelector('.card-name').innerText = p.name;
       detailCard.querySelector('.card-role').innerText = p.role;
       detailCard.querySelector('.card-inst').innerText = p.inst;
@@ -493,7 +501,7 @@
 
     function showInstCard(inst) {
       if (!detailCard) return;
-      detailCard.querySelector('.card-avatar').innerHTML = `<img src="${inst.logo}" width="32" height="32" style="border-radius:50%;" alt="${inst.abbr}">`;
+      detailCard.querySelector('.card-avatar').innerHTML = `<div style="width:60px;height:60px;background:rgba(15,23,42,0.95);border:1px solid rgba(168,85,247,0.6);border-radius:14px;display:grid;place-items:center;padding:4px;"><img src="${inst.logo}" width="50" height="50" style="border-radius:10px;object-fit:contain;" alt="${inst.abbr}"></div>`;
       detailCard.querySelector('.card-name').innerText = inst.label;
       detailCard.querySelector('.card-role').innerText = 'Partner Institution';
       detailCard.querySelector('.card-inst').innerText = inst.info;
