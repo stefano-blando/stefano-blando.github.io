@@ -310,7 +310,12 @@
         .attr('transform', d => `translate(${d.x}, ${d.y})`)
         .style('cursor', 'pointer')
         .on('mouseenter', (ev, d) => { if (!selectNode) hlTopic(d); })
-        .on('mouseleave', () => { if (!selectNode) reset(); })
+        .on('mouseleave', () => {
+          if (!selectNode) {
+            reset();
+            hideCard();
+          }
+        })
         .on('click', (ev, d) => { ev.stopPropagation(); selectNode = d; hlTopic(d); });
 
       topicEnt.append('rect')
@@ -351,7 +356,10 @@
         })
         .on('mouseleave', (ev, d) => {
           d3.select(ev.currentTarget).select('.csh-inst-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', 28);
-          if (!selectNode) reset();
+          if (!selectNode) {
+            reset();
+            hideCard();
+          }
         })
         .on('click', (ev, d) => {
           ev.stopPropagation();
@@ -391,7 +399,10 @@
         })
         .on('mouseleave', (ev, d) => {
           d3.select(ev.currentTarget).select('.csh-node-circle').transition().duration(220).ease(d3.easeCubicOut).attr('r', NR);
-          if (!selectNode) reset();
+          if (!selectNode) {
+            reset();
+            hideCard();
+          }
         })
         .on('click', (ev, d) => {
           ev.stopPropagation();
