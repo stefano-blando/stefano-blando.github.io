@@ -68,3 +68,6 @@ TODO.md
 .claude/
 .vscode/
 .devcontainer/
+
+# Local archives / legacy references
+legacy/
