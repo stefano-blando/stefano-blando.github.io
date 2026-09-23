@@ -9,9 +9,9 @@ authors:
   - Andrea Vandin
 date: '2026-07-18'
 publishDate: '2026-07-18T00:00:00Z'
-type: Article
-venue: Sottomesso ad AISoLA 2026 (arXiv:2607.17948)
-venue_short: Sottomesso ad AISoLA 2026
+type: Conference paper
+venue: AISoLA 2026 (in corso di pubblicazione; arXiv:2607.17948)
+venue_short: AISoLA 2026 (in corso di pubblicazione)
 abstract: >-
   L'integrazione dei Large Language Models (LLM) nei modelli agent-based tradizionali consente agli
   agenti di utilizzare tool calling, ragionamento semantico e decisioni adattive. In questo
@@ -20,8 +20,8 @@ abstract: >-
   Attraverso specifiche verifiche statistiche, quantifichiamo l'impatto delle decisioni basate su
   LLM sulla dinamica di simulazione.
 summary: >-
-  Preprint arXiv (2607.17948) che valuta i modelli agent-based agentici basati su LLM con
-  Statistical Model Checking tramite MultiVeStA.
+  Accettato a AISoLA 2026, questo articolo valuta i modelli agent-based agentici basati su LLM con
+  Statistical Model Checking tramite MultiVeStA (arXiv:2607.17948).
 tags:
   - AI Agentica
   - Modellazione Agent-Based
@@ -38,4 +38,6 @@ image:
 links:
   - name: Preprint arXiv:2607.17948
     url: https://arxiv.org/abs/2607.17948
+  - name: Post di Accettazione
+    url: /blog/aisola-2026-acceptance/
 ---

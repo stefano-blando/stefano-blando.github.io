@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17",
+  "generatedAt": "2026-09-23",
   "source": "src/data/authors/me.yaml",
   "lang": "en",
   "role": "PhD Student in Artificial Intelligence",
@@ -13,6 +13,10 @@
       "to": "present",
       "current": true,
       "facts": [
+        {
+          "label": "Supervisors",
+          "value": "Prof. Andrea Vandin, Prof. Giorgio Fagiolo, Prof. Daniele Giachini"
+        },
         {
           "label": "Research focus",
           "value": "\"Learning How to Learn: Adaptive Cognitive Architectures for Economic Network Formation\""
@@ -194,7 +198,7 @@
       "title": "Alpine Climate Data Challenge Finalist",
       "awarder": "Alpine Climate Data Challenge",
       "year": "2025",
-      "summary": "",
+      "summary": "Selected among 150+ teams for climate forecasting with Copernicus ECMWF, NOAA, and Arpa Piemonte datasets.",
       "url": ""
     },
     {

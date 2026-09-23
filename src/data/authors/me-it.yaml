@@ -53,6 +53,7 @@
       institution: Scuola Superiore Sant'Anna e Università di Pisa
       start: 2025-11-01
       summary: |
+        Supervisori: Prof. Andrea Vandin, Prof. Giorgio Fagiolo, Prof. Daniele Giachini.
         Focus di ricerca: "Learning How to Learn: Adaptive Cognitive Architectures for Economic
         Network Formation". I metodi includono modelli agent-based differenziabili, agenti
         generativi basati su LLM, apprendimento multi-agente, dinamiche di rete e statistica
@@ -266,6 +267,7 @@
     - title: Finalista Alpine Climate Data Challenge
       awarder: Alpine Climate Data Challenge
       date: "2025-03-12"
+      summary: "Selezionato tra oltre 150 team per la previsione climatica con dataset Copernicus ECMWF, NOAA e Arpa Piemonte."
       icon: hero/star
     - title: 2° Posto AI Data Hackathon
       awarder: Hera Group, BTO Research & Digitiamo

@@ -46,7 +46,7 @@ export const PEOPLE = [
       "Agent-Based Modeling"
     ],
     "papers": [
-      "Towards Agentic ABMs (arXiv:2607.17948)",
+      "Towards Agentic ABMs (AISoLA 2026)",
       "K+S Model SMC (arXiv:2606)",
       "Island Model SMC (MARS 2026)"
     ],
@@ -127,7 +127,7 @@ export const PEOPLE = [
       "Complex Systems"
     ],
     "papers": [
-      "Towards Agentic ABMs (arXiv:2607.17948)"
+      "Towards Agentic ABMs (AISoLA 2026)"
     ],
     "avatar": "/images/people/gs.png"
   },
@@ -163,7 +163,7 @@ export const PEOPLE = [
       "Agentic AI"
     ],
     "papers": [
-      "Towards Agentic ABMs (arXiv:2607.17948)"
+      "Towards Agentic ABMs (AISoLA 2026)"
     ],
     "avatar": "/images/people/mt.jpg"
   },
@@ -183,7 +183,7 @@ export const PEOPLE = [
       "Graph Neural Networks"
     ],
     "papers": [
-      "Towards Agentic ABMs (arXiv:2607.17948)"
+      "Towards Agentic ABMs (AISoLA 2026)"
     ],
     "avatar": "/images/people/rp.png"
   },
@@ -202,7 +202,7 @@ export const PEOPLE = [
       "Data Engineering"
     ],
     "papers": [
-      "Towards Agentic ABMs (arXiv:2607.17948)"
+      "Towards Agentic ABMs (AISoLA 2026)"
     ],
     "avatar": "/images/people/eg.jpg"
   },

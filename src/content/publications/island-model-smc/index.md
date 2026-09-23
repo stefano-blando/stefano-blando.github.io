@@ -11,8 +11,9 @@ authors:
 date: '2026-04-12'
 publishDate: '2026-03-20T00:00:00Z'
 type: Conference paper
-venue: MARS @ ETAPS 2026, Turin, Italy
+venue: MARS @ ETAPS 2026, Turin, Italy (EPTCS vol. 443, pp. 3-22)
 venue_short: MARS 2026
+doi: 10.4204/EPTCS.443.2
 abstract: >-
   Agent-based models (ABMs) are increasingly used to study complex economic phenomena such as
   endogenous growth, but their analysis typically relies on ad-hoc Monte Carlo exercises without

@@ -9,9 +9,9 @@ authors:
   - Andrea Vandin
 date: '2026-07-18'
 publishDate: '2026-07-18T00:00:00Z'
-type: Article
-venue: Submitted to AISoLA 2026 (arXiv:2607.17948)
-venue_short: Submitted to AISoLA 2026
+type: Conference paper
+venue: AISoLA 2026 (to appear; arXiv:2607.17948)
+venue_short: AISoLA 2026 (to appear)
 abstract: >-
   Integrating Large Language Models (LLMs) into traditional Agent-Based Models (ABMs) allows agents
   to leverage tool calls, semantic reasoning, and adaptive decision-making. In this paper, we
@@ -20,8 +20,8 @@ abstract: >-
   testing across agentic parameter spaces, we quantify the impact of LLM decision-making on
   macroeconomic and social simulation dynamics.
 summary: >-
-  arXiv preprint (2607.17948) evaluating LLM-driven agentic agent-based models with Statistical
-  Model Checking via MultiVeStA.
+  Accepted at AISoLA 2026, this paper evaluates LLM-driven agentic agent-based models with
+  Statistical Model Checking via MultiVeStA (arXiv:2607.17948).
 tags:
   - Agentic AI
   - Agent-Based Modeling
@@ -38,4 +38,6 @@ image:
 links:
   - name: arXiv:2607.17948
     url: https://arxiv.org/abs/2607.17948
+  - name: Acceptance News
+    url: /blog/aisola-2026-acceptance/
 ---
