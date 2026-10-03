@@ -6,7 +6,7 @@ authors:
 date: '2026-01-15'
 publishDate: '2025-02-01T00:00:00Z'
 type: Conference paper
-venue: 'JADT 2026, Palermo, Italia (Proceedings ISBN: 978-88-5509-883-0)'
+venue: 'JADT 2026, Palermo, Italia (Atti Vol. II, pp. 70–79; ISBN 978-88-5509-883-0)'
 venue_short: JADT 2026
 abstract: >-
   Per distinguere risultati sostanziali da artefatti metodologici, questo paper propone un framework

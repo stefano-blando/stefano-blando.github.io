@@ -6,7 +6,7 @@ authors:
 date: '2026-01-15'
 publishDate: '2025-02-01T00:00:00Z'
 type: Conference paper
-venue: 'JADT 2026, Palermo, Italy (Proceedings ISBN: 978-88-5509-883-0)'
+venue: 'JADT 2026, Palermo, Italy (Proceedings Vol. II, pp. 70–79; ISBN 978-88-5509-883-0)'
 venue_short: JADT 2026
 abstract: >-
   To distinguish genuine findings from methodological artifacts, this paper proposes a validation
