@@ -2,7 +2,7 @@
 title: 'Towards Agentic Agent-based Models: Feasibility, Performance, and Statistical Model Checking'
 authors:
   - Stefano Blando
-  - Emmanuele Guerrazzi
+  - Emanuele Guerrazzi
   - Riccardo Porcedda
   - Giuseppe Squillace
   - Max Tschaikowski

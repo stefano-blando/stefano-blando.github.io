@@ -189,7 +189,7 @@ export const PEOPLE = [
   },
   {
     "id": "eg",
-    "name": "Emmanuele Guerrazzi",
+    "name": "Emanuele Guerrazzi",
     "role": "Data Engineer",
     "cat": "postdoc",
     "inst": "Scuola Superiore Sant'Anna",
