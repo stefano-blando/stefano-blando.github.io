@@ -28,6 +28,55 @@ function diagnosticsSink() {
   };
 }
 
+import fs from 'node:fs';
+import path from 'node:path';
+
+/**
+ * Maps legacy Hugo URLs (which lived under `/en/` and had taxonomy/event routes)
+ * to their current Astro destinations. In static output mode, Astro emits HTML
+ * redirect stubs containing meta refresh and canonical links so GitHub Pages
+ * answers crawlers with HTTP 200 rather than 404.
+ */
+function getLegacyRedirects() {
+  const redirects = {
+    '/en': '/',
+    '/en/blog': '/blog/',
+    '/en/experience': '/experience/',
+    '/en/network': '/network/',
+    '/en/projects': '/projects/',
+    '/en/publications': '/publications/',
+    '/en/research': '/research/',
+    '/en/search': '/search/',
+    '/en/events/compass-workshop': '/blog/compass-workshop-2026/',
+    '/events/compass-workshop': '/blog/compass-workshop-2026/',
+    '/it/events/compass-workshop': '/it/blog/compass-workshop-2026/',
+    '/en/tags': '/',
+    '/tags': '/',
+    '/en/categories': '/',
+    '/categories': '/',
+  };
+
+  const pillars = ['multi-agent', 'statistical-verification', 'robust-quant', 'text-analytics'];
+  for (const pillar of pillars) {
+    redirects[`/en/research/${pillar}`] = `/research/${pillar}/`;
+  }
+
+  const collections = ['blog', 'projects', 'publications'];
+  for (const collection of collections) {
+    const dir = path.join(process.cwd(), 'src/content', collection);
+    if (fs.existsSync(dir)) {
+      const items = fs.readdirSync(dir, { withFileTypes: true })
+        .filter((d) => d.isDirectory())
+        .map((d) => d.name);
+      for (const item of items) {
+        redirects[`/en/${collection}/${item}`] = `/${collection}/${item}/`;
+      }
+    }
+  }
+
+  return redirects;
+}
+
 export default defineConfig({
   /*
    * Where the site will be served from. Every absolute URL the build emits —
@@ -43,5 +92,6 @@ export default defineConfig({
   devToolbar: { enabled: false },
   build: { inlineStylesheets: 'auto' },
   integrations: [sitemap()],
+  redirects: getLegacyRedirects(),
   vite: { plugins: [diagnosticsSink()] },
 });

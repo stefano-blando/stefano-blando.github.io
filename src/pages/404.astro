@@ -27,6 +27,12 @@ const HREFS = {
   scene={false}
   indexed={false}
 >
+  <script is:inline slot="head">
+    if (window.location.pathname.startsWith('/en/')) {
+      const target = window.location.pathname.replace(/^\/en/, '') || '/';
+      window.location.replace(target + window.location.search + window.location.hash);
+    }
+  </script>
   <main class="page">
     <header class="page-head">
       <p class="page-kicker">{UI.en['notfound.kicker']}</p>
