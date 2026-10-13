@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import { citationFor } from '../../../lib/citation.js';
 import { collectionFor } from '../../../i18n/content.js';
 import { useTranslations, localise } from '../../../i18n/ui.js';
 import { localePaths, alternatesFor } from '../../../i18n/routes.js';
@@ -14,6 +15,12 @@ const t = useTranslations(lang);
 const publications = (await collectionFor('publications', lang)).sort(
   (a, b) => b.data.date - a.data.date,
 );
+
+const BIBS = import.meta.glob('../../../content/publications/*/cite.bib', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
 
 /**
  * Only links that point somewhere. `doi` and `url_pdf` are empty on every
@@ -34,6 +41,15 @@ const authorsHtml = (authors) =>
       name === ME ? `<span class="is-me">${escape(name)}</span>` : escape(name),
     )
     .join(', ');
+
+const categorizePublication = (type = '') => {
+  const lower = type.toLowerCase();
+  if (lower.includes('conference')) return 'conference';
+  if (lower.includes('preprint') || lower.includes('working') || lower.includes('article'))
+    return 'preprint';
+  if (lower.includes('thesis')) return 'thesis';
+  return 'other';
+};
 ---
 
 <Base
@@ -50,33 +66,147 @@ const authorsHtml = (authors) =>
       <p class="page-lede">{t('publications.lede')}</p>
     </header>
 
+    <ul class="filter-bar" role="tablist" aria-label="Publication categories">
+      <li>
+        <button
+          type="button"
+          class="filter-chip is-active"
+          data-filter="all"
+          aria-pressed="true"
+        >
+          {t('publications.filterAll')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="conference"
+          aria-pressed="false"
+        >
+          {t('publications.filterConferences')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="preprint"
+          aria-pressed="false"
+        >
+          {t('publications.filterPreprints')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="thesis"
+          aria-pressed="false"
+        >
+          {t('publications.filterTheses')}
+        </button>
+      </li>
+    </ul>
+
     <ul class="record-list">
       {
-        publications.map((entry) => (
-          <li class="record">
-            <span class="record-year">{entry.data.date.getFullYear()}</span>
-            <div>
-              <a class="record-title" href={localise(`/publications/${entry.id}/`, lang)}>
-                {entry.data.title}
-              </a>
-              <p class="record-venue">{entry.data.venue}</p>
-              <p class="record-authors" set:html={authorsHtml(entry.data.authors)} />
-              <div class="record-meta">
-                <span class="record-type">{entry.data.type}</span>
-                {linksOf(entry.data).length > 0 && (
-                  <ul class="record-links">
-                    {linksOf(entry.data).map((link) => (
-                      <li>
-                        <a href={link.url}>{link.name ?? 'Link'}</a>
-                      </li>
-                    ))}
-                  </ul>
+        publications.map((entry) => {
+          const bundledBib = BIBS[`../../../content/publications/${entry.id}/cite.bib`] ?? null;
+          const cite = citationFor(entry.data, bundledBib);
+          const category = categorizePublication(entry.data.type);
+
+          return (
+            <li class="record" data-category={category}>
+              <span class="record-year">{entry.data.date.getFullYear()}</span>
+              <div>
+                <a class="record-title" href={localise(`/publications/${entry.id}/`, lang)}>
+                  {entry.data.title}
+                </a>
+                <p class="record-venue">{entry.data.venue}</p>
+                <p class="record-authors" set:html={authorsHtml(entry.data.authors)} />
+                <div class="record-meta">
+                  <span class="record-type">{entry.data.type}</span>
+                  {linksOf(entry.data).length > 0 && (
+                    <ul class="record-links">
+                      {linksOf(entry.data).map((link) => (
+                        <li>
+                          <a href={link.url} target="_blank" rel="noopener noreferrer">{link.name ?? 'Link'} ↗</a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+
+                {entry.data.abstract && (
+                  <details class="abstract-toggle">
+                    <summary>{t('publications.abstract')}</summary>
+                    <p class="abstract-content">{entry.data.abstract}</p>
+                  </details>
+                )}
+
+                {cite && (
+                  <details class="cite cite-inline">
+                    <summary>
+                      {t('publications.cite')} {entry.data.type.toLowerCase()}
+                      {cite.source === 'generated' && (
+                        <span class="cite-note">{t('publications.citeGenerated')}</span>
+                      )}
+                    </summary>
+                    <div class="cite-body">
+                      <pre><code>{cite.bibtex}</code></pre>
+                      <button
+                        class="cite-copy"
+                        type="button"
+                        data-copy
+                        data-copied={t('publications.copied')}
+                      >
+                        {t('publications.copy')}
+                      </button>
+                    </div>
+                  </details>
                 )}
               </div>
-            </div>
-          </li>
-        ))
+            </li>
+          );
+        })
       }
     </ul>
   </main>
+
+  <script is:inline>
+    (() => {
+      const chips = document.querySelectorAll('.filter-chip');
+      const records = document.querySelectorAll('.record-list .record');
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          chips.forEach((c) => {
+            c.classList.remove('is-active');
+            c.setAttribute('aria-pressed', 'false');
+          });
+          chip.classList.add('is-active');
+          chip.setAttribute('aria-pressed', 'true');
+          const filter = chip.dataset.filter;
+          records.forEach((record) => {
+            const matches = filter === 'all' || record.dataset.category === filter;
+            record.style.display = matches ? '' : 'none';
+          });
+        });
+      });
+
+      document.querySelectorAll('.cite-inline [data-copy]').forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          const pre = btn.closest('.cite-body')?.querySelector('code');
+          if (!pre || !navigator.clipboard) return;
+          await navigator.clipboard.writeText(pre.textContent);
+          const idle = btn.textContent;
+          btn.textContent = btn.dataset.copied || 'Copied';
+          setTimeout(() => {
+            btn.textContent = idle;
+          }, 1600);
+        });
+      });
+    })();
+  </script>
 </Base>

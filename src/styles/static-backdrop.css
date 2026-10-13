@@ -13,8 +13,8 @@
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(120% 90% at 78% 12%, rgba(var(--wash-rgb), 0.26), transparent 62%),
-    radial-gradient(90% 70% at 12% 88%, rgba(var(--scrim-rgb), 0.5), transparent 58%),
+    radial-gradient(120% 90% at 78% 12%, rgba(var(--wash-rgb), 0.38), transparent 64%),
+    radial-gradient(90% 70% at 12% 88%, rgba(var(--wash-rgb), 0.24), transparent 60%),
     var(--ink);
 }
 
@@ -23,7 +23,7 @@
   content: '';
   position: absolute;
   inset: 0;
-  opacity: 0.05;
+  opacity: 0.07;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -37,11 +37,21 @@
 
 .page h1 {
   margin: 0 0 1rem;
+  font-family: var(--sans);
   font-size: clamp(2rem, 5vw, 3.2rem);
-  font-weight: 400;
+  font-weight: 600;
+  font-style: normal;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.15;
   color: var(--paper);
+}
+
+.page h1 em,
+.page-head h1 em {
+  font-family: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  color: inherit;
 }
 
 .page-lede {
@@ -56,11 +66,26 @@
   margin: 0;
   padding: 0;
   list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .index-list > li {
-  padding: 1.6rem 0;
-  border-top: 1px solid var(--line);
+  padding: 1.6rem 1.8rem;
+  background: rgba(var(--scrim-rgb), 0.45);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 250ms ease;
+}
+
+.index-list > li:hover {
+  background: rgba(var(--scrim-rgb), 0.75);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.5);
 }
 
 .index-list a {
@@ -72,8 +97,12 @@
 
 .index-title {
   color: var(--paper);
+  font-family: var(--sans);
   font-size: 1.28rem;
+  font-weight: 600;
+  font-style: normal;
   line-height: 1.35;
+  transition: color 200ms ease;
 }
 
 .index-summary {
@@ -88,12 +117,12 @@
 
 .index-meta {
   display: block;
-  margin-top: 0.55rem;
+  margin-top: 0.8rem;
   font-family: var(--mono);
   font-size: 0.74rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--dim);
+  color: var(--gold);
 }
 
 .tag-row {
@@ -106,10 +135,13 @@
 }
 
 .tag-row li {
-  padding: 0.28rem 0.7rem;
+  padding: 0.22rem 0.65rem;
+  background: var(--tint);
   border: 1px solid var(--line);
-  font-size: 0.78rem;
-  letter-spacing: 0.03em;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
   color: var(--dim);
 }
 
@@ -229,18 +261,23 @@
 /* The count first, small and monospaced: the page states its own scale
    before it states its name. */
 .page-kicker {
+  display: inline-block;
   margin: 0 0 1.1rem;
+  padding: 0.25rem 0.65rem;
+  background: var(--tint);
+  border: 1px solid var(--line);
+  border-radius: 4px;
   font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.22em;
+  font-size: 0.74rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--gold);
 }
 
 .page-head h1 em {
-  font-family: var(--serif);
-  font-style: italic;
-  color: var(--gold);
+  font-family: inherit;
+  font-style: normal;
+  color: inherit;
 }
 
 .card-grid {
@@ -254,6 +291,28 @@
 /* A column, so the tag row can be pinned to the foot of the card and every
    card in a row ends on the same line — which is what was making the grid
    look accidental, not the titles. */
+.card {
+  height: 100%;
+  background: rgba(var(--scrim-rgb), 0.45);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition:
+    transform 260ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    border-color 220ms ease,
+    box-shadow 260ms ease,
+    background 220ms ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  border-color: var(--gold);
+  background: rgba(var(--scrim-rgb), 0.75);
+  box-shadow: 0 16px 36px -12px rgba(0, 0, 0, 0.6), 0 0 0 1px var(--gold);
+}
+
 .card-link {
   display: flex;
   flex-direction: column;
@@ -266,7 +325,7 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 16 / 10;
-  border: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
   background: var(--raised);
 }
 
@@ -275,13 +334,12 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  /* Held back until hover so a grid of thumbnails does not shout; the colour
-     arriving under the cursor is the whole interaction. */
-  filter: grayscale(0.85) contrast(1.05) brightness(0.82);
-  transform: scale(1.02);
+  /* Held back until hover so a grid of thumbnails does not shout */
+  filter: grayscale(0.7) contrast(1.05) brightness(0.85);
+  transform: scale(1.01);
   transition:
-    filter 500ms ease,
-    transform 700ms cubic-bezier(0.2, 0.7, 0.2, 1);
+    filter 400ms ease,
+    transform 600ms cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 .card-media-empty {
@@ -307,48 +365,45 @@
   color: var(--gold);
 }
 
-.card-link:hover .card-media img {
+.card:hover .card-media img {
   filter: grayscale(0) contrast(1.05) brightness(1);
-  transform: scale(1.06);
-}
-
-.card-link:hover .card-media {
-  border-color: var(--gold);
+  transform: scale(1.05);
 }
 
 .card-body {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 1.1rem 0 0;
+  padding: 1.2rem 1.4rem 1.4rem;
 }
 
 .card-kind {
-  display: block;
-  margin-bottom: 0.55rem;
+  display: inline-block;
+  align-self: flex-start;
+  margin-bottom: 0.65rem;
+  padding: 0.15rem 0.55rem;
+  background: var(--tint);
+  border: 1px solid var(--line);
+  border-radius: 4px;
   font-family: var(--mono);
-  font-size: 0.72rem;
-  letter-spacing: 0.18em;
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--teal);
+  color: var(--gold);
 }
 
 .card-title {
-  /* No forced height any more. It reserved two lines on every card, which
-     opened a hole under every one-line title; the row is squared off at the
-     bottom instead, where the eye actually reads the grid. */
   margin: 0 0 0.55rem;
-  font-size: 1.24rem;
-  font-weight: 400;
-  line-height: 1.3;
+  font-family: var(--sans);
+  font-size: 1.22rem;
+  font-weight: 600;
+  font-style: normal;
+  line-height: 1.35;
   color: var(--paper);
-  transition: color 250ms ease;
-  /* Never clamped. At the old size two lines held most titles; at this one it
-     cut "Island Model + MultiVeStA — Statistical Model Checking of…" in half,
-     and a title a reader cannot finish is the one thing a card must not do. */
+  transition: color 220ms ease;
 }
 
-.card-link:hover .card-title {
+.card:hover .card-title {
   color: var(--gold);
 }
 
@@ -364,30 +419,98 @@
   overflow: hidden;
 }
 
-/* `margin-top: auto` is the whole alignment fix: the tags sit on the floor of
-   the card, and the cards stretch to the tallest in their row. */
+/* Tags sit at the foot of the card */
 .card-tags {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.3rem 0.9rem;
-  margin: 1rem 0 0;
-  padding: 0;
+  gap: 0.35rem 0.5rem;
+  margin-top: auto;
+  padding-top: 1.1rem;
   list-style: none;
 }
 
-.card-tags {
-  margin-top: auto;
-  padding-top: 1rem;
+.card-media-link {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
+.card-topic {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.55rem;
+  padding: 0.2rem 0.55rem;
+  background: rgba(var(--scrim-rgb), 0.88);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 2;
+}
+
+.card-title-link {
+  color: var(--paper);
+  text-decoration: none;
+  transition: color 220ms ease;
+}
+
+.card-title-link:hover {
+  color: var(--gold);
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--line);
+}
+
+.card-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.2rem 0.6rem;
+  background: var(--tint);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  color: var(--gold);
+  text-decoration: none;
+  transition: all 180ms ease;
+}
+
+.card-action-link:hover {
+  background: rgba(var(--gold-rgb), 0.16);
+  border-color: var(--gold);
+  color: var(--paper);
 }
 
 .card-tags li {
-  /* A tag never breaks across lines, which is what produced the stray
-     slashes: the label wrapped while its separator stayed behind. */
   white-space: nowrap;
   font-family: var(--mono);
-  font-size: 0.72rem;
+  font-size: 0.7rem;
   letter-spacing: 0.04em;
-  color: var(--muted);
+  color: var(--dim);
+  background: var(--tint);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.15rem 0.55rem;
+  transition: all 180ms ease;
+}
+
+.card:hover .card-tags li {
+  color: var(--paper);
+  border-color: rgba(var(--wash-rgb), 0.5);
 }
 
 /* ---- Records: publications, where there is no image to lead with ------ */
@@ -403,20 +526,29 @@
   display: grid;
   grid-template-columns: 4.5rem 1fr;
   gap: 0 clamp(1rem, 3vw, 2.4rem);
-  padding: clamp(1.4rem, 2.5vw, 2.1rem) 0;
-  border-bottom: 1px solid var(--line);
-  transition: background 300ms ease;
+  padding: clamp(1.2rem, 2vw, 1.8rem) clamp(1rem, 2vw, 1.6rem);
+  margin-bottom: 0.85rem;
+  background: rgba(var(--scrim-rgb), 0.45);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 250ms ease;
 }
 
 .record:hover {
-  background: var(--tint);
+  background: rgba(var(--scrim-rgb), 0.75);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
 /* The year as a rail down the left: a bibliography's own way of being read. */
 .record-year {
   font-family: var(--mono);
-  font-size: 0.86rem;
-  letter-spacing: 0.06em;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   color: var(--gold);
   padding-top: 0.2rem;
 }
@@ -425,8 +557,8 @@
   display: block;
   margin: 0 0 0.55rem;
   font-size: clamp(1.2rem, 1.8vw, 1.45rem);
-  font-weight: 400;
-  line-height: 1.32;
+  font-weight: 500;
+  line-height: 1.35;
   color: var(--paper);
   text-decoration: none;
   transition: color 250ms ease;
@@ -458,8 +590,8 @@
 .record-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 1rem;
-  align-items: baseline;
+  gap: 0.8rem;
+  align-items: center;
   font-family: var(--mono);
   font-size: 0.76rem;
   letter-spacing: 0.12em;
@@ -467,28 +599,86 @@
 }
 
 .record-type {
-  color: var(--teal);
+  color: var(--gold);
+  background: var(--tint);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.14rem 0.55rem;
 }
 
 .record-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.9rem;
+  gap: 0.6rem;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .record-links a {
-  color: var(--dim);
+  color: var(--paper);
   text-decoration: none;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 2px;
+  background: var(--tint);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.14rem 0.6rem;
+  font-size: 0.74rem;
+  transition: all 180ms ease;
 }
 
 .record-links a:hover {
   color: var(--gold);
   border-color: var(--gold);
+  background: rgba(var(--wash-rgb), 0.4);
+}
+
+.abstract-toggle {
+  margin: 0.85rem 0 0;
+  max-width: 44rem;
+}
+
+.abstract-toggle summary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dim);
+  cursor: pointer;
+  user-select: none;
+  list-style: none;
+  transition: color 180ms ease;
+}
+
+.abstract-toggle summary::-webkit-details-marker {
+  display: none;
+}
+
+.abstract-toggle summary::after {
+  content: " ↓";
+  font-size: 0.8em;
+  color: var(--gold);
+}
+
+.abstract-toggle[open] summary::after {
+  content: " ↑";
+}
+
+.abstract-toggle summary:hover {
+  color: var(--gold);
+}
+
+.abstract-content {
+  margin: 0.65rem 0 0;
+  padding: 0.85rem 1.1rem;
+  background: rgba(var(--wash-rgb), 0.22);
+  border-left: 2px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  color: var(--dim);
 }
 
 @media (max-width: 640px) {
@@ -498,12 +688,78 @@
   }
 }
 
+/* ---- Filter bar ------------------------------------------------------- */
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem;
+  margin: 1.6rem 0 2.4rem;
+  padding: 0;
+  list-style: none;
+}
+
+.filter-chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--tint);
+  color: var(--muted);
+  border-radius: 9999px;
+  padding: 0.42rem 1.05rem;
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.filter-chip:hover {
+  color: var(--paper);
+  border-color: var(--gold);
+  transform: translateY(-1px);
+}
+
+.filter-chip.is-active {
+  background: rgba(var(--gold-rgb), 0.16);
+  border-color: var(--gold);
+  color: var(--gold);
+  font-weight: 600;
+  box-shadow: 0 0 14px rgba(var(--gold-rgb), 0.15);
+}
+
 /* ---- Cite ------------------------------------------------------------- */
 
 .cite {
   margin: 1.8rem 0 0;
   max-width: 44rem;
   border: 1px solid var(--line);
+}
+
+.cite.cite-inline {
+  margin: 1.1rem 0 0;
+  border-radius: 8px;
+  background: rgba(var(--wash-rgb), 0.28);
+}
+
+.cite.cite-inline summary {
+  padding: 0.55rem 0.95rem;
+  font-size: 0.72rem;
+}
+
+.cite.cite-inline .cite-body {
+  padding: 0.85rem 0.95rem;
+}
+
+.cite.cite-inline .cite-body pre {
+  font-size: 0.78rem;
 }
 
 .cite summary {
@@ -775,11 +1031,28 @@
   display: grid;
   grid-template-columns: var(--rail) 1fr;
   gap: 0 2.4rem;
-  padding: 0 0 clamp(2.2rem, 4vw, 3.2rem);
+  padding: 0 0 clamp(1.8rem, 3.5vw, 2.8rem);
 }
 
 .cv-entry:last-child {
   padding-bottom: 0;
+}
+
+.cv-what {
+  background: rgba(var(--scrim-rgb), 0.45);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 250ms ease;
+}
+
+.cv-entry:hover .cv-what {
+  background: rgba(var(--scrim-rgb), 0.75);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.5);
 }
 
 .cv-entry::before {
@@ -819,8 +1092,10 @@
 
 .cv-title {
   margin: 0 0 0.35rem;
+  font-family: var(--sans);
   font-size: clamp(1.16rem, 1.7vw, 1.34rem);
-  font-weight: 400;
+  font-weight: 500;
+  font-style: normal;
   line-height: 1.35;
   color: var(--paper);
 }
@@ -831,9 +1106,9 @@
   align-items: baseline;
   gap: 0.55rem;
   margin: 0 0 0.9rem;
-  font-family: var(--serif);
-  font-style: italic;
-  font-size: 1.1rem;
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 1.05rem;
   color: var(--dim);
 }
 
@@ -930,26 +1205,36 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
 .award {
   display: grid;
   grid-template-columns: 4.5rem 1fr;
   gap: 0 clamp(1rem, 3vw, 2.4rem);
-  padding: clamp(1.1rem, 2vw, 1.6rem) 0;
-  border-bottom: 1px solid var(--line);
-  transition: background 300ms ease;
+  padding: clamp(1.2rem, 2vw, 1.6rem) clamp(1rem, 2vw, 1.6rem);
+  background: rgba(var(--scrim-rgb), 0.45);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 250ms ease;
 }
 
 .award:hover {
-  background: var(--tint);
+  background: rgba(var(--scrim-rgb), 0.75);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.5);
 }
 
 .award-year {
   font-family: var(--mono);
-  font-size: 0.86rem;
-  letter-spacing: 0.06em;
+  font-size: 0.92rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   color: var(--gold);
   padding-top: 0.2rem;
 }
@@ -957,7 +1242,8 @@
 .award-title {
   display: block;
   margin: 0 0 0.4rem;
-  font-size: 1.16rem;
+  font-size: 1.18rem;
+  font-weight: 600;
   line-height: 1.35;
   color: var(--paper);
   text-decoration: none;
@@ -989,15 +1275,32 @@ a.award-title:hover {
 .skill-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
-  gap: clamp(1.8rem, 3.5vw, 2.8rem) clamp(1.6rem, 4vw, 3rem);
+  gap: clamp(1.2rem, 2.5vw, 1.8rem);
+}
+
+.skill-group {
+  background: rgba(var(--scrim-rgb), 0.45);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 1.4rem 1.6rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 250ms ease;
+}
+
+.skill-group:hover {
+  background: rgba(var(--scrim-rgb), 0.7);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px -10px rgba(0, 0, 0, 0.45);
 }
 
 .skill-group-name {
   margin: 0 0 0.9rem;
   padding-bottom: 0.6rem;
   border-bottom: 1px solid var(--line);
-  font-size: 0.92rem;
-  font-weight: 400;
+  font-size: 0.94rem;
+  font-weight: 600;
   letter-spacing: 0.04em;
   color: var(--paper);
 }
@@ -1034,19 +1337,19 @@ a.award-title:hover {
 .tick {
   width: 10px;
   height: 3px;
-  /* Unlit ticks have to be visible enough to be counted and quiet enough not
-     to be mistaken for lit ones — at equal weight the meter read as a dash. */
+  border-radius: 2px;
   background: rgba(var(--wash-rgb), 0.85);
 }
 
 .tick.is-on {
   background: var(--gold);
+  box-shadow: 0 0 6px rgba(56, 189, 248, 0.4);
 }
 
 .lang-row {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
-  gap: 1rem clamp(1.6rem, 4vw, 3rem);
+  gap: 1rem clamp(1.2rem, 3vw, 2rem);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -1057,13 +1360,23 @@ a.award-title:hover {
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 0.3rem 1rem;
-  padding: 0.85rem 0;
-  border-top: 1px solid var(--line);
+  padding: 1.1rem 1.4rem;
+  background: rgba(var(--scrim-rgb), 0.45);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  backdrop-filter: blur(8px);
+  transition: all 220ms ease;
+}
+
+.lang:hover {
+  background: rgba(var(--scrim-rgb), 0.7);
+  border-color: var(--gold);
 }
 
 .lang-name {
   grid-column: 1;
   font-size: 1.02rem;
+  font-weight: 500;
   color: var(--paper);
 }
 
@@ -1073,7 +1386,7 @@ a.award-title:hover {
   font-size: 0.72rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--gold);
 }
 
 /* Beside the pair, not above the label it measures. */
@@ -1090,17 +1403,23 @@ a.award-title:hover {
   align-items: baseline;
   justify-content: space-between;
   gap: 0.8rem;
-  padding: 1.3rem 1.5rem;
+  padding: 1.4rem 1.8rem;
+  background: rgba(var(--scrim-rgb), 0.5);
   border: 1px solid var(--line);
+  border-radius: 10px;
   text-decoration: none;
+  backdrop-filter: blur(10px);
   transition:
     border-color 250ms ease,
-    background 250ms ease;
+    background 250ms ease,
+    transform 250ms ease;
 }
 
 .cv-callout:hover {
   border-color: var(--gold);
-  background: var(--tint);
+  background: rgba(var(--scrim-rgb), 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px -10px rgba(0, 0, 0, 0.5);
 }
 
 .cv-callout-figure {

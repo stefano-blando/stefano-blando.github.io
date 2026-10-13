@@ -126,11 +126,154 @@ export const PRESETS = {
     dim: '#9ba79c',
     raised: '#0a1211',
   },
+  'emerald-forest': {
+    ink: '#071512',
+    paper: '#eaf5f0',
+    primary: '#329577',
+    accent: '#2dd4bf',
+    smoke: '#14382e',
+    pale: '#eaf5f0',
+    muted: '#749e90',
+    dim: '#92b7aa',
+    raised: '#0e241e',
+    tints: [
+      { primary: '#329577', accent: '#2dd4bf', smoke: '#14382e', scrim: '7, 21, 18' },
+      { primary: '#288469', accent: '#34d399', smoke: '#123229', scrim: '6, 20, 16' },
+      { primary: '#21785f', accent: '#2dd4bf', smoke: '#102c24', scrim: '5, 18, 15' },
+      { primary: '#2b866c', accent: '#4ade80', smoke: '#13352b', scrim: '6, 19, 16' },
+      { primary: '#329577', accent: '#2dd4bf', smoke: '#14382e', scrim: '7, 21, 18' },
+      { primary: '#2a8267', accent: '#38bdf8', smoke: '#123027', scrim: '6, 19, 16' },
+      { primary: '#1f6e57', accent: '#2dd4bf', smoke: '#0e2820', scrim: '5, 17, 14' },
+      { primary: '#329577', accent: '#34d399', smoke: '#14382e', scrim: '7, 21, 18' },
+    ],
+  },
+  'mediterranean-azure': {
+    ink: '#06121e',
+    paper: '#eaf2fb',
+    primary: '#3b86cb',
+    accent: '#38bdf8',
+    smoke: '#122c44',
+    pale: '#eaf2fb',
+    muted: '#7497b7',
+    dim: '#93b4d2',
+    raised: '#0c2035',
+    tints: [
+      { primary: '#3b86cb', accent: '#38bdf8', smoke: '#122c44', scrim: '6, 18, 30' },
+      { primary: '#3076b6', accent: '#60a5fa', smoke: '#10273d', scrim: '5, 16, 28' },
+      { primary: '#2768a3', accent: '#38bdf8', smoke: '#0e2236', scrim: '5, 15, 26' },
+      { primary: '#337cb9', accent: '#22d3ee', smoke: '#112940', scrim: '5, 17, 29' },
+      { primary: '#3b86cb', accent: '#38bdf8', smoke: '#122c44', scrim: '6, 18, 30' },
+      { primary: '#3173af', accent: '#818cf8', smoke: '#10263b', scrim: '5, 16, 27' },
+      { primary: '#235e94', accent: '#38bdf8', smoke: '#0d1f30', scrim: '4, 14, 24' },
+      { primary: '#3b86cb', accent: '#22d3ee', smoke: '#122c44', scrim: '6, 18, 30' },
+    ],
+  },
+  'verdigris-terracotta': {
+    ink: '#091314',
+    paper: '#f4ede2',
+    primary: '#429686',
+    accent: '#e5a158',
+    smoke: '#1b3532',
+    pale: '#f4ede2',
+    muted: '#7e9a93',
+    dim: '#9bb4ad',
+    raised: '#122221',
+    tints: [
+      { primary: '#429686', accent: '#e5a158', smoke: '#1b3532', scrim: '9, 19, 20' },
+      { primary: '#368475', accent: '#f59e0b', smoke: '#172f2d', scrim: '8, 17, 18' },
+      { primary: '#2f7466', accent: '#d97706', smoke: '#142a28', scrim: '7, 16, 17' },
+      { primary: '#3b8c7d', accent: '#e5a158', smoke: '#193230', scrim: '8, 18, 19' },
+      { primary: '#429686', accent: '#e5a158', smoke: '#1b3532', scrim: '9, 19, 20' },
+      { primary: '#378677', accent: '#fbbf24', smoke: '#172f2d', scrim: '8, 17, 18' },
+      { primary: '#296b5e', accent: '#d97706', smoke: '#122523', scrim: '6, 15, 16' },
+      { primary: '#429686', accent: '#e5a158', smoke: '#1b3532', scrim: '9, 19, 20' },
+    ],
+  },
+  'celadon-azure': {
+    ink: '#080c0d',
+    paper: '#edf1f0',
+    primary: '#5b857d',
+    accent: '#3ea8a2',
+    smoke: '#1b2926',
+    pale: '#edf1f0',
+    muted: '#7a9692',
+    dim: '#8ba3a0',
+    raised: '#101618',
+    tints: [
+      { primary: '#5b857d', accent: '#3ea8a2', smoke: '#1b2926', scrim: '8, 12, 13' },
+      { primary: '#4a7c76', accent: '#3bb5ad', smoke: '#172725', scrim: '7, 12, 12' },
+      { primary: '#428a86', accent: '#38b2ac', smoke: '#152b2b', scrim: '6, 13, 14' },
+      { primary: '#3d9492', accent: '#45bfb9', smoke: '#142f30', scrim: '6, 14, 15' },
+      { primary: '#528277', accent: '#3ea8a2', smoke: '#192825', scrim: '8, 12, 13' },
+      { primary: '#468682', accent: '#3db8b0', smoke: '#162b2a', scrim: '7, 13, 14' },
+      { primary: '#3f7f7b', accent: '#39ada7', smoke: '#152827', scrim: '6, 12, 13' },
+      { primary: '#568b82', accent: '#42b0a9', smoke: '#1a2a27', scrim: '8, 13, 13' },
+    ],
+  },
+  'prussian-verdigris': {
+    ink: '#070b0e',
+    paper: '#eef2f5',
+    primary: '#628c98',
+    accent: '#48a98c',
+    smoke: '#1b2c34',
+    pale: '#eef2f5',
+    muted: '#7b959f',
+    dim: '#8fa5ad',
+    raised: '#0f151b',
+    tints: [
+      { primary: '#628c98', accent: '#48a98c', smoke: '#1b2c34', scrim: '7, 11, 14' },
+      { primary: '#568492', accent: '#40a283', smoke: '#182931', scrim: '7, 11, 14' },
+      { primary: '#4d8091', accent: '#42a88a', smoke: '#162831', scrim: '6, 11, 15' },
+      { primary: '#508b8b', accent: '#4db093', smoke: '#172a2e', scrim: '6, 12, 14' },
+      { primary: '#5c8d93', accent: '#47a88b', smoke: '#1a2c31', scrim: '7, 11, 14' },
+      { primary: '#54878e', accent: '#43a587', smoke: '#182a2f', scrim: '7, 11, 14' },
+      { primary: '#4f7f8d', accent: '#3fa082', smoke: '#172830', scrim: '6, 11, 15' },
+      { primary: '#5e9198', accent: '#4cb295', smoke: '#1b2d33', scrim: '7, 12, 15' },
+    ],
+  },
+  'alpine-azure': {
+    ink: '#070a08',
+    paper: '#eaf0eb',
+    primary: '#5e917d',
+    accent: '#459bb2',
+    smoke: '#192620',
+    pale: '#eaf0eb',
+    muted: '#789587',
+    dim: '#8ca398',
+    raised: '#0e1411',
+    tints: [
+      { primary: '#5e917d', accent: '#459bb2', smoke: '#192620', scrim: '7, 10, 8' },
+      { primary: '#538a75', accent: '#3f96ae', smoke: '#16241e', scrim: '6, 10, 8' },
+      { primary: '#4a8578', accent: '#3b9bb8', smoke: '#152420', scrim: '6, 10, 9' },
+      { primary: '#488c88', accent: '#42a5c2', smoke: '#152726', scrim: '6, 11, 10' },
+      { primary: '#558d7a', accent: '#439ab1', smoke: '#17251f', scrim: '7, 10, 8' },
+      { primary: '#4c867c', accent: '#3d9db9', smoke: '#152522', scrim: '6, 10, 9' },
+      { primary: '#508474', accent: '#4094ab', smoke: '#16231d', scrim: '6, 10, 8' },
+      { primary: '#599380', accent: '#47a3bb', smoke: '#182721', scrim: '7, 11, 9' },
+    ],
+  },
 };
 
-export const ACTIVE = 'tonal-night';
+export const ACTIVE = 'mediterranean-azure';
 
-export const palette = PRESETS[ACTIVE];
+export function getActivePresetKey() {
+  if (
+    typeof document !== 'undefined' &&
+    document.documentElement?.dataset?.palette &&
+    PRESETS[document.documentElement.dataset.palette]
+  ) {
+    return document.documentElement.dataset.palette;
+  }
+  return ACTIVE;
+}
+
+export const palette = new Proxy(PRESETS[ACTIVE], {
+  get(target, prop) {
+    const activeKey = getActivePresetKey();
+    const preset = PRESETS[activeKey] || PRESETS[ACTIVE];
+    return preset[prop];
+  },
+});
 
 /**
  * A light theme, measured but **not wired up**. Nothing emits it today; it is

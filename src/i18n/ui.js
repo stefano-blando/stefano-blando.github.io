@@ -43,21 +43,21 @@ export const UI = {
 
     'home.title': 'Stefano Blando — AI Researcher & PhD Candidate',
     'home.description':
-      "PhD candidate at Scuola Superiore Sant'Anna. Adaptive multi-agent systems, statistical verification, robust quantitative methods, and language models for economic and financial systems.",
-    'home.role': 'AI Researcher & PhD Candidate',
+      "PhD candidate at Scuola Superiore Sant'Anna and University of Pisa. Research in multi-agent systems, statistical verification, and complex networks.",
+    'home.role': 'PhD Candidate · Scuola Superiore Sant’Anna & Università di Pisa',
     'home.lede':
-      'Adaptive multi-agent systems, statistical verification, and robust quantitative methods for economic and financial systems.',
-    'home.scroll': 'Scroll to travel',
+      'Research in multi-agent systems, statistical verification, and complex networks.',
+    'home.scroll': 'Scroll to explore constellation',
     'home.contact': 'Contact',
     'home.profiles': 'Profiles',
     'home.start': 'Start',
 
-    'station.research': 'Four connected pillars',
-    'station.projects': 'Research, built',
-    'station.publications': 'Papers and proceedings',
-    'station.experience': 'The academic path',
-    'station.network': 'Co-authors and collaborators',
-    'station.news': 'Recent updates',
+    'station.research': 'Explore',
+    'station.projects': 'Explore',
+    'station.publications': 'Explore',
+    'station.experience': 'Explore',
+    'station.network': 'Explore',
+    'station.news': 'Explore',
 
     'research.title': 'Research — Stefano Blando',
     'research.description':
@@ -79,16 +79,24 @@ export const UI = {
     'projects.lede':
       'Simulations, interfaces and agentic systems built around the research questions — some from the work itself, some from hackathons, some from curiosity.',
     'projects.back': '← All projects',
+    'projects.filterAll': 'All Projects',
+    'projects.filterResearch': 'Research Systems',
+    'projects.filterHackathons': 'Hackathons',
+    'projects.filterSideQuests': 'Side Quests',
 
     'publications.title': 'Publications — Stefano Blando',
     'publications.description':
-      'Peer-reviewed papers, conference proceedings, and working papers in computational economics, agent-based modeling, and quantitative finance.',
+      'Peer-reviewed papers, conference proceedings, and preprints in multi-agent systems, formal verification, and AI.',
     'publications.count': 'publications',
     'publications.headingA': 'Papers and',
     'publications.headingB': 'proceedings',
     'publications.lede':
-      'Peer-reviewed papers, conference proceedings and working papers in computational economics, agent-based modeling and quantitative finance.',
+      'Peer-reviewed papers, conference proceedings, and preprints across multi-agent systems, statistical verification, and artificial intelligence.',
     'publications.back': '← All publications',
+    'publications.filterAll': 'All Works',
+    'publications.filterConferences': 'Conference Proceedings',
+    'publications.filterPreprints': 'Preprints & Articles',
+    'publications.filterTheses': 'Theses',
     'publications.abstract': 'Abstract',
     'publications.cite': 'Cite this',
     'publications.citeGenerated': 'generated from arXiv',
@@ -103,6 +111,10 @@ export const UI = {
     'blog.lede':
       'What the work has been doing lately: conferences, accepted papers, prizes and the workshops behind them.',
     'blog.back': '← All news',
+    'blog.filterAll': 'All Dispatches',
+    'blog.filterConferences': 'Conferences',
+    'blog.filterWorkshops': 'Workshops',
+    'blog.filterAwards': 'Awards',
 
     'experience.title': 'Experience — Stefano Blando',
     'experience.description':
@@ -179,21 +191,21 @@ export const UI = {
 
     'home.title': 'Stefano Blando — Ricercatore in IA e dottorando',
     'home.description':
-      "Dottorando alla Scuola Superiore Sant'Anna. Sistemi multi-agente adattivi, verifica statistica, metodi quantitativi robusti e modelli linguistici per i sistemi economici e finanziari.",
-    'home.role': 'Ricercatore in IA e dottorando',
+      "Dottorando alla Scuola Superiore Sant'Anna e Università di Pisa. Ricerca su sistemi multi-agente, verifica statistica e reti complesse.",
+    'home.role': 'Dottorando · Scuola Superiore Sant’Anna & Università di Pisa',
     'home.lede':
-      'Sistemi multi-agente adattivi, verifica statistica e metodi quantitativi robusti per i sistemi economici e finanziari.',
-    'home.scroll': 'Scorri per viaggiare',
+      'Ricerca su sistemi multi-agente, verifica statistica e reti complesse.',
+    'home.scroll': 'Scorri per esplorare la costellazione',
     'home.contact': 'Contatti',
     'home.profiles': 'Profili',
     'home.start': 'Inizio',
 
-    'station.research': 'Quattro pilastri connessi',
-    'station.projects': 'La ricerca, costruita',
-    'station.publications': 'Articoli e atti di convegno',
-    'station.experience': 'Il percorso accademico',
-    'station.network': 'Coautori e collaboratori',
-    'station.news': 'Aggiornamenti recenti',
+    'station.research': 'Esplora',
+    'station.projects': 'Esplora',
+    'station.publications': 'Esplora',
+    'station.experience': 'Esplora',
+    'station.network': 'Esplora',
+    'station.news': 'Esplora',
 
     'research.title': 'Ricerca — Stefano Blando',
     'research.description':
@@ -215,16 +227,24 @@ export const UI = {
     'projects.lede':
       'Simulazioni, interfacce e sistemi agentici costruiti attorno alle domande di ricerca — alcuni nati dal lavoro stesso, altri da hackathon, altri dalla curiosità.',
     'projects.back': '← Tutti i progetti',
+    'projects.filterAll': 'Tutti i progetti',
+    'projects.filterResearch': 'Sistemi di ricerca',
+    'projects.filterHackathons': 'Hackathon',
+    'projects.filterSideQuests': 'Progetti personali',
 
     'publications.title': 'Pubblicazioni — Stefano Blando',
     'publications.description':
-      'Articoli sottoposti a revisione paritaria, atti di convegno e working paper in economia computazionale, modellazione ad agenti e finanza quantitativa.',
+      'Articoli peer-reviewed, atti di convegno e preprint su sistemi multi-agente, verifica formale e IA.',
     'publications.count': 'pubblicazioni',
     'publications.headingA': 'Articoli e',
     'publications.headingB': 'atti di convegno',
     'publications.lede':
-      'Articoli sottoposti a revisione paritaria, atti di convegno e working paper in economia computazionale, modellazione ad agenti e finanza quantitativa.',
+      'Articoli sottoposti a revisione paritaria, atti di convegno e preprint su sistemi multi-agente, verifica statistica e intelligenza artificiale.',
     'publications.back': '← Tutte le pubblicazioni',
+    'publications.filterAll': 'Tutti i lavori',
+    'publications.filterConferences': 'Atti di conferenza',
+    'publications.filterPreprints': 'Preprint & Articoli',
+    'publications.filterTheses': 'Tesi',
     'publications.abstract': 'Abstract',
     'publications.cite': 'Cita',
     'publications.citeGenerated': 'generata da arXiv',
@@ -239,6 +259,10 @@ export const UI = {
     'blog.lede':
       'Che cosa sta facendo il lavoro in questo periodo: convegni, articoli accettati, premi e i workshop che ci stanno dietro.',
     'blog.back': '← Tutte le notizie',
+    'blog.filterAll': 'Tutte le notizie',
+    'blog.filterConferences': 'Conferenze',
+    'blog.filterWorkshops': 'Workshop',
+    'blog.filterAwards': 'Premi',
 
     'experience.title': 'Percorso — Stefano Blando',
     'experience.description':

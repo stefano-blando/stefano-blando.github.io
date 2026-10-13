@@ -377,7 +377,6 @@ main {
   height: 6px;
   border-radius: 50%;
   background: var(--gold);
-  box-shadow: 0 0 12px var(--gold);
 }
 
 /* The hero name. It sits over a moving field at a distance, which is not the
@@ -392,9 +391,9 @@ h1 {
 }
 
 h1 em {
-  font-family: var(--serif);
-  font-style: italic;
-  color: var(--gold);
+  font-family: inherit;
+  font-style: normal;
+  color: inherit;
 }
 
 h2 {

@@ -25,6 +25,107 @@ const t = useTranslations(lang);
  */
 const PAGES = buildPages();
 
+const STATION_META = {
+  research: {
+    kicker: '01 / 06 · RESEARCH PILLARS',
+    facets: {
+      en: [
+        'Multi-Agent Systems',
+        'Statistical Verification',
+        'Complex Networks',
+        'NLP & Language Models',
+      ],
+      it: [
+        'Sistemi Multi-Agente',
+        'Verifica Statistica',
+        'Reti Complesse',
+        'NLP & Modelli Linguistici',
+      ],
+    },
+  },
+  projects: {
+    kicker: '02 / 06 · COMPUTATIONAL SYSTEMS',
+    facets: {
+      en: [
+        'Multi-Agent Systems',
+        'Systemic Risk',
+        'Complex Networks',
+        'Generative AI',
+      ],
+      it: [
+        'Sistemi Multi-Agente',
+        'Rischio Sistemico',
+        'Reti Complesse',
+        'IA Generativa',
+      ],
+    },
+  },
+  publications: {
+    kicker: '03 / 06 · SCHOLARLY WORKS',
+    facets: {
+      en: [
+        'Conference Proceedings',
+        'Journal Articles',
+        'Preprints',
+        'Working Papers',
+      ],
+      it: [
+        'Atti di Convegno',
+        'Articoli di Rivista',
+        'Preprint',
+        'Working Paper',
+      ],
+    },
+  },
+  experience: {
+    kicker: '04 / 06 · ACADEMIC PATH',
+    facets: {
+      en: [
+        'Scuola Superiore Sant’Anna',
+        'University of Pisa',
+        'University of Rome Tor Vergata',
+      ],
+      it: [
+        'Scuola Superiore Sant’Anna',
+        'Università di Pisa',
+        'Università di Roma Tor Vergata',
+      ],
+    },
+  },
+  network: {
+    kicker: '05 / 06 · COLLABORATION GRAPH',
+    facets: {
+      en: [
+        'Co-Authors',
+        'Faculty & Fellows',
+        'Partner Institutions',
+      ],
+      it: [
+        'Co-Autori',
+        'Docenti & Ricercatori',
+        'Istituzioni Partner',
+      ],
+    },
+  },
+  news: {
+    kicker: '06 / 06 · DISPATCHES',
+    facets: {
+      en: [
+        'Conferences',
+        'Workshops',
+        'Accepted Papers',
+        'Awards',
+      ],
+      it: [
+        'Conferenze',
+        'Workshop',
+        'Articoli Accettati',
+        'Premi',
+      ],
+    },
+  },
+};
+
 const ORCID = '0009-0007-0523-6855';
 const ORCID_URL = `https://orcid.org/${ORCID}`;
 
@@ -131,7 +232,17 @@ const person = {
 
             {page.kind === 'destination' && (
               <>
+                {STATION_META[page.key]?.kicker && (
+                  <span class="station-kicker">{STATION_META[page.key].kicker}</span>
+                )}
                 <h2 class="station-title">{t(`nav.${page.key}`)}</h2>
+                {STATION_META[page.key]?.facets?.[lang] && (
+                  <ul class="station-facets" aria-label="Key areas">
+                    {STATION_META[page.key].facets[lang].map((facet) => (
+                      <li>{facet}</li>
+                    ))}
+                  </ul>
+                )}
                 <a class="station-link" href={localise(page.href, lang)}>
                   {t(`station.${page.key}`)} →
                 </a>

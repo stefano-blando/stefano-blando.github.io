@@ -25,6 +25,14 @@ const covers = import.meta.glob('../../../content/projects/*/featured.{png,jpg,j
 });
 const coverFor = (slug) =>
   Object.entries(covers).find(([path]) => path.includes(`/${slug}/`))?.[1]?.default;
+
+const categoryOf = (tags = []) => {
+  const lower = tags.map((t) => t.toLowerCase());
+  if (lower.some((t) => t.includes('research') || t.includes('ricerca'))) return 'research';
+  if (lower.some((t) => t.includes('hackathon'))) return 'hackathon';
+  if (lower.some((t) => t.includes('side quest') || t.includes('progetti personali'))) return 'side-quest';
+  return 'research';
+};
 ---
 
 <Base
@@ -41,6 +49,49 @@ const coverFor = (slug) =>
       <p class="page-lede">{t('projects.lede')}</p>
     </header>
 
+    <ul class="filter-bar" role="tablist" aria-label="Project categories">
+      <li>
+        <button
+          type="button"
+          class="filter-chip is-active"
+          data-filter="all"
+          aria-pressed="true"
+        >
+          {t('projects.filterAll')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="research"
+          aria-pressed="false"
+        >
+          {t('projects.filterResearch')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="hackathon"
+          aria-pressed="false"
+        >
+          {t('projects.filterHackathons')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="side-quest"
+          aria-pressed="false"
+        >
+          {t('projects.filterSideQuests')}
+        </button>
+      </li>
+    </ul>
+
     <div class="card-grid">
       {
         projects.map((project, i) => (
@@ -51,9 +102,33 @@ const coverFor = (slug) =>
             tags={project.data.tags}
             image={coverFor(project.id)}
             index={i + 1}
+            category={categoryOf(project.data.tags)}
+            links={project.data.links}
           />
         ))
       }
     </div>
   </main>
+
+  <script is:inline>
+    (() => {
+      const chips = document.querySelectorAll('.filter-chip');
+      const cards = document.querySelectorAll('.card-grid .card');
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          chips.forEach((c) => {
+            c.classList.remove('is-active');
+            c.setAttribute('aria-pressed', 'false');
+          });
+          chip.classList.add('is-active');
+          chip.setAttribute('aria-pressed', 'true');
+          const filter = chip.dataset.filter;
+          cards.forEach((card) => {
+            const matches = filter === 'all' || card.dataset.category === filter;
+            card.style.display = matches ? '' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
 </Base>

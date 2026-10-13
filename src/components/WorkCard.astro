@@ -12,12 +12,13 @@ import { Image } from 'astro:assets';
  * `index` prints as a plate number: this is a dossier of work, and numbering
  * it says so more cheaply than any decoration would.
  */
-const { href, title, summary, tags = [], image, index, kind } = Astro.props;
+const { href, title, summary, tags = [], image, index, kind, category, topic, links = [] } = Astro.props;
+const displayTopic = topic || category;
 ---
 
-<article class="card">
-  <a class="card-link" href={href}>
-    <div class="card-media">
+<article class="card" data-category={category}>
+  <div class="card-media">
+    <a class="card-media-link" href={href} aria-label={title}>
       {
         image ? (
           <Image src={image} alt="" widths={[420, 840]} sizes="(max-width: 720px) 92vw, 30vw" />
@@ -25,22 +26,42 @@ const { href, title, summary, tags = [], image, index, kind } = Astro.props;
           <span class="card-media-empty" aria-hidden="true" />
         )
       }
-      <span class="card-index">{String(index).padStart(2, '0')}</span>
-    </div>
+    </a>
+    <span class="card-index">{String(index).padStart(2, '0')}</span>
+    {displayTopic && <span class="card-topic">{displayTopic}</span>}
+  </div>
 
-    <div class="card-body">
-      {kind && <span class="card-kind">{kind}</span>}
-      <h3 class="card-title">{title}</h3>
-      <p class="card-summary">{summary}</p>
-      {
-        tags.length > 0 && (
-          <ul class="card-tags">
-            {tags.slice(0, 3).map((tag) => (
-              <li>{tag}</li>
-            ))}
-          </ul>
-        )
-      }
-    </div>
-  </a>
+  <div class="card-body">
+    {kind && <span class="card-kind">{kind}</span>}
+    <h3 class="card-title">
+      <a class="card-title-link" href={href}>{title}</a>
+    </h3>
+    <p class="card-summary">{summary}</p>
+    {
+      tags.length > 0 && (
+        <ul class="card-tags">
+          {tags.slice(0, 3).map((tag) => (
+            <li>{tag}</li>
+          ))}
+        </ul>
+      )
+    }
+
+    {
+      links.length > 0 && (
+        <div class="card-actions">
+          {links.filter((l) => l.url).map((link) => (
+            <a
+              href={link.url}
+              class="card-action-link"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {link.name ?? 'Link'} ↗
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
 </article>

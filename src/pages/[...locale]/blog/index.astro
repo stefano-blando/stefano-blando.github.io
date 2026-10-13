@@ -24,6 +24,14 @@ const coverFor = (slug) =>
 const LOCALES = { en: 'en-GB', it: 'it-IT' };
 const formatDate = (date) =>
   date.toLocaleDateString(LOCALES[lang], { year: 'numeric', month: 'short', day: 'numeric' });
+
+const categorizePost = (tags = []) => {
+  const lower = tags.map((t) => t.toLowerCase());
+  if (lower.some((t) => t.includes('conference') || t.includes('conferenz'))) return 'conference';
+  if (lower.some((t) => t.includes('workshop'))) return 'workshop';
+  if (lower.some((t) => t.includes('award') || t.includes('premi'))) return 'award';
+  return 'news';
+};
 ---
 
 <Base
@@ -40,6 +48,49 @@ const formatDate = (date) =>
       <p class="page-lede">{t('blog.lede')}</p>
     </header>
 
+    <ul class="filter-bar" role="tablist" aria-label="News categories">
+      <li>
+        <button
+          type="button"
+          class="filter-chip is-active"
+          data-filter="all"
+          aria-pressed="true"
+        >
+          {t('blog.filterAll')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="conference"
+          aria-pressed="false"
+        >
+          {t('blog.filterConferences')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="workshop"
+          aria-pressed="false"
+        >
+          {t('blog.filterWorkshops')}
+        </button>
+      </li>
+      <li>
+        <button
+          type="button"
+          class="filter-chip"
+          data-filter="award"
+          aria-pressed="false"
+        >
+          {t('blog.filterAwards')}
+        </button>
+      </li>
+    </ul>
+
     <div class="card-grid">
       {
         posts.map((post, i) => (
@@ -51,9 +102,32 @@ const formatDate = (date) =>
             image={coverFor(post.id)}
             index={i + 1}
             kind={formatDate(post.data.date)}
+            category={categorizePost(post.data.tags)}
           />
         ))
       }
     </div>
   </main>
+
+  <script is:inline>
+    (() => {
+      const chips = document.querySelectorAll('.filter-chip');
+      const cards = document.querySelectorAll('.card-grid .card');
+      chips.forEach((chip) => {
+        chip.addEventListener('click', () => {
+          chips.forEach((c) => {
+            c.classList.remove('is-active');
+            c.setAttribute('aria-pressed', 'false');
+          });
+          chip.classList.add('is-active');
+          chip.setAttribute('aria-pressed', 'true');
+          const filter = chip.dataset.filter;
+          cards.forEach((card) => {
+            const matches = filter === 'all' || card.dataset.category === filter;
+            card.style.display = matches ? '' : 'none';
+          });
+        });
+      });
+    })();
+  </script>
 </Base>
