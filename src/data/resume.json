@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14",
+  "generatedAt": "2026-10-22",
   "source": "src/data/authors/me.yaml",
   "lang": "en",
   "role": "PhD Student in Artificial Intelligence",
@@ -146,6 +146,20 @@
         "Statistical model checking of agent-based models - work published at MARS @ ETAPS 2026.",
         "Robust and high-dimensional methods for financial, socio-economic, and textual data."
       ]
+    },
+    {
+      "role": "Cultore della Materia (Subject Expert), Statistics and Text Analytics",
+      "org": "University of Rome Tor Vergata, Department of Enterprise Engineering \"Mario Lucertini\"",
+      "url": "https://dii.uniroma2.it/",
+      "location": "Rome, Italy",
+      "from": "2026",
+      "to": "present",
+      "current": true,
+      "facts": [],
+      "notes": [
+        "Subject expert in statistics and text analytics for the courses of Prof. Domenica Fioredistella Iezzi; member of examination boards."
+      ],
+      "bullets": []
     },
     {
       "role": "Academic Tutor",

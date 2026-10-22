@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-14",
+  "generatedAt": "2026-10-22",
   "source": "src/data/authors/me-it.yaml",
   "lang": "it",
   "role": "Dottorando in Intelligenza Artificiale",
@@ -146,6 +146,20 @@
         "Statistical model checking di modelli agent-based - lavoro pubblicato a MARS @ ETAPS 2026.",
         "Metodi robusti e ad alta dimensionalita per dati finanziari, socio-economici e testuali."
       ]
+    },
+    {
+      "role": "Cultore della Materia, Statistica e Text Analytics",
+      "org": "Università di Roma Tor Vergata, Dipartimento di Ingegneria dell'Impresa \"Mario Lucertini\"",
+      "url": "https://dii.uniroma2.it/",
+      "location": "Rome, Italy",
+      "from": "2026",
+      "to": "present",
+      "current": true,
+      "facts": [],
+      "notes": [
+        "Cultore della materia in statistica e text analytics per gli insegnamenti della Prof.ssa Domenica Fioredistella Iezzi; membro delle commissioni d'esame."
+      ],
+      "bullets": []
     },
     {
       "role": "Tutor Accademico",
