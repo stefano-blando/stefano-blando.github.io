@@ -25,7 +25,7 @@ tags:
   - Financial Machine Learning
   - Python
 featured: false
-pillar: robust-quant
+pillar: world
 image:
   caption: Visualizzazione della topologia di rete
   focal_point: ''

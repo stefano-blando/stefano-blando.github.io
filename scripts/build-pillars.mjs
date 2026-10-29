@@ -3,7 +3,7 @@
  *
  * Separate from universe.json for the reason resume.json is separate: the
  * homepage's client script imports universe.json, so the pillars' prose in two
- * languages would be downloaded by every visitor to read four headings. The
+ * languages would be downloaded by every visitor to read six headings. The
  * engine never touches this text — it only ever asked the clusters for their
  * axis, accent and count.
  */

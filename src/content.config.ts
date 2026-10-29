@@ -53,7 +53,7 @@ const publications = defineCollection({
     featured: z.boolean().default(false),
     // An enum, not a string: a typo must fail the build rather than quietly
     // empty a cluster of the constellation.
-    pillar: z.enum(['multi-agent', 'statistical-verification', 'robust-quant', 'text-analytics']),
+    pillar: z.enum(['agents', 'world', 'flows', 'rules', 'trust', 'purpose']),
     projects: z.array(z.string()).optional(),
     links: z.array(link).default([]),
     image: image.optional(),

@@ -24,7 +24,7 @@ tags:
   - High-Dimensional Data
   - R
 featured: true
-pillar: robust-quant
+pillar: trust
 image:
   caption: Robust Frontier
   focal_point: ''

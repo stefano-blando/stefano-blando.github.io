@@ -21,14 +21,16 @@ const CONTENT = join(here, '../src/content');
 const PILLARS = join(here, '../src/data/pillars.yaml');
 const OUT = join(here, '../src/data/universe.json');
 
-// One body, not four regions. Each pillar owns a sector of a single sphere,
+// One body, not six regions. Each pillar owns a sector of a single sphere,
 // given by an axis direction; the constellation rotates to present the active
 // sector, the way the FPlus object turns rather than being flown between.
 const CLUSTER_LAYOUT = {
-  'multi-agent': { azimuth: 0.6, elevation: 0.3, accent: '#dbb057' },
-  'statistical-verification': { azimuth: 2.2, elevation: -0.22, accent: '#8acbc1' },
-  'robust-quant': { azimuth: 3.8, elevation: 0.18, accent: '#f2a98c' },
-  'text-analytics': { azimuth: 5.4, elevation: -0.3, accent: '#c9d4e8' },
+  agents: { azimuth: 0.5, elevation: 0.3, accent: '#dbb057' },
+  world: { azimuth: 1.55, elevation: -0.22, accent: '#a8c3f0' },
+  flows: { azimuth: 2.6, elevation: 0.18, accent: '#8acbc1' },
+  rules: { azimuth: 3.65, elevation: -0.3, accent: '#e0c3a0' },
+  trust: { azimuth: 4.7, elevation: 0.24, accent: '#f2a98c' },
+  purpose: { azimuth: 5.75, elevation: -0.18, accent: '#c9d4e8' },
 };
 
 /** Radius at which content nodes rest inside the swarm. */
@@ -36,7 +38,7 @@ const NODE_SHELL = 1.72;
 /** Half-angle of a pillar's sector, in radians. */
 const SECTOR_SPREAD = 0.5;
 
-const CLUSTER_ORDER = ['multi-agent', 'statistical-verification', 'robust-quant', 'text-analytics'];
+const CLUSTER_ORDER = ['agents', 'world', 'flows', 'rules', 'trust', 'purpose'];
 
 function mulberry32(seed) {
   let a = seed >>> 0;
@@ -48,7 +50,7 @@ function mulberry32(seed) {
   };
 }
 
-/** The four research pillars. Data, not a landing page read back with regexes. */
+/** The six research pillars. Data, not a landing page read back with regexes. */
 function readPillars() {
   return parseYaml(readFileSync(PILLARS, 'utf8'));
 }
@@ -71,7 +73,7 @@ const pillars = readPillars();
 const nodes = [];
 
 for (const pillar of pillars) {
-  for (const slug of pillar.projects) {
+  for (const slug of pillar.projects ?? []) {
     const item = readItem('projects', slug);
     if (!item) {
       console.warn(`  ! project "${slug}" referenced by pillar "${pillar.id}" but not found`);
@@ -126,7 +128,7 @@ function axisOf(azimuth, elevation) {
 }
 
 // Deterministic placement: each work rests inside its pillar's cone on a single
-// shell, so the whole set reads as one constellation rather than four clumps.
+// shell, so the whole set reads as one constellation rather than six clumps.
 const clusters = CLUSTER_ORDER.map((id, index) => {
   const pillar = pillars.find((p) => p.id === id);
   const layout = CLUSTER_LAYOUT[id];

@@ -1,131 +1,187 @@
 [
   {
-    "id": "multi-agent",
+    "id": "agents",
     "index": 1,
     "projects": [
-      "risk-sentinel",
       "multi-agent-orchestration",
       "real-estate-ai-agent"
     ],
     "title": {
-      "en": "Adaptive Multi-Agent Systems",
-      "it": "Sistemi Multi-Agente Adattivi"
+      "en": "Agents",
+      "it": "Agenti"
     },
     "description": {
-      "en": "I study populations of learning, heuristic, and deliberative agents interacting over evolving economic networks, studying how local adaptation shapes aggregate dynamics.",
-      "it": "Studio popolazioni di agenti che apprendono, seguono euristiche e deliberano, in interazione su reti economiche in evoluzione, per capire come l'adattamento locale plasmi le dinamiche aggregate."
+      "en": "Who acts: decision-makers that learn, adapt and decide, from agent-based models and multi-agent reinforcement learning to LLM-based agents and the algorithms now active in markets.",
+      "it": "Chi agisce: decisori che apprendono, si adattano e scelgono, dai modelli ad agenti e dall'apprendimento per rinforzo multi-agente fino agli agenti basati su LLM e agli algoritmi ormai attivi sui mercati."
     },
     "detailed_text": {
-      "en": "In this research line, I model economic systems as dynamic, decentralized networks of heterogeneous decision-makers. Rather than assuming hyper-rational global equilibrium, agents operate with bounded rationality, local interactions, and adaptive strategies (such as multi-agent reinforcement learning or heuristic decision rules). By combining network science and agent-based modeling, I analyze how micro-level adaptation gives rise to macroeconomic phenomena, market liquidity shifts, and emergent systemic patterns.",
-      "it": "In questa linea di ricerca modello i sistemi economici come reti dinamiche e decentralizzate di decisori eterogenei. Invece di assumere un equilibrio globale iper-razionale, gli agenti operano con razionalità limitata, interazioni locali e strategie adattive (dall'apprendimento per rinforzo multi-agente a regole decisionali euristiche). Combinando scienza delle reti e modellazione ad agenti, analizzo come l'adattamento a livello micro dia origine a fenomeni macroeconomici, spostamenti di liquidità sui mercati e schemi sistemici emergenti."
+      "en": "Economic outcomes emerge from the choices of many heterogeneous decision-makers: households, firms, banks, regulators and, increasingly, algorithms. This pillar asks which behavior a model should assume and how that behavior changes when the environment does. It combines agent-based models with bounded rationality and heuristic rules, multi-agent reinforcement learning, and agents that reason with large language models, to study how local adaptation shapes aggregate dynamics.",
+      "it": "Gli esiti economici emergono dalle scelte di molti decisori eterogenei: famiglie, imprese, banche, regolatori e, sempre più spesso, algoritmi. Questo pilastro si chiede quale comportamento un modello debba assumere e come quel comportamento cambi quando cambia l'ambiente. Combina modelli ad agenti con razionalità limitata e regole euristiche, apprendimento per rinforzo multi-agente e agenti che ragionano con modelli linguistici di grandi dimensioni, per studiare come l'adattamento locale plasmi le dinamiche aggregate."
     },
     "topics": {
       "en": [
-        "Multi-Agent Systems",
-        "Reinforcement Learning",
-        "Graph Neural Networks"
+        "Agent-Based Modeling",
+        "Multi-Agent Reinforcement Learning",
+        "LLM-Based Agents"
       ],
       "it": [
-        "Sistemi Multi-Agente",
-        "Apprendimento per Rinforzo",
-        "Graph Neural Network"
+        "Modellazione ad Agenti",
+        "Apprendimento per Rinforzo Multi-Agente",
+        "Agenti Basati su LLM"
       ]
     }
   },
   {
-    "id": "statistical-verification",
+    "id": "world",
     "index": 2,
     "projects": [
-      "island-model-smc"
+      "network-crash-prediction"
     ],
     "title": {
-      "en": "Statistical Verification",
-      "it": "Verifica Statistica"
+      "en": "World",
+      "it": "Mondo"
     },
     "description": {
-      "en": "I use convergence diagnostics and statistical model checking to make simulation evidence more reliable and reproducible.",
-      "it": "Uso diagnostiche di convergenza e statistical model checking per rendere le evidenze di simulazione più affidabili e riproducibili."
+      "en": "Where and when: the structure in which agents act and how it evolves, from networks and higher-order interactions to geography.",
+      "it": "Dove e quando: la struttura in cui gli agenti agiscono e come evolve, dalle reti e dalle interazioni di ordine superiore fino alla geografia."
     },
     "detailed_text": {
-      "en": "Agent-based models and complex stochastic simulations generate massive execution traces that are notoriously challenging to validate formally. My work applies Statistical Model Checking (SMC), hypothesis testing, and rigorous statistical convergence diagnostics to verify complex simulation outcomes against temporal logic specifications. This bridge between formal methods and agent-based economics establishes quantifiable confidence intervals for policy interventions and stress-test scenarios.",
-      "it": "I modelli ad agenti e le simulazioni stocastiche complesse generano tracce di esecuzione enormi, notoriamente difficili da validare in modo formale. Il mio lavoro applica lo Statistical Model Checking (SMC), i test d'ipotesi e diagnostiche rigorose di convergenza statistica per verificare gli esiti di simulazioni complesse rispetto a specifiche in logica temporale. Questo ponte fra metodi formali ed economia ad agenti stabilisce intervalli di confidenza quantificabili per gli interventi di policy e per gli scenari di stress test."
+      "en": "Agents do not interact at random. They are linked by credit, trade, ownership and information, often in groups rather than in pairs, and they live in places exposed to different risks. This pillar treats space and time as a single object: the structure of these connections together with its evolution, as networks form, rewire and pass through regime shifts and transitions. The tools are network science, higher-order networks and graph machine learning.",
+      "it": "Gli agenti non interagiscono a caso. Sono legati da credito, commercio, proprietà e informazione, spesso in gruppi e non solo in coppie, e vivono in luoghi esposti a rischi diversi. Questo pilastro tratta spazio e tempo come un unico oggetto: la struttura di questi legami insieme alla sua evoluzione, mentre le reti si formano, si riconfigurano e attraversano cambi di regime e transizioni. Gli strumenti sono la scienza delle reti, le reti di ordine superiore e il machine learning su grafi."
     },
     "topics": {
       "en": [
-        "Statistical Model Checking",
-        "Agent-Based Modeling",
-        "Reproducibility"
+        "Network Science",
+        "Higher-Order Networks",
+        "Graph Machine Learning"
       ],
       "it": [
-        "Statistical Model Checking",
-        "Modellazione ad Agenti",
-        "Riproducibilità"
+        "Scienza delle Reti",
+        "Reti di Ordine Superiore",
+        "Machine Learning su Grafi"
       ]
     }
   },
   {
-    "id": "robust-quant",
+    "id": "flows",
     "index": 3,
     "projects": [
-      "robust-portfolio-optimization",
-      "network-crash-prediction",
-      "gas-network-risk-forecasting"
+      "risk-sentinel",
+      "gas-network-risk-forecasting",
+      "nlp-semantic-network-analysis"
     ],
     "title": {
-      "en": "Robust Quantitative Methods",
-      "it": "Metodi Quantitativi Robusti"
+      "en": "Flows",
+      "it": "Flussi"
     },
     "description": {
-      "en": "I apply econometrics, robust statistics, and graph learning to systemic risk and financial decision problems.",
-      "it": "Applico econometria, statistica robusta e apprendimento su grafi al rischio sistemico e ai problemi di decisione finanziaria."
+      "en": "What moves: credit and liquidity, information and narratives, and physical flows such as temperature and water, and how they form, spread and amplify.",
+      "it": "Che cosa si muove: credito e liquidità, informazione e narrative, e flussi fisici come temperatura e acqua, e come si formano, si propagano e si amplificano."
     },
     "detailed_text": {
-      "en": "To address instability and structural shocks in economic infrastructure, I integrate robust econometrics, extreme value theory, and graph neural networks. This approach enables early detection of financial contagion vectors, stress propagation in interbank market networks, and energy network vulnerability forecasting. The goal is to build quantitative decision-support frameworks that remain resilient under heavy-tailed distributions and structural market regime shifts.",
-      "it": "Per affrontare instabilità e shock strutturali nelle infrastrutture economiche, integro econometria robusta, teoria dei valori estremi e graph neural network. Questo approccio permette di individuare precocemente i vettori di contagio finanziario, la propagazione dello stress nelle reti interbancarie e le vulnerabilità delle reti energetiche. L'obiettivo è costruire strumenti quantitativi di supporto alle decisioni che restino affidabili in presenza di distribuzioni a code pesanti e di cambi di regime nei mercati."
+      "en": "A flow is any quantity that moves or evolves through the system. Economic flows include credit, liquidity and trade; informational flows include news and the narratives that drive decisions; physical flows include temperature, water and energy. This pillar traces how flows propagate through the structure of the world, how shocks spread and amplify, and how text becomes a measurable signal, using time-series and functional data analysis, network science and text analytics.",
+      "it": "Un flusso è qualsiasi grandezza che si muove o evolve nel sistema. I flussi economici comprendono credito, liquidità e commercio; quelli informativi le notizie e le narrative che orientano le decisioni; quelli fisici temperatura, acqua ed energia. Questo pilastro segue come i flussi si propagano nella struttura del mondo, come gli shock si diffondono e si amplificano, e come il testo diventa un segnale misurabile, con l'analisi di serie storiche e di dati funzionali, la scienza delle reti e l'analisi testuale."
     },
     "topics": {
       "en": [
-        "Econometrics",
-        "Systemic Risk",
-        "Economic Networks"
+        "Time Series and Functional Data",
+        "Financial Contagion",
+        "Text Analytics"
       ],
       "it": [
-        "Econometria",
-        "Rischio Sistemico",
-        "Reti Economiche"
+        "Serie Storiche e Dati Funzionali",
+        "Contagio Finanziario",
+        "Analisi Testuale"
       ]
     }
   },
   {
-    "id": "text-analytics",
+    "id": "rules",
     "index": 4,
-    "projects": [
-      "nlp-semantic-network-analysis",
-      "peft-finetuning",
-      "rag-chatbot"
-    ],
+    "projects": [],
     "title": {
-      "en": "Text Analytics and Language Models",
-      "it": "Analisi Testuale e Modelli Linguistici"
+      "en": "Rules",
+      "it": "Regole"
     },
     "description": {
-      "en": "I apply text analytics and language models to multilingual corpora, sentiment and narrative dynamics, and to systems based on retrieval and embeddings.",
-      "it": "Applico l'analisi testuale e i modelli linguistici a corpora multilingue, alle dinamiche di sentiment e narrative, e a sistemi basati su retrieval ed embedding."
+      "en": "How they interact: the institutions, markets, contracts and policies that govern interaction. An intervention is a change of rules, and agents adapt to it.",
+      "it": "Come interagiscono: le istituzioni, i mercati, i contratti e le politiche che governano l'interazione. Un intervento è un cambio di regole, e gli agenti vi si adattano."
     },
     "detailed_text": {
-      "en": "I apply text analytics methods and language models to the study of unstructured data. The work covers the semantic structure of multilingual corpora, the extraction of sentiment and narrative dynamics, and the construction of systems based on retrieval, custom embeddings, and parameter-efficient adaptation of pretrained models. I use classical text analytics alongside transformer architectures, state-space models, and foundation models, with attention to verifying that results depend on the data rather than on the technique employed.",
-      "it": "Applico metodi di analisi testuale e modelli linguistici allo studio dei dati non strutturati. Il lavoro riguarda la struttura semantica di corpora multilingue, l'estrazione di sentiment e dinamiche narrative, e la costruzione di sistemi basati su retrieval, embedding su misura e adattamento parameter-efficient di modelli pre-addestrati. Uso l'analisi testuale classica accanto ad architetture transformer, modelli state-space e foundation model, con attenzione a verificare che i risultati dipendano dai dati e non dalla tecnica impiegata."
+      "en": "Markets, contracts, regulation and policy set the terms on which agents interact. Unlike the rest of the system, rules are what people deliberately change, and agents respond by adapting, so a conclusion drawn under one set of rules can fail under the next. This pillar models mechanisms explicitly: how institutional design shapes outcomes, and how to represent an intervention as a change of rules rather than as a shock to a fixed system.",
+      "it": "Mercati, contratti, regolazione e politiche fissano i termini in cui gli agenti interagiscono. A differenza del resto del sistema, le regole sono ciò che le persone cambiano deliberatamente, e gli agenti rispondono adattandosi: una conclusione tratta sotto un insieme di regole può non valere sotto il successivo. Questo pilastro modella i meccanismi in modo esplicito: come il disegno istituzionale determina gli esiti, e come rappresentare un intervento come un cambio di regole e non come uno shock a un sistema fisso."
     },
     "topics": {
       "en": [
-        "NLP",
-        "Narrative Economics",
-        "Foundation Models"
+        "Institutions",
+        "Market Mechanisms",
+        "Policy Interventions"
       ],
       "it": [
-        "NLP",
-        "Economia Narrativa",
-        "Foundation Model"
+        "Istituzioni",
+        "Meccanismi di Mercato",
+        "Interventi di Policy"
+      ]
+    }
+  },
+  {
+    "id": "trust",
+    "index": 5,
+    "projects": [
+      "island-model-smc",
+      "robust-portfolio-optimization"
+    ],
+    "title": {
+      "en": "Trust",
+      "it": "Affidabilità"
+    },
+    "description": {
+      "en": "How we know: data, statistics and verification to establish which conclusions a model can support, comparing rival models and testing results under a change of method, data or policy.",
+      "it": "Come lo sappiamo: dati, statistica e verifica per stabilire quali conclusioni un modello può sostenere, confrontando modelli rivali e mettendo alla prova i risultati al cambiare di metodo, dati o politica."
+    },
+    "detailed_text": {
+      "en": "A handful of simulation runs, or a single fitted model, is not yet evidence. This pillar combines data, robust and high-dimensional statistics, causal inference, statistical model checking and formal verification to attach quantified confidence to what models imply. It compares rival models that fit the same data, and tests whether a conclusion survives a change of method, of data or of the policy itself, including whether what a corpus says depends on the technique used to read it.",
+      "it": "Qualche esecuzione di una simulazione, o un singolo modello stimato, non è ancora evidenza. Questo pilastro combina dati, statistica robusta e ad alta dimensionalità, inferenza causale, statistical model checking e verifica formale per associare una confidenza quantificata a ciò che i modelli implicano. Confronta modelli rivali che si adattano agli stessi dati e verifica se una conclusione regge al cambiare del metodo, dei dati o della politica stessa, compreso il caso in cui ciò che dice un corpus dipende dalla tecnica usata per leggerlo."
+    },
+    "topics": {
+      "en": [
+        "Statistical Model Checking",
+        "Robust Statistics",
+        "Causal Inference"
+      ],
+      "it": [
+        "Statistical Model Checking",
+        "Statistica Robusta",
+        "Inferenza Causale"
+      ]
+    }
+  },
+  {
+    "id": "purpose",
+    "index": 6,
+    "projects": [],
+    "title": {
+      "en": "Purpose",
+      "it": "Scopo"
+    },
+    "description": {
+      "en": "Why and for whom: decisions that stay sound when the system responds, and attention to who gains, who pays and who bears the risk.",
+      "it": "Perché e per chi: decisioni che restano solide quando il sistema reagisce, e attenzione a chi guadagna, chi paga e chi sopporta il rischio."
+    },
+    "detailed_text": {
+      "en": "Models matter when they inform decisions, from policy to risk management. A sound decision has to hold once the system responds, including to the model itself, when forecasts, ratings and algorithms change the behavior they describe. This pillar also asks how outcomes are distributed: who gains, who pays and who bears the risk, as in how the losses from natural disasters are shared.",
+      "it": "I modelli contano quando orientano le decisioni, dalle politiche pubbliche alla gestione del rischio. Una decisione solida deve reggere quando il sistema reagisce, anche al modello stesso, quando previsioni, rating e algoritmi cambiano il comportamento che descrivono. Questo pilastro si chiede anche come si distribuiscono gli esiti: chi guadagna, chi paga e chi sopporta il rischio, come nella ripartizione delle perdite causate dai disastri naturali."
+    },
+    "topics": {
+      "en": [
+        "Decision Support",
+        "Risk Sharing",
+        "Distributional Impacts"
+      ],
+      "it": [
+        "Supporto alle Decisioni",
+        "Condivisione del Rischio",
+        "Impatti Distributivi"
       ]
     }
   }

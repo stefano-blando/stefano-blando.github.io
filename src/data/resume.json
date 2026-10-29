@@ -1,8 +1,8 @@
 {
-  "generatedAt": "2026-10-22",
+  "generatedAt": "2026-10-29",
   "source": "src/data/authors/me.yaml",
   "lang": "en",
-  "role": "PhD Student in Artificial Intelligence",
+  "role": "PhD Candidate in Artificial Intelligence",
   "orcid": "0009-0007-0523-6855",
   "since": "2015",
   "education": [
@@ -16,14 +16,10 @@
         {
           "label": "Supervisors",
           "value": "Prof. Andrea Vandin, Prof. Giorgio Fagiolo, Prof. Daniele Giachini"
-        },
-        {
-          "label": "Research focus",
-          "value": "\"Learning How to Learn: Adaptive Cognitive Architectures for Economic Network Formation\""
         }
       ],
       "notes": [
-        "Methods include differentiable agent-based models, LLM-based generative agents, multi-agent learning, network dynamics, and robust statistics."
+        "Thesis (working title): \"Learning How to Learn: Adaptive Cognitive Architectures for Economic Network Formation\". The work models economic, financial and climate systems as interacting systems of agents, bottom-up from data, and tests which of their conclusions can be trusted."
       ],
       "bullets": []
     },
@@ -130,7 +126,7 @@
   ],
   "experience": [
     {
-      "role": "PhD Researcher",
+      "role": "PhD Candidate",
       "org": "Scuola Superiore Sant'Anna",
       "url": "https://www.santannapisa.it/",
       "location": "Pisa, Italy",
@@ -139,7 +135,7 @@
       "current": true,
       "facts": [],
       "notes": [
-        "Research at the intersection of AI, agent-based modeling, and economics, within the National PhD Program in AI (Scuola Superiore Sant'Anna & University of Pisa)."
+        "Research where AI meets complex systems: economies, financial markets and climate risk as interacting systems of agents, within the National PhD Program in AI (Scuola Superiore Sant'Anna & University of Pisa)."
       ],
       "bullets": [
         "Differentiable agent-based models and LLM-based generative agents for economic simulation.",

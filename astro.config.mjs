@@ -56,9 +56,23 @@ function getLegacyRedirects() {
     '/categories': '/',
   };
 
-  const pillars = ['multi-agent', 'statistical-verification', 'robust-quant', 'text-analytics'];
+  const pillars = ['agents', 'world', 'flows', 'rules', 'trust', 'purpose'];
   for (const pillar of pillars) {
     redirects[`/en/research/${pillar}`] = `/research/${pillar}/`;
+  }
+
+  // The four pillars before the six-pillar framing (29 Oct 2026), sent to
+  // the pillar that took over most of their work.
+  const retiredPillars = {
+    'multi-agent': 'agents',
+    'statistical-verification': 'trust',
+    'robust-quant': 'trust',
+    'text-analytics': 'flows',
+  };
+  for (const [old, current] of Object.entries(retiredPillars)) {
+    redirects[`/research/${old}`] = `/research/${current}/`;
+    redirects[`/en/research/${old}`] = `/research/${current}/`;
+    redirects[`/it/research/${old}`] = `/it/research/${current}/`;
   }
 
   const collections = ['blog', 'projects', 'publications'];

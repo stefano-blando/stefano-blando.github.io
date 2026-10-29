@@ -54,7 +54,7 @@ const countsFor = (pillar) => [
                   projectCount > 0 && `${projectCount} ${t('research.projects')}`,
                 ]
                   .filter(Boolean)
-                  .join(' · ')}
+                  .join(' · ') || t('research.inProgress')}
               </span>
               <ul class="tag-row">
                 {pillar.topics[lang].map((topic) => (

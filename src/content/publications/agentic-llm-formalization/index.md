@@ -30,7 +30,7 @@ tags:
   - MultiVeStA
   - Mesa
 featured: true
-pillar: statistical-verification
+pillar: trust
 image:
   caption: Towards Agentic Agent-based Models (arXiv:2607.17948)
   focal_point: ''

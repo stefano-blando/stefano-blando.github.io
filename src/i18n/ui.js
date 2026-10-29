@@ -43,10 +43,10 @@ export const UI = {
 
     'home.title': 'Stefano Blando — AI Researcher & PhD Candidate',
     'home.description':
-      "PhD candidate at Scuola Superiore Sant'Anna and University of Pisa. Research in multi-agent systems, statistical verification, and complex networks.",
+      "PhD candidate in AI at Scuola Superiore Sant'Anna and University of Pisa. Economies, markets and the climate as interacting systems of agents, modeled bottom-up from data and tested for what they can be trusted to say.",
     'home.role': 'PhD Candidate · Scuola Superiore Sant’Anna & Università di Pisa',
     'home.lede':
-      'Research in multi-agent systems, statistical verification, and complex networks.',
+      'Economies, markets, the climate and society as interacting systems of agents, modeled bottom-up from data and tested for what they can be trusted to say.',
     'home.scroll': 'Scroll to explore constellation',
     'home.contact': 'Contact',
     'home.profiles': 'Profiles',
@@ -61,13 +61,14 @@ export const UI = {
 
     'research.title': 'Research — Stefano Blando',
     'research.description':
-      'Four research pillars: adaptive multi-agent systems, statistical verification, robust quantitative methods, and text analytics.',
+      'Six research pillars: agents, world, flows, rules, trust and purpose.',
     'research.heading': 'Research',
     'research.lede':
-      'Four connected pillars, from simulation design through to empirical validation. Each gathers the papers and the software built around one line of questions.',
+      'Six connected questions about interacting systems of agents: who acts, where and when, what moves, by which rules, how we know, and why and for whom. Each pillar gathers the papers and the software built around its question.',
     'research.publications': 'publications',
     'research.projects': 'projects',
     'research.back': '← All research',
+    'research.inProgress': 'Work in progress',
     'research.related': 'Related work',
 
     'projects.title': 'Projects — Stefano Blando',
@@ -191,10 +192,10 @@ export const UI = {
 
     'home.title': 'Stefano Blando — Ricercatore in IA e dottorando',
     'home.description':
-      "Dottorando alla Scuola Superiore Sant'Anna e Università di Pisa. Ricerca su sistemi multi-agente, verifica statistica e reti complesse.",
+      "Dottorando in IA alla Scuola Superiore Sant'Anna e Università di Pisa. Economie, mercati e clima come sistemi interagenti di agenti, modellati dal basso a partire dai dati e verificati in ciò che possono dire in modo affidabile.",
     'home.role': 'Dottorando · Scuola Superiore Sant’Anna & Università di Pisa',
     'home.lede':
-      'Ricerca su sistemi multi-agente, verifica statistica e reti complesse.',
+      'Economie, mercati, clima e società come sistemi interagenti di agenti, modellati dal basso a partire dai dati e verificati in ciò che possono dire in modo affidabile.',
     'home.scroll': 'Scorri per esplorare la costellazione',
     'home.contact': 'Contatti',
     'home.profiles': 'Profili',
@@ -209,13 +210,14 @@ export const UI = {
 
     'research.title': 'Ricerca — Stefano Blando',
     'research.description':
-      'Quattro pilastri di ricerca: sistemi multi-agente adattivi, verifica statistica, metodi quantitativi robusti e analisi testuale.',
+      'Sei pilastri di ricerca: agenti, mondo, flussi, regole, affidabilità e scopo.',
     'research.heading': 'Ricerca',
     'research.lede':
-      'Quattro pilastri connessi, dal disegno della simulazione fino alla validazione empirica. Ognuno raccoglie gli articoli e il software costruiti attorno a una linea di domande.',
+      'Sei domande connesse sui sistemi interagenti di agenti: chi agisce, dove e quando, che cosa si muove, con quali regole, come lo sappiamo, perché e per chi. Ogni pilastro raccoglie gli articoli e il software costruiti attorno alla sua domanda.',
     'research.publications': 'pubblicazioni',
     'research.projects': 'progetti',
     'research.back': '← Tutta la ricerca',
+    'research.inProgress': 'Lavori in corso',
     'research.related': 'Lavori collegati',
 
     'projects.title': 'Progetti — Stefano Blando',

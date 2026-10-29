@@ -11,14 +11,15 @@
   status:
     icon: "🎓"
 
-  role: PhD Student in Artificial Intelligence
+  role: PhD Candidate in Artificial Intelligence
 
   bio: |
-    Stefano Blando is a PhD student in the National PhD Program in Artificial Intelligence at
-    Scuola Superiore Sant'Anna and the University of Pisa. His research lies at the intersection
-    of AI, agent-based modeling, and economics. He studies adaptive multi-agent systems,
-    differentiable agent-based models, LLM-based generative agents, and robust quantitative
-    methods for financial and socio-economic data.
+    Stefano Blando is a PhD candidate in Artificial Intelligence at Scuola Superiore Sant'Anna and
+    the University of Pisa, working where AI meets complex systems. He studies economies, financial
+    markets, the climate and society as interacting systems: who acts, the networks and places
+    where they act, what flows between them, and the rules that govern how they interact. He
+    models them bottom-up from data, with machine learning, reinforcement learning, network
+    science and statistics, and tests which conclusions hold once the system responds.
 
   affiliations:
     - name: Scuola Superiore Sant'Anna
@@ -58,9 +59,10 @@
       start: 2025-11-01
       summary: |
         Supervisors: Prof. Andrea Vandin, Prof. Giorgio Fagiolo, Prof. Daniele Giachini.
-        Research focus: "Learning How to Learn: Adaptive Cognitive Architectures for Economic
-        Network Formation". Methods include differentiable agent-based models, LLM-based
-        generative agents, multi-agent learning, network dynamics, and robust statistics.
+        Thesis (working title): "Learning How to Learn: Adaptive Cognitive Architectures for
+        Economic Network Formation". The work models economic, financial and climate systems as
+        interacting systems of agents, bottom-up from data, and tests which of their conclusions
+        can be trusted.
 
     - degree: Second-Level Master in Customer Experience, Statistics, ML and AI
       institution: University of Rome Tor Vergata
@@ -106,13 +108,13 @@
       summary: "Coursework in logic, epistemology, philosophy of science, philosophy of language, semiotics, theoretical philosophy, ethics, political philosophy, aesthetics, and history of philosophy."
 
   experience:
-    - role: PhD Researcher
+    - role: PhD Candidate
       org: Scuola Superiore Sant'Anna
       company_url: "https://www.santannapisa.it/"
       location: Pisa, Italy
       start: "2025-11-01"
       summary: |
-        Research at the intersection of AI, agent-based modeling, and economics, within the National PhD Program in AI (Scuola Superiore Sant'Anna & University of Pisa).
+        Research where AI meets complex systems: economies, financial markets and climate risk as interacting systems of agents, within the National PhD Program in AI (Scuola Superiore Sant'Anna & University of Pisa).
         * Differentiable agent-based models and LLM-based generative agents for economic simulation.
         * Statistical model checking of agent-based models - work published at MARS @ ETAPS 2026.
         * Robust and high-dimensional methods for financial, socio-economic, and textual data.

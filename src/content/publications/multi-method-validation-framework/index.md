@@ -27,7 +27,7 @@ tags:
   - Deep Learning
   - Validation Framework
 featured: true
-pillar: text-analytics
+pillar: trust
 image:
   caption: Multi-Method Validation Framework
   focal_point: ''

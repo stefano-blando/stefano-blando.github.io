@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-22",
+  "generatedAt": "2026-10-29",
   "source": "src/data/authors/me-it.yaml",
   "lang": "it",
   "role": "Dottorando in Intelligenza Artificiale",
@@ -16,14 +16,10 @@
         {
           "label": "Supervisori",
           "value": "Prof. Andrea Vandin, Prof. Giorgio Fagiolo, Prof. Daniele Giachini"
-        },
-        {
-          "label": "Focus di ricerca",
-          "value": "\"Learning How to Learn: Adaptive Cognitive Architectures for Economic Network Formation\""
         }
       ],
       "notes": [
-        "I metodi includono modelli agent-based differenziabili, agenti generativi basati su LLM, apprendimento multi-agente, dinamiche di rete e statistica robusta."
+        "Tesi (titolo provvisorio): \"Learning How to Learn: Adaptive Cognitive Architectures for Economic Network Formation\". Il lavoro modella sistemi economici, finanziari e climatici come sistemi interagenti di agenti, dal basso a partire dai dati, e verifica quali delle loro conclusioni sono affidabili."
       ],
       "bullets": []
     },
@@ -130,7 +126,7 @@
   ],
   "experience": [
     {
-      "role": "Ricercatore PhD",
+      "role": "Dottorando",
       "org": "Scuola Superiore Sant'Anna",
       "url": "https://www.santannapisa.it/",
       "location": "Pisa, Italy",
@@ -139,7 +135,7 @@
       "current": true,
       "facts": [],
       "notes": [
-        "Ricerca all'intersezione tra AI, agent-based modeling ed economia, nel Dottorato Nazionale in Intelligenza Artificiale (Scuola Superiore Sant'Anna e Universita di Pisa)."
+        "Ricerca all'incontro tra IA e sistemi complessi: economie, mercati finanziari e rischio climatico come sistemi interagenti di agenti, nel Dottorato Nazionale in Intelligenza Artificiale (Scuola Superiore Sant'Anna e Università di Pisa)."
       ],
       "bullets": [
         "Modelli agent-based differenziabili e agenti generativi basati su LLM per la simulazione economica.",

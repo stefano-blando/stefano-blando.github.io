@@ -39,7 +39,7 @@ tags:
   - Endogenous Growth
   - MATLAB
 featured: true
-pillar: statistical-verification
+pillar: trust
 image:
   caption: Validazione statistica dell'Island Model con MultiVeStA
   focal_point: ''

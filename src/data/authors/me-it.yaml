@@ -14,11 +14,12 @@
   role: Dottorando in Intelligenza Artificiale
 
   bio: |
-    Stefano Blando e dottorando nel Programma Nazionale di Dottorato in Intelligenza
-    Artificiale presso la Scuola Superiore Sant'Anna e l'Universita di Pisa. La sua ricerca si
-    colloca all'intersezione tra AI, agent-based modeling ed economia. Studia sistemi
-    multi-agente adattivi, modelli agent-based differenziabili, agenti generativi basati su LLM
-    e metodi quantitativi robusti per dati finanziari e socio-economici.
+    Stefano Blando è dottorando in Intelligenza Artificiale alla Scuola Superiore Sant'Anna e
+    all'Università di Pisa, dove lavora all'incontro tra IA e sistemi complessi. Studia economie,
+    mercati finanziari, clima e società come sistemi interagenti: chi agisce, le reti e i luoghi
+    in cui agisce, ciò che fluisce tra loro e le regole che ne governano l'interazione. Li modella
+    dal basso a partire dai dati, con machine learning, apprendimento per rinforzo, scienza delle
+    reti e statistica, e verifica quali conclusioni reggono quando il sistema reagisce.
 
   affiliations:
     - name: Scuola Superiore Sant'Anna
@@ -54,10 +55,10 @@
       start: 2025-11-01
       summary: |
         Supervisori: Prof. Andrea Vandin, Prof. Giorgio Fagiolo, Prof. Daniele Giachini.
-        Focus di ricerca: "Learning How to Learn: Adaptive Cognitive Architectures for Economic
-        Network Formation". I metodi includono modelli agent-based differenziabili, agenti
-        generativi basati su LLM, apprendimento multi-agente, dinamiche di rete e statistica
-        robusta.
+        Tesi (titolo provvisorio): "Learning How to Learn: Adaptive Cognitive Architectures for
+        Economic Network Formation". Il lavoro modella sistemi economici, finanziari e climatici
+        come sistemi interagenti di agenti, dal basso a partire dai dati, e verifica quali delle
+        loro conclusioni sono affidabili.
 
     - degree: Master di II livello in Customer Experience, Statistics, ML and AI
       institution: Università di Roma Tor Vergata
@@ -103,13 +104,13 @@
       summary: "Corsi sostenuti in logica, epistemologia, filosofia della scienza, filosofia del linguaggio, semiotica, filosofia teoretica, etica, filosofia politica, estetica e storia della filosofia."
 
   experience:
-    - role: Ricercatore PhD
+    - role: Dottorando
       org: Scuola Superiore Sant'Anna
       company_url: "https://www.santannapisa.it/"
       location: Pisa, Italy
       start: "2025-11-01"
       summary: |
-        Ricerca all'intersezione tra AI, agent-based modeling ed economia, nel Dottorato Nazionale in Intelligenza Artificiale (Scuola Superiore Sant'Anna e Universita di Pisa).
+        Ricerca all'incontro tra IA e sistemi complessi: economie, mercati finanziari e rischio climatico come sistemi interagenti di agenti, nel Dottorato Nazionale in Intelligenza Artificiale (Scuola Superiore Sant'Anna e Università di Pisa).
         * Modelli agent-based differenziabili e agenti generativi basati su LLM per la simulazione economica.
         * Statistical model checking di modelli agent-based - lavoro pubblicato a MARS @ ETAPS 2026.
         * Metodi robusti e ad alta dimensionalita per dati finanziari, socio-economici e testuali.

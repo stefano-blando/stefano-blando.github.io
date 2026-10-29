@@ -48,6 +48,10 @@ const sections = [
     {/* The long-form paragraph the homepage used to carry, now where it can be read. */}
     <p class="pillar-detail">{pillar.detailed_text[lang]}</p>
 
+    {/* A pillar is a question, not a tally of finished work: one with nothing to
+        list yet says so rather than ending on its own paragraph. */}
+    {sections.length === 0 && <p class="index-meta">{t('research.inProgress')}</p>}
+
     {
       sections.map((section) => (
         <>

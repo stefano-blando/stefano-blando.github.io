@@ -32,7 +32,7 @@ tags:
   - MultiVeStA
   - Analisi di Sensibilità
 featured: false
-pillar: statistical-verification
+pillar: trust
 image:
   caption: Verifica statistica del modello macroeconomico K+S
   focal_point: ''
