@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-29",
+  "generatedAt": "2026-11-19",
   "source": "src/data/authors/me-it.yaml",
   "lang": "it",
   "role": "Dottorando in Intelligenza Artificiale",
@@ -85,7 +85,7 @@
         },
         {
           "label": "Tesi",
-          "value": "\"Consumer Choice Under Uncertainty: From Homo Oeconomicus to Homo Temperatus\""
+          "value": "\"Consumer Choice in a State of Uncertainty: Overcoming the Homo Oeconomicus Paradigm Towards a More Sustainable Homo Temperatus\""
         },
         {
           "label": "Relatore",
